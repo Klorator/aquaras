@@ -22,6 +22,16 @@ library(reactable)
 library(dplyr)
 library(readr)
 # Run app ----------------------------------------------------------------------
+#' App for making a runlist
+#'
+#' @description Program to input info for 96-well-plates. Generates a runlist for the Waters LC/MS software MassLynx.
+#'
+#' @param ... Takes no parameters. Opens a shiny app.
+#'
+#' @return Creates a Shiny GUI.
+#' @export
+#'
+#' @examples RunlistGenerator() # Launches the Shiny GUI.
 RunlistGenerator = function(...) {
   shinyApp(ui.aquaras, server.aquaras)
 }

@@ -1,11 +1,4 @@
-# UI for Runlist app.
-# Library
-library(shiny)
-library(shinythemes)
-library(DT)
-library(reactable)
-library(dplyr)
-library(readr)
+# UI for RunlistGenerator app.
 # UI ---------------------------------------------------------------------------
 ui.aquaras = fluidPage(
   theme = shinytheme("cyborg"),

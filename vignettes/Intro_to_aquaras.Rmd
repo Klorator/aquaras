@@ -1,0 +1,27 @@
+---
+title: "Introduction to aquaras"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to aquaras}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(aquaras)
+```
+Package made for personal use. Facilitates creation of a runlist for use with Waters MassLynx software for working with the LC/MS.
+
+Default data frame used to build the runlist.
+```{r}
+str(Runlist_default)
+head(Runlist_default)
+```
+

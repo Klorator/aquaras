@@ -1,11 +1,4 @@
-# Server for Runlist app.
-# Library
-library(shiny)
-library(shinythemes)
-library(DT)
-library(reactable)
-library(dplyr)
-library(readr)
+# Server for RunlistGenerator app.
 # Set default table options for reactable (ref under Global theme in https://glin.github.io/reactable/articles/examples.html#theming)
 options(reactable.theme = reactableTheme(
   color = "hsl(233, 9%, 87%)",
@@ -28,25 +21,8 @@ server.aquaras = function(input, output, session) {
                           "Cell" = "cell",
                           "Standard" = "STD",
                           "Blank" = "blank")
-  df.col_types = "ddcdcccccccccc"
-  Runlist.default = read_delim("Dependencies\\Runlist_default.txt",
-                               col_types = df.col_types)
-  Runlist.final.empty = tibble(Index = double(),
-                               Plate = double(),
-                               Row = character(),
-                               Col = double(),
-                               LC_Position = character(),
-                               Date = character(),
-                               Signature = character(),
-                               Sample_name = character(),
-                               Compound = character(),
-                               Timepoint = character(),
-                               Well_Type = character(),
-                               LC_Well_Type = character(),
-                               Replicate = character(),
-                               Sample_text = character(),
-                               Draw_Max = double(),
-                               Draw_Count = double())
+  Runlist.default = Runlist_default
+  Runlist.final.empty = Runlist_final_empty
 
   Runlist.full = reactiveValues(df = Runlist.default)
   observe({

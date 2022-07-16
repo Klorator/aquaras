@@ -20,10 +20,8 @@ library(shinythemes)
 library(DT)
 library(reactable)
 library(dplyr)
-# Sourcing
-# source("ui.R", local = T)
-# source("server.R", local = T)
+library(readr)
 # Run app ----------------------------------------------------------------------
-RunlistGenerator.app = function(...) {
-  shinyApp(ui = ui, server = server)
+RunlistGenerator = function(...) {
+  shinyApp(ui.aquaras, server.aquaras)
 }

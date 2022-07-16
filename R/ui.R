@@ -1,68 +1,74 @@
 # UI for Runlist app.
-
+# Library
+library(shiny)
+library(shinythemes)
+library(DT)
+library(reactable)
+library(dplyr)
+library(readr)
 # UI ---------------------------------------------------------------------------
-ui = fluidPage(
+ui.aquaras = fluidPage(
   theme = shinytheme("cyborg"),
   titlePanel("Data processing for LC/MS"),
-  
+
   tabsetPanel(
-    
+
     tabPanel("Well input", # Tab: Well input -------------------------------------
              fluidRow( # top row: [Plate slider], [current well], [Update button]
                br(),
                column(width = 5,
                       radioButtons("well.plate", "Well plate", seq(from=3, to=9, by=1), inline = T),
-                      radioButtons("well.row", "Row", 
+                      radioButtons("well.row", "Row",
                                    LETTERS[seq(from = 1, to = 8, by = 1)], inline = T)
                ),
                column(width = 3,
                       textOutput("well.current.display"),
-                      actionButton("well.update", "Update well", 
+                      actionButton("well.update", "Update well",
                                    icon = icon("save"), class = "btn-success")
                ),
                column(width = 4 # top row far right column
-                      
+
                ) # End column (top row far right column)
-               
+
              ), # End fluidRow (top row)
-             
-             
-             
+
+
+
              fluidRow(
                column(width = 8,
                       radioButtons("well.col", "Column", seq(1:12), inline = T)
                )
              ),
-             
-             
-             
+
+
+
              fluidRow( # Well info section
-               column(width = 4, 
+               column(width = 4,
                       # textInput("well.compound", "Compound"),
                       uiOutput("ui.compound"),
                       uiOutput("ui.timepoint"),
                       uiOutput("ui.type")
                ), # End column (Output: well position info)
-               
+
                column(width = 4, # Input: sample data
                       uiOutput("ui.rep")
                ), # End column (Input: sample data)
-               
+
                column(width = 4, # Input: meta data
                       uiOutput("ui.date"),
                       actionButton("default.date", "Set date for all wells"),
-                      
+
                       uiOutput("ui.sign"),
                       actionButton("default.sign", "Set as default signature")
                ) # End column (Input: meta data)
-               
+
              ) # End fluidRow (Output: well info)
-             
+
     ), # End tabPanel "Well input"
-    
+
     tabPanel("Full list", # Tab: Full list ---------------------------------------
              fluidRow( # Upload/Download
-               
+
                column(width = 3,
                       br(),
                       # actionButton("upload.file", "Upload .txt or Excel file")
@@ -86,9 +92,9 @@ ui = fluidPage(
                # DTOutput("Runlist.full")
              ) # End fluidRow (Full runlist data frame)
     ), # End tabPanel "Full list"
-    
+
     tabPanel("Runlist", # Tab: Runlist -------------------------------------------
-             fluidRow( 
+             fluidRow(
                column(width = 3,
                       br(),
                       numericInput("blank.start", "Blanks at start", value = 3),
@@ -116,8 +122,8 @@ ui = fluidPage(
                reactableOutput("Runlist.final")
              ) # End fluidRow (Display generated Runlist)
     ) # End tabPanel "Runlist"
-    
+
   ) # End tabsetPanel
-  
+
 ) # End fluidPage
 # End UI

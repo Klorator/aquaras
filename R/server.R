@@ -1,11 +1,11 @@
 # Server for Runlist app.
-# Load data --------------------------------------------------------------------
-Runlist.df.displayCol = c("LC_Position", "Compound", "Sample_name", "Sample_text")
-sample.type.choices = c("Bead" = "bead", # Well Type options
-                        "Medium" = "medium",
-                        "Cell" = "cell",
-                        "Standard" = "STD",
-                        "Blank" = "blank")
+# Library
+library(shiny)
+library(shinythemes)
+library(DT)
+library(reactable)
+library(dplyr)
+library(readr)
 # Set default table options for reactable (ref under Global theme in https://glin.github.io/reactable/articles/examples.html#theming)
 options(reactable.theme = reactableTheme(
   color = "hsl(233, 9%, 87%)",
@@ -19,10 +19,17 @@ options(reactable.theme = reactableTheme(
   pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
 )) # End reactableTheme
 # Server -----------------------------------------------------------------------
-server = function(input, output, session) {
+server.aquaras = function(input, output, session) {
   # source("Dependencies/create.Runlist.R", local = T) # Source functions for generating the final Runlist.
+  # Load data --------------------------------------------------------------------
+  Runlist.df.displayCol = c("LC_Position", "Compound", "Sample_name", "Sample_text")
+  sample.type.choices = c("Bead" = "bead", # Well Type options
+                          "Medium" = "medium",
+                          "Cell" = "cell",
+                          "Standard" = "STD",
+                          "Blank" = "blank")
   df.col_types = "ddcdcccccccccc"
-  Runlist.default = read_delim("Dependencies/Runlist_default.txt",
+  Runlist.default = read_delim("Dependencies\\Runlist_default.txt",
                                col_types = df.col_types)
   Runlist.final.empty = tibble(Index = double(),
                                Plate = double(),

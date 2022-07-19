@@ -20,21 +20,13 @@ ui.aquaras = fluidPage(
                                    icon = icon("save"), class = "btn-success")
                ),
                column(width = 4 # top row far right column
-
                ) # End column (top row far right column)
-
              ), # End fluidRow (top row)
-
-
-
              fluidRow(
                column(width = 8,
                       radioButtons("well.col", "Column", seq(1:12), inline = T)
                )
              ),
-
-
-
              fluidRow( # Well info section
                column(width = 4,
                       # textInput("well.compound", "Compound"),
@@ -42,11 +34,9 @@ ui.aquaras = fluidPage(
                       uiOutput("ui.timepoint"),
                       uiOutput("ui.type")
                ), # End column (Output: well position info)
-
                column(width = 4, # Input: sample data
                       uiOutput("ui.rep")
                ), # End column (Input: sample data)
-
                column(width = 4, # Input: meta data
                       uiOutput("ui.date"),
                       actionButton("default.date", "Set date for all wells"),
@@ -54,14 +44,11 @@ ui.aquaras = fluidPage(
                       uiOutput("ui.sign"),
                       actionButton("default.sign", "Set as default signature")
                ) # End column (Input: meta data)
-
              ) # End fluidRow (Output: well info)
-
     ), # End tabPanel "Well input"
 
     tabPanel("Full list", # Tab: Full list ---------------------------------------
              fluidRow( # Upload/Download
-
                column(width = 3,
                       br(),
                       # actionButton("upload.file", "Upload .txt or Excel file")

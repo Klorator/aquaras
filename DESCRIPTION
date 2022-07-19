@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Rasmus Hammar
 Maintainer: Rasmus Hammar <Rasmus.Hammar@gmx.com>
 Description: Created for personal use. 
-    Provides tools for working with runlists to use with Waters LC/MS software.
+    Provides tools for working with runlists to use with MassLynx (Waters LC/MS software).
     Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist.
     Alternatively, create.Runlist() may be used directly.
 License: What license is it under?

@@ -13,27 +13,24 @@ options(reactable.theme = reactableTheme(
 )) # End reactableTheme
 # Server -----------------------------------------------------------------------
 server.aquaras = function(input, output, session) {
-  # source("Dependencies/create.Runlist.R", local = T) # Source functions for generating the final Runlist.
   # Load data --------------------------------------------------------------------
-  Runlist.df.displayCol = c("LC_Position", "Compound", "Sample_name", "Sample_text")
+  Runlist.df.displayCol = c("LC_Position", "Compound", "Sample_name", "Sample_text") # Columns to display in reactable
   sample.type.choices = c("Bead" = "bead", # Well Type options
                           "Medium" = "medium",
                           "Cell" = "cell",
                           "Standard" = "STD",
                           "Blank" = "blank")
-  Runlist.default = Runlist_default
-  Runlist.final.empty = Runlist_final_empty
+  Runlist.default = Runlist_default # Load default list to start with
+  Runlist.final.empty = Runlist_final_empty # Load df with zero rows
 
-  Runlist.full = reactiveValues(df = Runlist.default)
-  observe({
+  Runlist.full = reactiveValues(df = Runlist.default) # Reactive version of df to make it editable and display changes
+  observe({ # Load df uploaded by user
     temp = read_delim(input$up.file$datapath,
                       col_types = df.col_types)
     Runlist.full$df = temp
   }) %>%
     bindEvent(., input$up.file)
-
-
-  Runlist.final = reactiveValues(df = Runlist.final.empty)
+  Runlist.final = reactiveValues(df = Runlist.final.empty) # Reactive version of final df to make it editable and display changes
   observe({
     generatedRunlist =
       create.Runlist(Runlist.full$df, input$blank.start, input$blank.end,
@@ -41,141 +38,112 @@ server.aquaras = function(input, output, session) {
     Runlist.final$df = generatedRunlist
   }) %>%
     bindEvent(., input$create.runlist)
-
   # Well info selection & input  -----------------------------------------------
-
   # Current well
-  well.current = reactive({
+  well.current = reactive({ # Create a current well string == LC_Position
     paste0(input$well.plate,":",input$well.row,",",input$well.col)
   })
-  output$well.current.display = renderText({
+  output$well.current.display = renderText({ # Display of current well
     paste("Current well:", well.current() )
   }) # End (Current well)
-  # Input/output for well compound
-  output$ui.compound = renderUI({
+  output$ui.compound = renderUI({ # Input/output for well compound
     textInput("well.compound", "Compound",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Compound"] )
   }) # End (Input/output for well compound)
-  # Input/output for well Timepoint
-  output$ui.timepoint = renderUI({
+  output$ui.timepoint = renderUI({ # Input/output for well Timepoint
     textInput("well.timepoint", "Timepoint",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Timepoint"] )
   }) # End (Input/output for well Timepoint)
-  # Input/output for well Type
-  output$ui.type = renderUI({
+  output$ui.type = renderUI({ # Input/output for well Type
     selectInput("well.type", "Type", sample.type.choices,
                 selected = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Well_Type"] )
   }) # End (Input/output for well Type)
-  # Sample replicate
-  output$ui.rep = renderUI({
+  output$ui.rep = renderUI({ # Sample replicate
     textInput("sample.rep", "Replicate",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Replicate"])
   }) # End Sample replicate
-  # Input/output for sample date
-  # observe({
-  #   date.default = ifelse(is.null(Runlist$df[Runlist$df["LC_Position"] == well.current(), "Date"]),
-  #                         NULL, Runlist$df[Runlist$df["LC_Position"] == well.current(), "Date"])
-  # }) %>%
-  #   bindEvent(., well.current())
-
-  output$ui.date = renderUI({
+  output$ui.date = renderUI({ # Date string
     textInput("sample.date", "Date",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Date"])
   }) # End (Input/output for sample date)
-  # Input/output for sample signature
-  output$ui.sign = renderUI({
+  output$ui.sign = renderUI({ # Input/output for sample signature
     textInput("sample.sign", "Signature (Initials)",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Signature"] )
   }) # End (Input/output for sample signature)
-
   # End Well info selection & input
-
-
-
-
-
   # Update buttons -------------------------------------------------------------
-
   observe({
-    Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Compound"] = input$well.compound
-    Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Timepoint"] = input$well.timepoint
-    Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Type"] = input$well.type
-    Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Replicate"] = input$sample.rep
-    Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Date"] = input$sample.date
-    Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Signature"] = input$sample.sign
+    Runlist.full$df = update.well(Runlist.full$df, well.current(),
+                                  input$sample.date, input$sample.sign,
+                                  input$well.compound, input$well.timepoint,
+                                  input$well.type, input$sample.rep)
   }) %>%
     bindEvent(., input$well.update)
-
-
   observe({
     Runlist.full$df["Date"] = input$sample.date
   }) %>%
     bindEvent(., input$default.date)
-
-
   observe({
     Runlist.full$df["Signature"] = input$sample.sign
   }) %>%
     bindEvent(., input$default.sign)
-
   # End (Update buttons)
-
-  # Runlist blank parameters
-
-
   # Output Runlist.full --------------------------------------------------------
-
-  proxy.Runlist.full = dataTableProxy("Runlist.full")
-
+  proxy.Runlist.full = dataTableProxy("Runlist.full") # Proxy df of runlist
   observe({
-    replaceData(proxy.Runlist.full, Runlist.full$df)
+    replaceData(proxy.Runlist.full, Runlist.full$df) # Update parts of df to avoid reloading the entire thing
   })
-
-  output$Runlist.full = renderReactable({
+  output$Runlist.full = renderReactable({ # Display runlist
     reactable(
-
       Runlist.full$df,
       defaultColDef = colDef(
-        header = function(value) gsub("_", " ", value, fixed = T)
-      ), # End defaultColDef
+        header = function(value) gsub("_", " ", value, fixed = T)), # End defaultColDef
+      columns = list(
+        Index = colDef(align = "center"),
+        Plate = colDef(align = "center"),
+        Row = colDef(align = "center"),
+        Col = colDef(align = "center"),
+        LC_Position = colDef(align = "center")),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,
       paginationType = "jump",
-      height = 500,
+      height = 600,
+      wrap = F,
       filterable = T,
       striped = T,
       highlight = T,
       compact = T
-
     ) # End reactable (Runlist.full)
   }) # End renderReactable (Runlist.full)
-
   # Output Runlist.final -----------------------------------------------------
-  proxy.Runlist.final = dataTableProxy("Runlist.final")
-
+  proxy.Runlist.final = dataTableProxy("Runlist.final") # Proxy df of final runlist
   observe({
-    replaceData(proxy.Runlist.final, Runlist.final$df)
+    replaceData(proxy.Runlist.final, Runlist.final$df) # Update parts of the final df to avoid reloading the entire thing
   })
-
-  output$Runlist.final = renderReactable({
+  output$Runlist.final = renderReactable({ # Display final runlist
     reactable(
       Runlist.final$df,
       defaultColDef = colDef(
-        header = function(value) gsub("_", " ", value, fixed = T)
-      ),
+        header = function(value) gsub("_", " ", value, fixed = T)),
+      columns = list(
+        Index = colDef(align = "center"),
+        Plate = colDef(align = "center"),
+        Row = colDef(align = "center"),
+        Col = colDef(align = "center"),
+        LC_Position = colDef(align = "center")),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,
       paginationType = "jump",
-      height = 500,
+      height = 600,
+      wrap = F,
       filterable = T,
       striped = T,
       highlight = T,
       compact = T
     )
   })
-
   # Download handling ##########################################################
   output$down.txt = downloadHandler( # Download raw Runlist tsv
     filename = function() {
@@ -185,7 +153,6 @@ server.aquaras = function(input, output, session) {
       write_tsv(Runlist.full$df, file)
     }
   ) # End (Download raw Runlist tsv)
-
   output$down.xlsx = downloadHandler( # Download default .xlsx file with formatting
     filename = function() {
       paste0(Sys.Date(), ".Runlist_default.xlsx")
@@ -194,7 +161,6 @@ server.aquaras = function(input, output, session) {
       file.copy("Runlist_default.xlsx", file)
     }
   ) # End (Download default .xlsx file with formatting)
-
   output$down.Runlist = downloadHandler( # Download final Runlist tsv
     filename = function() {
       paste0(Sys.Date(), ".Runlist_final.txt")
@@ -202,8 +168,6 @@ server.aquaras = function(input, output, session) {
     content = function(file) {
       write_tsv(Runlist.final$df, file)
     }
-  )
-
-
+  ) # End (Download final Runlist tsv)
 }
 # End Server

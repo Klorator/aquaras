@@ -12,9 +12,15 @@
 #' @return Same data frame, but with updated row
 #' @export
 #'
-#' @examples
 update.well = function(df, well.current, date, signature,
                        compound, timepoint, type, replicate) {
+  # Sanitize input
+  date      = sanitizeInput(date)
+  signature = sanitizeInput(signature)
+  compound  = sanitizeInput(compound)
+  timepoint = sanitizeInput(timepoint)
+  type      = sanitizeInput(type)
+  replicate = sanitizeInput(replicate)
   # New well info
   df[df["LC_Position"] == well.current, "Compound"]   = compound
   df[df["LC_Position"] == well.current, "Timepoint"]  = timepoint
@@ -22,11 +28,25 @@ update.well = function(df, well.current, date, signature,
   df[df["LC_Position"] == well.current, "Replicate"]  = replicate
   df[df["LC_Position"] == well.current, "Date"]       = date
   df[df["LC_Position"] == well.current, "Signature"]  = signature
-  # New composit sample name & text
+  # New composite sample name & text
   index = df[df["LC_Position"] == well.current, "Index"]
-  new.sample_name = paste0(date,"_",signature,"_",index)
-  new.sample_text = paste0(compound,"_",timepoint,"_",type,"_",replicate)
+  new.sample_name = paste0(date, "_", signature, "_", index)
+  new.sample_text = paste0(compound, "_", timepoint, "_", type, "_", replicate)
   df[df["LC_Position"] == well.current, "Sample_name"] = new.sample_name
   df[df["LC_Position"] == well.current, "Sample_text"] = new.sample_text
   return(df)
+}
+
+#' Sanitize input
+#'
+#' @description Replaces spaces and underscores with periods.
+#'
+#' @param inputVar Character string to sanitize
+#'
+#' @return Character string
+#' @export
+#'
+sanitizeInput = function(inputVar) {
+  cleanVar = gsub("(\\s|_)", ".", inputVar) # Replace any whitespace (\\s) and underscore
+  return(cleanVar)
 }

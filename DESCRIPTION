@@ -1,16 +1,15 @@
-Package: aquaras
 Type: Package
-Title: Create Runlists for Waters LC/MS software
+Package: aquaras
+Title: Create Runlists for MassLynx (Waters LC/MS software)
 Version: 0.1.0
 Author: Rasmus Hammar
 Maintainer: Rasmus Hammar <Rasmus.Hammar@gmx.com>
-Description: Created for personal use. 
-    Provides tools for working with runlists to use with MassLynx (Waters LC/MS software).
-    Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist.
-    Alternatively, create.Runlist() may be used directly.
+Description: Created for personal use.  Provides tools for working with
+    runlists to use with MassLynx (Waters LC/MS software).  Calling
+    RunlistGenerator() launches a Shiny app that lets you create the full
+    data frame and a runlist.  Alternatively, create.Runlist() may be used
+    directly.
 License: What license is it under?
-Encoding: UTF-8
-LazyData: true
 Depends: 
     R (>= 2.10)
 Imports: 
@@ -20,8 +19,11 @@ Imports:
     readr,
     shiny,
     shinythemes
-RoxygenNote: 7.2.0
 Suggests: 
     knitr,
     rmarkdown
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.0

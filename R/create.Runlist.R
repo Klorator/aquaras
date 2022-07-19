@@ -12,8 +12,6 @@
     # Compounds in alphabetical order.
     # Well-type: Bead -> Medium -> Cell -> STD
 ################################################################################
-# Library
-library(dplyr)
 # Functions ####################################################################
 # Insert blank -----------------------------------------------------------------
 #' Insert blank rows

@@ -10,11 +10,10 @@ options(reactable.theme = reactableTheme(
   selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
   pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
   pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
-)) # End reactableTheme
+)) # End Options: reactableTheme
 # Server -----------------------------------------------------------------------
 server.aquaras = function(input, output, session) {
   # Load data --------------------------------------------------------------------
-  Runlist.df.displayCol = c("LC_Position", "Compound", "Sample_name", "Sample_text") # Columns to display in reactable
   sample.type.choices = c("Bead" = "bead", # Well Type options
                           "Medium" = "medium",
                           "Cell" = "cell",
@@ -73,20 +72,17 @@ server.aquaras = function(input, output, session) {
   # End Well info selection & input
   # Update buttons -------------------------------------------------------------
   observe({
-    Runlist.full$df = update.well(Runlist.full$df, well.current(),
-                                  input$sample.date, input$sample.sign,
-                                  input$well.compound, input$well.timepoint,
-                                  input$well.type, input$sample.rep)
-  }) %>%
-    bindEvent(., input$well.update)
+    Runlist.full$df =
+      update.well(Runlist.full$df, well.current(), input$sample.date,
+                  input$sample.sign, input$well.compound, input$well.timepoint,
+                  input$well.type, input$sample.rep)
+  }) %>% bindEvent(., input$well.update)
   observe({
     Runlist.full$df["Date"] = input$sample.date
-  }) %>%
-    bindEvent(., input$default.date)
+  }) %>% bindEvent(., input$default.date)
   observe({
     Runlist.full$df["Signature"] = input$sample.sign
-  }) %>%
-    bindEvent(., input$default.sign)
+  }) %>% bindEvent(., input$default.sign)
   # End (Update buttons)
   # Output Runlist.full --------------------------------------------------------
   proxy.Runlist.full = dataTableProxy("Runlist.full") # Proxy df of runlist
@@ -101,15 +97,14 @@ server.aquaras = function(input, output, session) {
       columns = list(
         Index = colDef(align = "center"),
         Plate = colDef(align = "center"),
-        Row = colDef(align = "center"),
-        Col = colDef(align = "center"),
+        Row   = colDef(align = "center"),
+        Col   = colDef(align = "center"),
         LC_Position = colDef(align = "center")),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,
       paginationType = "jump",
       height = 600,
-      wrap = F,
       filterable = T,
       striped = T,
       highlight = T,
@@ -129,15 +124,14 @@ server.aquaras = function(input, output, session) {
       columns = list(
         Index = colDef(align = "center"),
         Plate = colDef(align = "center"),
-        Row = colDef(align = "center"),
-        Col = colDef(align = "center"),
+        Row   = colDef(align = "center"),
+        Col   = colDef(align = "center"),
         LC_Position = colDef(align = "center")),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,
       paginationType = "jump",
       height = 600,
-      wrap = F,
       filterable = T,
       striped = T,
       highlight = T,

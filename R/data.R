@@ -8,7 +8,7 @@
 #'      \item{Plate}{Well plate number}
 #'      \item{Row}{Row letter on well plate}
 #'      \item{Col}{Column number on well plate}
-#'      \item{LC_Position}{Composit coordinate to uniquely identify wells (Plate:Row,Col)}
+#'      \item{LC_Position}{Composite coordinate to uniquely identify wells (Plate:Row,Col)}
 #'      \item{Date}{Character string meant to hold a date}
 #'      \item{Signature}{Signature}
 #'      \item{Sample_name}{Composite description of Date and Signature, with underscore "_" as separator}

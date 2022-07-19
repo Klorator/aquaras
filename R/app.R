@@ -14,13 +14,12 @@
   # Output:
     # Download a tSV file of the runlist to open in excel.
 ################################################################################
-# Library
-library(shiny)
-library(shinythemes)
+library(dplyr)
 library(DT)
 library(reactable)
-library(dplyr)
 library(readr)
+library(shiny)
+library(shinythemes)
 # Run app ----------------------------------------------------------------------
 #' App for making a runlist
 #'
@@ -33,5 +32,5 @@ library(readr)
 #'
 #' @examples RunlistGenerator() # Launches the Shiny GUI.
 RunlistGenerator = function(...) {
-  shinyApp(ui.aquaras, server.aquaras)
+  shiny::shinyApp(ui.aquaras, server.aquaras)
 }

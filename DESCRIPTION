@@ -1,6 +1,6 @@
 Type: Package
 Package: aquaras
-Title: Create Runlists for MassLynx (Waters LC/MS software)
+Title: Data processing related to MassLynx
 Version: 0.1.0
 Author: Rasmus Hammar
 Maintainer: Rasmus Hammar <Rasmus.Hammar@gmx.com>

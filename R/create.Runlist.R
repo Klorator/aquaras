@@ -31,24 +31,25 @@ add.blank = function(Runlist, df.blank, blank.insert) {
   for (i in 1:blank.insert) {
     current.plate = ifelse(length(Runlist$LC_Position) == 0,
                            3, Runlist$Plate[length(Runlist$LC_Position)])
-    new.blank = filter(df.blank, Plate >= current.plate & Draw_Count < Draw_Max)[1,]
+    new.blank = dplyr::filter(df.blank, Plate >= current.plate & Draw_Count < Draw_Max)[1,]
     Runlist = Runlist %>%
-      add_row(Index = new.blank$Index,
-              Plate = new.blank$Plate,
-              Row = new.blank$Row,
-              Col = new.blank$Col,
-              LC_Position = new.blank$LC_Position,
-              Date = new.blank$Date,
-              Signature = new.blank$Signature,
-              Sample_name = new.blank$Sample_name,
-              Compound = new.blank$Compound,
-              Timepoint = new.blank$Timepoint,
-              Well_Type = new.blank$Well_Type,
-              LC_Well_Type = new.blank$LC_Well_Type,
-              Replicate = new.blank$Replicate,
-              Sample_text = new.blank$Sample_text,
-              Draw_Max = new.blank$Draw_Max,
-              Draw_Count = new.blank$Draw_Count+1)
+      tibble::add_row(
+        Index = new.blank$Index,
+        Plate = new.blank$Plate,
+        Row = new.blank$Row,
+        Col = new.blank$Col,
+        LC_Position = new.blank$LC_Position,
+        Date = new.blank$Date,
+        Signature = new.blank$Signature,
+        Sample_name = new.blank$Sample_name,
+        Compound = new.blank$Compound,
+        Timepoint = new.blank$Timepoint,
+        Well_Type = new.blank$Well_Type,
+        LC_Well_Type = new.blank$LC_Well_Type,
+        Replicate = new.blank$Replicate,
+        Sample_text = new.blank$Sample_text,
+        Draw_Max = new.blank$Draw_Max,
+        Draw_Count = new.blank$Draw_Count+1)
     df.blank[df.blank$LC_Position == new.blank$LC_Position, "Draw_Count"] =
       sum(df.blank$Draw_Count[df.blank$LC_Position == new.blank$LC_Position], 1)
   }
@@ -70,24 +71,25 @@ add.blank = function(Runlist, df.blank, blank.insert) {
 #' @examples Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell")
 add.type = function(Runlist, df.analyte, compound, wellType) {
 
-  new.segment = filter(df.analyte, Compound == compound & Well_Type == wellType)
+  new.segment = dplyr::filter(df.analyte, Compound == compound & Well_Type == wellType)
   Runlist = Runlist %>%
-    add_row(Index = new.segment$Index,
-            Plate = new.segment$Plate,
-            Row = new.segment$Row,
-            Col = new.segment$Col,
-            LC_Position = new.segment$LC_Position,
-            Date = new.segment$Date,
-            Signature = new.segment$Signature,
-            Sample_name = new.segment$Sample_name,
-            Compound = new.segment$Compound,
-            Timepoint = new.segment$Timepoint,
-            Well_Type = new.segment$Well_Type,
-            LC_Well_Type = new.segment$LC_Well_Type,
-            Replicate = new.segment$Replicate,
-            Sample_text = new.segment$Sample_text,
-            Draw_Max = 1,
-            Draw_Count = 1)
+    tibble::add_row(
+      Index = new.segment$Index,
+      Plate = new.segment$Plate,
+      Row = new.segment$Row,
+      Col = new.segment$Col,
+      LC_Position = new.segment$LC_Position,
+      Date = new.segment$Date,
+      Signature = new.segment$Signature,
+      Sample_name = new.segment$Sample_name,
+      Compound = new.segment$Compound,
+      Timepoint = new.segment$Timepoint,
+      Well_Type = new.segment$Well_Type,
+      LC_Well_Type = new.segment$LC_Well_Type,
+      Replicate = new.segment$Replicate,
+      Sample_text = new.segment$Sample_text,
+      Draw_Max = 1,
+      Draw_Count = 1)
   return(Runlist)
 }
 # Insert analyte: Compound segment ---------------------------------------------
@@ -105,8 +107,8 @@ add.type = function(Runlist, df.analyte, compound, wellType) {
 #' @return Returns the same data frame that was supplied to the Runlist argument, but appended with all analyte and blank rows for a compound.
 #' @export
 #'
-#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", medium", "cell", "STD", "blank")) # Adds 1 blanks between every type.
-#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
+#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blanks between every type.
+#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
 add.compound = function(Runlist, df.analyte, df.blank,
                         compound, wellType, blank.type = 1) {
   for (i in 1:length(wellType)) {
@@ -132,33 +134,33 @@ add.compound = function(Runlist, df.analyte, df.blank,
 #' @export
 #'
 #' @examples Runlist <- create.Runlist(full.list)
-#' @examples Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5,
-#' @examples                           blank.comp = 2, blank.type = 1, blank.max = 5)
+#' @examples Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2, blank.type = 1, blank.max = 5)
 create.Runlist = function(full.list, blank.start = 3, blank.end = 5,
                           blank.comp = 2, blank.type = 1, blank.max = 5) {
-  df.analyte = filter(full.list, LC_Well_Type == "Analyte") # All sample rows
-  df.blank = filter(full.list, LC_Well_Type == "blank") %>% # All blank rows
+  df.analyte = dplyr::filter(full.list, LC_Well_Type == "Analyte") # All sample rows
+  df.blank = dplyr::filter(full.list, LC_Well_Type == "blank") %>% # All blank rows
     mutate(., Draw_Max = blank.max, Draw_Count = 0)
   analyte.compound = unique(df.analyte$Compound) %>% # List of compounds
     sort()
   analyte.wellType = c("bead", "medium", "cell", "STD") # List of well types
   # Empty Runlist (col types: "ddcdcccccccccc#dd")
-  Runlist = tibble(Index = double(),
-                   Plate = double(),
-                   Row = character(),
-                   Col = double(),
-                   LC_Position = character(),
-                   Date = character(),
-                   Signature = character(),
-                   Sample_name = character(),
-                   Compound = character(),
-                   Timepoint = character(),
-                   Well_Type = character(),
-                   LC_Well_Type = character(),
-                   Replicate = character(),
-                   Sample_text = character(),
-                   Draw_Max = double(),
-                   Draw_Count = double())
+  Runlist = tibble::tibble(
+    Index = double(),
+    Plate = double(),
+    Row = character(),
+    Col = double(),
+    LC_Position = character(),
+    Date = character(),
+    Signature = character(),
+    Sample_name = character(),
+    Compound = character(),
+    Timepoint = character(),
+    Well_Type = character(),
+    LC_Well_Type = character(),
+    Replicate = character(),
+    Sample_text = character(),
+    Draw_Max = double(),
+    Draw_Count = double())
   Runlist = add.blank(Runlist, df.blank, blank.start)
   for (i in 1:length(analyte.compound)) {
     Runlist = add.compound(Runlist, df.analyte, df.blank,

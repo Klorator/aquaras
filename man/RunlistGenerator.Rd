@@ -4,10 +4,7 @@
 \alias{RunlistGenerator}
 \title{App for making a runlist}
 \usage{
-RunlistGenerator(...)
-}
-\arguments{
-\item{...}{Takes no parameters. Opens a shiny app.}
+RunlistGenerator()
 }
 \value{
 Creates a Shiny GUI.

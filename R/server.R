@@ -1,6 +1,6 @@
 # Server for RunlistGenerator app.
 # Set default table options for reactable (ref under Global theme in https://glin.github.io/reactable/articles/examples.html#theming)
-options(reactable.theme = reactableTheme(
+options(reactable.theme = reactable::reactableTheme(
   color = "hsl(233, 9%, 87%)",
   backgroundColor = "hsl(233, 9%, 19%)",
   borderColor = "hsl(233, 9%, 22%)",
@@ -12,7 +12,10 @@ options(reactable.theme = reactableTheme(
   pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
 )) # End Options: reactableTheme
 # Server -----------------------------------------------------------------------
-server.aquaras = function(input, output, session) {
+#' Server for RunlistGenerator()
+#'
+#' @export
+aquaras.server = function(input, output, session) {
   # Load data --------------------------------------------------------------------
   sample.type.choices = c("Bead" = "bead", # Well Type options
                           "Medium" = "medium",
@@ -85,12 +88,12 @@ server.aquaras = function(input, output, session) {
   }) %>% bindEvent(., input$default.sign)
   # End (Update buttons)
   # Output Runlist.full --------------------------------------------------------
-  proxy.Runlist.full = dataTableProxy("Runlist.full") # Proxy df of runlist
+  proxy.Runlist.full = DT::dataTableProxy("Runlist.full") # Proxy df of runlist
   observe({
-    replaceData(proxy.Runlist.full, Runlist.full$df) # Update parts of df to avoid reloading the entire thing
+    DT::replaceData(proxy.Runlist.full, Runlist.full$df) # Update parts of df to avoid reloading the entire thing
   })
-  output$Runlist.full = renderReactable({ # Display runlist
-    reactable(
+  output$Runlist.full = reactable::renderReactable({ # Display runlist
+    reactable::reactable(
       Runlist.full$df,
       defaultColDef = colDef(
         header = function(value) gsub("_", " ", value, fixed = T)), # End defaultColDef
@@ -112,12 +115,12 @@ server.aquaras = function(input, output, session) {
     ) # End reactable (Runlist.full)
   }) # End renderReactable (Runlist.full)
   # Output Runlist.final -----------------------------------------------------
-  proxy.Runlist.final = dataTableProxy("Runlist.final") # Proxy df of final runlist
+  proxy.Runlist.final = DT::dataTableProxy("Runlist.final") # Proxy df of final runlist
   observe({
-    replaceData(proxy.Runlist.final, Runlist.final$df) # Update parts of the final df to avoid reloading the entire thing
+    DT::replaceData(proxy.Runlist.final, Runlist.final$df) # Update parts of the final df to avoid reloading the entire thing
   })
-  output$Runlist.final = renderReactable({ # Display final runlist
-    reactable(
+  output$Runlist.final = reactable::renderReactable({ # Display final runlist
+    reactable::reactable(
       Runlist.final$df,
       defaultColDef = colDef(
         header = function(value) gsub("_", " ", value, fixed = T)),
@@ -144,7 +147,7 @@ server.aquaras = function(input, output, session) {
       paste0(Sys.Date(), ".Runlist_raw.txt")
     },
     content = function(file) {
-      write_tsv(Runlist.full$df, file)
+      readr::write_tsv(Runlist.full$df, file)
     }
   ) # End (Download raw Runlist tsv)
   output$down.xlsx = downloadHandler( # Download default .xlsx file with formatting
@@ -160,7 +163,7 @@ server.aquaras = function(input, output, session) {
       paste0(Sys.Date(), ".Runlist_final.txt")
     },
     content = function(file) {
-      write_tsv(Runlist.final$df, file)
+      readr::write_tsv(Runlist.final$df, file)
     }
   ) # End (Download final Runlist tsv)
 }

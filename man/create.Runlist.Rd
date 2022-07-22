@@ -34,6 +34,5 @@ Creates a Runlist from the standardized data frame supplied by/made in the Shiny
 }
 \examples{
 Runlist <- create.Runlist(full.list)
-Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5,
-                          blank.comp = 2, blank.type = 1, blank.max = 5)
+Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2, blank.type = 1, blank.max = 5)
 }

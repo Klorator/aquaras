@@ -1,7 +1,7 @@
 # UI for RunlistGenerator app.
 # UI ---------------------------------------------------------------------------
-ui.aquaras = fluidPage(
-  theme = shinytheme("cyborg"),
+aquaras.ui = fluidPage(
+  theme = shinythemes::shinytheme("cyborg"),
   titlePanel("Data processing for LC/MS"),
 
   tabsetPanel(
@@ -54,7 +54,7 @@ ui.aquaras = fluidPage(
           downloadButton("down.xlsx", "Download default .xlsx with formatting"))
       ), # End fluidRow (Upload/Download)
       fluidRow( # Full runlist data frame
-        reactableOutput("Runlist.full")
+        reactable::reactableOutput("Runlist.full")
       ) # End fluidRow (Full runlist data frame)
     ), # End tabPanel "Full list"
 
@@ -81,7 +81,7 @@ ui.aquaras = fluidPage(
           downloadButton("down.Runlist", "Download Runlist"))
       ), # End fluidRow (top row)
       fluidRow( # Display generated Runlist
-        reactableOutput("Runlist.final")
+        reactable::reactableOutput("Runlist.final")
       ) # End fluidRow (Display generated Runlist)
     ) # End tabPanel "Runlist"
 

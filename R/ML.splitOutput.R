@@ -102,6 +102,7 @@ cleanDF.ML = function(listDF) {
       tidyr::separate(col = `Sample Text`, into = c("Compound",     # Split "Sample text" into columns
                                                     "Timepoint", "Well_Type", "Replicate"), sep = "_")  # New columns and separator
   }
+  return(listDF)
 }
 
 #' Write data frames to files
@@ -122,8 +123,7 @@ writeFiles.ML = function(listDF, sourceFile) {
   sourceFile_name = sourceFile %>% basename() # Name of source file
   sourceFile_name = gsub("\\..{1, }$", " - ", sourceFile_name) # Replace file extension
   for(i in 1:length(listDF)) {
-    newFileName = paste(sourceFile_name, names(listDF[i]),  # Concatenate new file name
-                        ".txt", sep = "")
+    newFileName = paste0(sourceFile_name, names(listDF[i]), ".txt") # Concatenate new file name
     listDF[[i]] %>% readr::write_tsv(file = newFileName)    # Write to file
   }
   setwd(old_directory)                                      # Go back to old working directory
@@ -142,8 +142,8 @@ writeFiles.ML = function(listDF, sourceFile) {
 ML.splitOutput = function() {
   # Load file
   load.list = loadFile.ML()
-  sourceFile = load.list[1]
-  dataLines = load.list[2]
+  sourceFile = unlist(load.list[1])
+  dataLines = unlist(load.list[2])
   # Split dataLines into data frames
   listDF = splitDataLines.ML(dataLines)
   # Clean data frames

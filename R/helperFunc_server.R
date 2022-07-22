@@ -34,6 +34,36 @@ update.well = function(df, well.current, date, signature,
   new.sample_text = paste0(compound, "_", timepoint, "_", type, "_", replicate)
   df[df["LC_Position"] == well.current, "Sample_name"] = new.sample_name
   df[df["LC_Position"] == well.current, "Sample_text"] = new.sample_text
+  # Change LC Well Type
+  if ( type == "blank" ) {
+    df[df["LC_Position"] == well.current, "LC_Well_Type"] = "blank"
+  } else {
+    df[df["LC_Position"] == well.current, "LC_Well_Type"] = "Analyte"
+  }
+  return(df)
+}
+
+#' Update Date, Signature, & Sample_name
+#'
+#' Update Date, Signature, & Sample_name for the entire data frame.
+#' Sample_name is a composite in the format "date_signature_index".
+#'
+#' @param df Data frame to use
+#' @param date New date (character string)
+#' @param signature New signature (character string)
+#'
+#' @return Updated data frame
+#' @export
+#'
+#' @examples Runlist = update.dateSignAll(Runlist, "20220722", "RH")
+update.dateSignAll = function(df, date, signature) {
+  date      = sanitizeInput(date)
+  signature = sanitizeInput(signature)
+  df["Date"]      = date
+  df["Signature"] = signature
+  for (i in 1:nrow(df)) {
+    df[i, "Sample_name"] = paste0(df[i, "Date"], "_", df[i, "Signature"], "_", df[i, "Index"])
+  }
   return(df)
 }
 

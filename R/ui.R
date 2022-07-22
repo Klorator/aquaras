@@ -7,7 +7,7 @@ aquaras.ui =
 
   tabsetPanel(
 
-    tabPanel("Well input", # Tab: Well input -------------------------------------
+    tabPanel("Well input", # Tab: Well input -----------------------------------
       fluidRow( # top row: [Plate slider], [current well], [Update button]
         br(),
         column(width = 5,
@@ -34,13 +34,12 @@ aquaras.ui =
           uiOutput("ui.rep")), # End column (Input: sample data)
         column(width = 4, # Input: meta data
           uiOutput("ui.date"),
-          actionButton("default.date", "Set date for all wells"),
           uiOutput("ui.sign"),
-          actionButton("default.sign", "Set as default signature")) # End column (Input: meta data)
+          actionButton("default.dateSign", "Set date & signature for all wells")) # End column (Input: meta data)
       ) # End fluidRow (Output: well info)
     ), # End tabPanel "Well input"
 
-    tabPanel("Full list", # Tab: Full list ---------------------------------------
+    tabPanel("Full list", # Tab: Full list -------------------------------------
       fluidRow( # Upload/Download
         column(width = 3,
           br(),
@@ -59,7 +58,7 @@ aquaras.ui =
       ) # End fluidRow (Full runlist data frame)
     ), # End tabPanel "Full list"
 
-    tabPanel("Runlist", # Tab: Runlist -------------------------------------------
+    tabPanel("Runlist", # Tab: Runlist -----------------------------------------
       fluidRow(
         column(width = 3,
           br(),
@@ -89,4 +88,4 @@ aquaras.ui =
   ) # End tabsetPanel
 
   ) # End fluidPage
-  # End UI
+# End UI

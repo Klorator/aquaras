@@ -22,12 +22,13 @@ aquaras.server = function(input, output, session) {
                           "Cell" = "cell",
                           "Standard" = "STD",
                           "Blank" = "blank")
-  Runlist.default = Runlist_default_blank # Load default list to start with
+  df.col_types = "ddcdcccccccccc"
+  Runlist.default = Runlist_default # Load default list to start with
   Runlist.final.empty = Runlist_final_empty # Load df with zero rows
 
   Runlist.full = reactiveValues(df = Runlist.default) # Reactive version of df to make it editable and display changes
   observe({ # Load df uploaded by user
-    temp = read_delim(input$up.file$datapath,
+    temp = readr::read_delim(input$up.file$datapath,
                       col_types = df.col_types)
     Runlist.full$df = temp
   }) %>%
@@ -81,11 +82,9 @@ aquaras.server = function(input, output, session) {
                   input$well.type, input$sample.rep)
   }) %>% bindEvent(., input$well.update)
   observe({
-    Runlist.full$df["Date"] = input$sample.date
-  }) %>% bindEvent(., input$default.date)
-  observe({
-    Runlist.full$df["Signature"] = input$sample.sign
-  }) %>% bindEvent(., input$default.sign)
+    Runlist.full$df = update.dateSignAll(Runlist.full$df,
+                                         input$sample.date, input$sample.sign)
+  }) %>% bindEvent(., input$default.dateSign)
   # End (Update buttons)
   # Output Runlist.full --------------------------------------------------------
   proxy.Runlist.full = DT::dataTableProxy("Runlist.full") # Proxy df of runlist

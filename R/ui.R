@@ -1,6 +1,7 @@
 # UI for RunlistGenerator app.
 # UI ---------------------------------------------------------------------------
-aquaras.ui = fluidPage(
+aquaras.ui =
+  fluidPage(
   theme = shinythemes::shinytheme("cyborg"),
   titlePanel("Data processing for LC/MS"),
 
@@ -87,5 +88,5 @@ aquaras.ui = fluidPage(
 
   ) # End tabsetPanel
 
-) # End fluidPage
-# End UI
+  ) # End fluidPage
+  # End UI

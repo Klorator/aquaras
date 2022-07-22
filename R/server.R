@@ -22,7 +22,7 @@ aquaras.server = function(input, output, session) {
                           "Cell" = "cell",
                           "Standard" = "STD",
                           "Blank" = "blank")
-  Runlist.default = Runlist_default # Load default list to start with
+  Runlist.default = Runlist_default_blank # Load default list to start with
   Runlist.final.empty = Runlist_final_empty # Load df with zero rows
 
   Runlist.full = reactiveValues(df = Runlist.default) # Reactive version of df to make it editable and display changes
@@ -95,14 +95,14 @@ aquaras.server = function(input, output, session) {
   output$Runlist.full = reactable::renderReactable({ # Display runlist
     reactable::reactable(
       Runlist.full$df,
-      defaultColDef = colDef(
+      defaultColDef = reactable::colDef(
         header = function(value) gsub("_", " ", value, fixed = T)), # End defaultColDef
       columns = list(
-        Index = colDef(align = "center"),
-        Plate = colDef(align = "center"),
-        Row   = colDef(align = "center"),
-        Col   = colDef(align = "center"),
-        LC_Position = colDef(align = "center")),
+        Index = reactable::colDef(align = "center"),
+        Plate = reactable::colDef(align = "center"),
+        Row   = reactable::colDef(align = "center"),
+        Col   = reactable::colDef(align = "center"),
+        LC_Position = reactable::colDef(align = "center")),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,
@@ -122,14 +122,14 @@ aquaras.server = function(input, output, session) {
   output$Runlist.final = reactable::renderReactable({ # Display final runlist
     reactable::reactable(
       Runlist.final$df,
-      defaultColDef = colDef(
+      defaultColDef = reactable::colDef(
         header = function(value) gsub("_", " ", value, fixed = T)),
       columns = list(
-        Index = colDef(align = "center"),
-        Plate = colDef(align = "center"),
-        Row   = colDef(align = "center"),
-        Col   = colDef(align = "center"),
-        LC_Position = colDef(align = "center")),
+        Index = reactable::colDef(align = "center"),
+        Plate = reactable::colDef(align = "center"),
+        Row   = reactable::colDef(align = "center"),
+        Col   = reactable::colDef(align = "center"),
+        LC_Position = reactable::colDef(align = "center")),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,
@@ -155,7 +155,7 @@ aquaras.server = function(input, output, session) {
       paste0(Sys.Date(), ".Runlist_default.xlsx")
     },
     content = function(file) {
-      file.copy("Runlist_default.xlsx", file)
+      file.copy("R/Data files/Runlist_default.xlsx", file)
     }
   ) # End (Download default .xlsx file with formatting)
   output$down.Runlist = downloadHandler( # Download final Runlist tsv

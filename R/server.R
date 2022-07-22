@@ -77,12 +77,12 @@ aquaras.server = function(input, output, session) {
   # Update buttons -------------------------------------------------------------
   observe({
     Runlist.full$df =
-      update.well(Runlist.full$df, well.current(), input$sample.date,
+      well.update(Runlist.full$df, well.current(), input$sample.date,
                   input$sample.sign, input$well.compound, input$well.timepoint,
                   input$well.type, input$sample.rep)
   }) %>% bindEvent(., input$well.update)
   observe({
-    Runlist.full$df = update.dateSignAll(Runlist.full$df,
+    Runlist.full$df = dateSignAll.update(Runlist.full$df,
                                          input$sample.date, input$sample.sign)
   }) %>% bindEvent(., input$default.dateSign)
   # End (Update buttons)

@@ -12,7 +12,7 @@
 #' @return Same data frame, but with updated row
 #' @export
 #'
-update.well = function(df, well.current, date, signature,
+well.update = function(df, well.current, date, signature,
                        compound, timepoint, type, replicate) {
   # Sanitize input
   date      = sanitizeInput(date)
@@ -56,7 +56,7 @@ update.well = function(df, well.current, date, signature,
 #' @export
 #'
 #' @examples Runlist = update.dateSignAll(Runlist, "20220722", "RH")
-update.dateSignAll = function(df, date, signature) {
+dateSignAll.update = function(df, date, signature) {
   date      = sanitizeInput(date)
   signature = sanitizeInput(signature)
   df["Date"]      = date

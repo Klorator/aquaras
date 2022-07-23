@@ -6,6 +6,6 @@
 \alias{aquaras-package}
 \title{aquaras: Data processing related to MassLynx}
 \description{
-Created for personal use. Provides tools for working with runlists to use with MassLynx (Waters LC/MS software). Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, create.Runlist() may be used directly.
+Created primarily for personal use, all the better if anyone else finds this helpful. Pre-LC/MS run: Provides tools for working with runlists to use with MassLynx (Waters LC/MS software). Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, create.Runlist() may be used directly. Post-LC/MS run: Use ML.splitOutput() to split the MassLynx complete summary output file into individual data frames and writes them to files
 }
 \keyword{internal}

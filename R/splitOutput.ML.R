@@ -138,8 +138,8 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' @return Writes a tsv file per compound to the same directory as the source file.
 #' @export
 #'
-#' @examples ML.split.output() # First thing the function does is ask the user for a file.
-ML.splitOutput = function() {
+#' @examples splitOutput.ML() # First thing the function does is ask the user for a file.
+splitOutput.ML = function() {
   # Load file
   load.list = loadFile.ML()
   sourceFile = unlist(load.list[1])

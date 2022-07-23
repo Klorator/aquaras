@@ -9,7 +9,7 @@ Description: Created for personal use.  Provides tools for working with
     RunlistGenerator() launches a Shiny app that lets you create the full
     data frame and a runlist.  Alternatively, create.Runlist() may be used
     directly.
-License: What license is it under?
+License: GPL (>= 3)
 Depends: 
     R (>= 2.10),
     shiny

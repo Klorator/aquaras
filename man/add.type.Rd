@@ -16,10 +16,12 @@ add.type(Runlist, df.analyte, compound, wellType)
 \item{wellType}{A string with What well type to filter by.}
 }
 \value{
-Returns the same data frame that was supplied to the Runlist argument, but with appended analytes.
+Returns the same data frame that was supplied to the Runlist argument,
+but with appended analytes.
 }
 \description{
-Function used within create.Runlist() to add all analytes for a specified compound and well type.
+Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all analytes for a
+specified compound and well type.
 }
 \examples{
 Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell")

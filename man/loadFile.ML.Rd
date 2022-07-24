@@ -9,15 +9,16 @@ loadFile.ML()
 \value{
 A list of two variables:
 
-values[1] is sourceFile; the source file chosen by the user
+\code{values[1]} is sourceFile; the source file chosen by the user
 
-values[2] is dataLines: a list of all lines in source file with "END" appended as the last line
+\code{values[2]} is dataLines: a list of all lines in source file with "END"
+appended as the last line
 }
 \description{
-Asks the user for a source file and loads it with readr::read_lines().
+Asks the user for a source file and loads it with \code{\link[readr:read_lines]{readr::read_lines()}}.
 }
 \examples{
 load.list = loadFile.ML()
   sourceFile = load.list[1]
-  dataLines = load.list[2]
+  dataLines  = load.list[2]
 }

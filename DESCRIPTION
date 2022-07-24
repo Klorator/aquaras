@@ -11,7 +11,8 @@ Description: Created primarily for personal use, all the better if anyone
     data frame and a runlist. Alternatively, create.Runlist() may be used
     directly.  Post-LC/MS run: Use splitOutput.ML() to split the MassLynx
     complete summary output file into individual data frames and write
-    them to files.
+    them to files. Unless clean = FALSE, this removes blanks and splits the "Name" and "Sample
+    Name" columns according to the pre-LC/MS template.
 License: GPL (>= 3)
 Depends: 
     R (>= 2.10),
@@ -32,4 +33,5 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1

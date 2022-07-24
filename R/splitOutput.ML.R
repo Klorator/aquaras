@@ -2,16 +2,17 @@
 
 #' Load MassLynx complete summary file
 #'
-#' Asks the user for a source file and loads it with readr::read_lines().
+#' Asks the user for a source file and loads it with [readr::read_lines()].
 #'
 #' @returns A list of two variables:
-#' @returns  values[1] is sourceFile; the source file chosen by the user
-#' @returns  values[2] is dataLines: a list of all lines in source file with "END" appended as the last line
+#' @returns   `values[1]` is sourceFile; the source file chosen by the user
+#' @returns   `values[2]` is dataLines: a list of all lines in source file with "END"
+#' appended as the last line
 #' @export
 #'
 #' @examples load.list = loadFile.ML()
-#' @examples   sourceFile = load.list[1]
-#' @examples   dataLines = load.list[2]
+#'   sourceFile = load.list[1]
+#'   dataLines  = load.list[2]
 loadFile.ML = function() {
   sourceFile = file.choose()                        # Choose source file
   dataLines =
@@ -24,9 +25,9 @@ loadFile.ML = function() {
 
 #' Split loaded file into data frames
 #'
-#' Split the file loaded with loadFile.ML() into dataframes by compound.
+#' Split the file loaded with [loadFile.ML()] into dataframes by compound.
 #'
-#' @param dataLines List of vectors from readr::read_lines() in loadFile.ML()
+#' @param dataLines List of vectors from [readr::read_lines()] in [loadFile.ML()]
 #'
 #' @return List of data frames
 #' @export
@@ -99,8 +100,9 @@ cleanDF.ML = function(listDF) {
       dplyr::filter(`Sample Text` != "blank") %>%                   # Drop "blank"
       tidyr::separate(col = Name, into = c("Date", "Signature",
                                            "Index"), sep = "_") %>%
-      tidyr::separate(col = `Sample Text`, into = c("Compound",     # Split "Sample text" into columns
-                                                    "Timepoint", "Well_Type", "Replicate"), sep = "_")  # New columns and separator
+      tidyr::separate(col = `Sample Text`,
+                      into = c("Compound", "Timepoint",      # Split "Sample text" into columns
+                      "Well_Type", "Replicate"), sep = "_")  # New columns and separator
   }
   return(listDF)
 }
@@ -132,14 +134,17 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' Split MassLynx output file
 #'
 #' Splits the MassLynx complete summary output file into individual data frames
-#' based on compound. These data frames are written to tsv files in the same
-#' directory as the source file.
+#' based on compound. These data frames are cleaned by [cleanDF.ML()] (unless
+#' clean = FALSE) and written to tsv files in the same directory as the source file.
+#'
+#' @param clean Defaults to TRUE,
 #'
 #' @return Writes a tsv file per compound to the same directory as the source file.
 #' @export
 #'
 #' @examples splitOutput.ML() # First thing the function does is ask the user for a file.
-splitOutput.ML = function() {
+#' splitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
+splitOutput.ML = function(clean = TRUE) {
   # Load file
   load.list = loadFile.ML()
   sourceFile = unlist(load.list[1])
@@ -147,7 +152,7 @@ splitOutput.ML = function() {
   # Split dataLines into data frames
   listDF = splitDataLines.ML(dataLines)
   # Clean data frames
-  listDF = cleanDF.ML(listDF)
+  if ( clean == TRUE ) {listDF = cleanDF.ML(listDF)}
   # Write each data frame to a separate .txt file
   writeFiles.ML(listDF, sourceFile)
 } # DONE! :)

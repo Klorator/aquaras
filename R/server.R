@@ -12,7 +12,7 @@ options(reactable.theme = reactable::reactableTheme(
   pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
 )) # End Options: reactableTheme
 # Server -----------------------------------------------------------------------
-#' Server for RunlistGenerator()
+#' Server for [RunlistGenerator()]
 #'
 #' @export
 aquaras.server = function(input, output, session) {

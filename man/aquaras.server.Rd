@@ -2,10 +2,10 @@
 % Please edit documentation in R/server.R
 \name{aquaras.server}
 \alias{aquaras.server}
-\title{Server for RunlistGenerator()}
+\title{Server for \code{\link[=RunlistGenerator]{RunlistGenerator()}}}
 \usage{
 aquaras.server(input, output, session)
 }
 \description{
-Server for RunlistGenerator()
+Server for \code{\link[=RunlistGenerator]{RunlistGenerator()}}
 }

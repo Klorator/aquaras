@@ -15,17 +15,23 @@ add.compound(Runlist, df.analyte, df.blank, compound, wellType, blank.type = 1)
 
 \item{compound}{A string with what compound to filter by.}
 
-\item{wellType}{A vector with all well types to filter by. (string passed to add.type())}
+\item{wellType}{A vector with all well types to filter by. (string passed to
+\code{\link[=add.type]{add.type()}})}
 
-\item{blank.type}{An integer of how many blanks to add between types. (default = 1; passed to add.blank())}
+\item{blank.type}{An integer of how many blanks to add between types.
+(default = 1; passed to \code{\link[=add.blank]{add.blank()}})}
 }
 \value{
-Returns the same data frame that was supplied to the Runlist argument, but appended with all analyte and blank rows for a compound.
+Returns the same data frame that was supplied to the Runlist argument,
+but appended with all analyte and blank rows for a compound.
 }
 \description{
-Function used within create.Runlist() to add all analyte and blank rows for a compound. Passes arguments to add.type() and add.blank().
+Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all analyte and
+blank rows for a compound. Passes arguments to \code{\link[=add.type]{add.type()}} and \code{\link[=add.blank]{add.blank()}}.
 }
 \examples{
-Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blanks between every type.
-Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
+Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blank between every type.
+Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
 }

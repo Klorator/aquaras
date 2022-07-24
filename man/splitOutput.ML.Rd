@@ -4,16 +4,20 @@
 \alias{splitOutput.ML}
 \title{Split MassLynx output file}
 \usage{
-splitOutput.ML()
+splitOutput.ML(clean = TRUE)
+}
+\arguments{
+\item{clean}{Defaults to TRUE,}
 }
 \value{
 Writes a tsv file per compound to the same directory as the source file.
 }
 \description{
 Splits the MassLynx complete summary output file into individual data frames
-based on compound. These data frames are written to tsv files in the same
-directory as the source file.
+based on compound. These data frames are cleaned by \code{\link[=cleanDF.ML]{cleanDF.ML()}} (unless
+clean = FALSE) and written to tsv files in the same directory as the source file.
 }
 \examples{
-ML.split.output() # First thing the function does is ask the user for a file.
+splitOutput.ML() # First thing the function does is ask the user for a file.
+splitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
 }

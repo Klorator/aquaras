@@ -14,10 +14,11 @@ add.blank(Runlist, df.blank, blank.insert)
 \item{blank.insert}{An integer of how many blanks to add.}
 }
 \value{
-Returns the same data frame that was supplied to the Runlist argument, but with the specified number of appended blanks.
+Returns the same data frame that was supplied to the Runlist argument,
+but with the specified number of appended blanks.
 }
 \description{
-Function used within create.Runlist() to add blanks.
+Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blanks.
 }
 \examples{
 Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist.

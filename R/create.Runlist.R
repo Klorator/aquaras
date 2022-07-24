@@ -16,13 +16,14 @@
 # Insert blank -----------------------------------------------------------------
 #' Insert blank rows
 #'
-#' @description Function used within create.Runlist() to add blanks.
+#' @description Function used within [create.Runlist()] to add blanks.
 #'
 #' @param Runlist A data frame to add blanks to.
 #' @param df.blank A data frame consisting of only blanks to take from.
 #' @param blank.insert An integer of how many blanks to add.
 #'
-#' @return Returns the same data frame that was supplied to the Runlist argument, but with the specified number of appended blanks.
+#' @return Returns the same data frame that was supplied to the Runlist argument,
+#' but with the specified number of appended blanks.
 #' @export
 #'
 #' @examples Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist.
@@ -58,14 +59,16 @@ add.blank = function(Runlist, df.blank, blank.insert) {
 # Insert analyte: well type segment --------------------------------------------
 #' Insert analyte rows for a well type
 #'
-#' @description Function used within create.Runlist() to add all analytes for a specified compound and well type.
+#' @description Function used within [create.Runlist()] to add all analytes for a
+#' specified compound and well type.
 #'
 #' @param Runlist A data frame to add blanks to.
 #' @param df.analyte A data frame with analytes to take from.
 #' @param compound A string with what compound to filter by.
 #' @param wellType A string with What well type to filter by.
 #'
-#' @return Returns the same data frame that was supplied to the Runlist argument, but with appended analytes.
+#' @return Returns the same data frame that was supplied to the Runlist argument,
+#' but with appended analytes.
 #' @export
 #'
 #' @examples Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell")
@@ -95,20 +98,26 @@ add.type = function(Runlist, df.analyte, compound, wellType) {
 # Insert analyte: Compound segment ---------------------------------------------
 #' Insert all analyte and blank rows for a compound
 #'
-#' @description Function used within create.Runlist() to add all analyte and blank rows for a compound. Passes arguments to add.type() and add.blank().
+#' @description Function used within [create.Runlist()] to add all analyte and
+#' blank rows for a compound. Passes arguments to [add.type()] and [add.blank()].
 #'
 #' @param Runlist A data frame to add blanks to.
 #' @param df.analyte A data frame with analytes to take from.
 #' @param df.blank A data frame consisting of only blanks to take from.
 #' @param compound A string with what compound to filter by.
-#' @param wellType A vector with all well types to filter by. (string passed to add.type())
-#' @param blank.type An integer of how many blanks to add between types. (default = 1; passed to add.blank())
+#' @param wellType A vector with all well types to filter by. (string passed to
+#' [add.type()])
+#' @param blank.type An integer of how many blanks to add between types.
+#' (default = 1; passed to [add.blank()])
 #'
-#' @return Returns the same data frame that was supplied to the Runlist argument, but appended with all analyte and blank rows for a compound.
+#' @return Returns the same data frame that was supplied to the Runlist argument,
+#' but appended with all analyte and blank rows for a compound.
 #' @export
 #'
-#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blanks between every type.
-#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin", c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
+#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+#' c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blank between every type.
+#' Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+#' c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
 add.compound = function(Runlist, df.analyte, df.blank,
                         compound, wellType, blank.type = 1) {
   for (i in 1:length(wellType)) {
@@ -121,9 +130,11 @@ add.compound = function(Runlist, df.analyte, df.blank,
 # Generate Runlist -------------------------------------------------------------
 #' Create a Runlist from data frame
 #'
-#' @description Creates a Runlist from the standardized data frame supplied by/made in the Shiny app RunlistGenerator().
+#' @description Creates a Runlist from the standardized data frame supplied by/made
+#' in the Shiny app [RunlistGenerator()].
 #'
-#' @param full.list A full list, according to the package template, to be transformed into a runlist.
+#' @param full.list A full list, according to the package template, to be transformed
+#' into a runlist.
 #' @param blank.start Integer of blanks to start with.
 #' @param blank.end Integer of blanks to end with.
 #' @param blank.comp Integer of blanks to insert between compounds.
@@ -134,7 +145,8 @@ add.compound = function(Runlist, df.analyte, df.blank,
 #' @export
 #'
 #' @examples Runlist <- create.Runlist(full.list)
-#' @examples Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2, blank.type = 1, blank.max = 5)
+#' Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2,
+#' blank.type = 1, blank.max = 5)
 create.Runlist = function(full.list, blank.start = 3, blank.end = 5,
                           blank.comp = 2, blank.type = 1, blank.max = 5) {
   df.analyte = dplyr::filter(full.list, LC_Well_Type == "Analyte") # All sample rows

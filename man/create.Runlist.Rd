@@ -14,7 +14,8 @@ create.Runlist(
 )
 }
 \arguments{
-\item{full.list}{A full list, according to the package template, to be transformed into a runlist.}
+\item{full.list}{A full list, according to the package template, to be transformed
+into a runlist.}
 
 \item{blank.start}{Integer of blanks to start with.}
 
@@ -30,9 +31,11 @@ create.Runlist(
 Returns a Runlist with blanks spaced as defined (with sensible defaults).
 }
 \description{
-Creates a Runlist from the standardized data frame supplied by/made in the Shiny app RunlistGenerator().
+Creates a Runlist from the standardized data frame supplied by/made
+in the Shiny app \code{\link[=RunlistGenerator]{RunlistGenerator()}}.
 }
 \examples{
 Runlist <- create.Runlist(full.list)
-Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2, blank.type = 1, blank.max = 5)
+Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2,
+blank.type = 1, blank.max = 5)
 }

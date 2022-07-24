@@ -7,13 +7,13 @@
 splitDataLines.ML(dataLines)
 }
 \arguments{
-\item{dataLines}{List of vectors from readr::read_lines() in loadFile.ML()}
+\item{dataLines}{List of vectors from \code{\link[readr:read_lines]{readr::read_lines()}} in \code{\link[=loadFile.ML]{loadFile.ML()}}}
 }
 \value{
 List of data frames
 }
 \description{
-Split the file loaded with loadFile.ML() into dataframes by compound.
+Split the file loaded with \code{\link[=loadFile.ML]{loadFile.ML()}} into dataframes by compound.
 }
 \examples{
 listDF = splitDataLines.ML(dataLines)

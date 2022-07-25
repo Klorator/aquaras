@@ -16,7 +16,8 @@ List of data frames
 Split the file loaded with \code{\link[=loadFile.ML]{loadFile.ML()}} into dataframes by compound.
 }
 \examples{
-listDF = splitDataLines.ML(dataLines)
+\dontrun{
+listDF = splitDataLines.ML(dataLines) }
 }
 \seealso{
 Other Split Output: 

@@ -34,10 +34,10 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all 
 blank rows for a compound. Passes arguments to \code{\link[=add.type]{add.type()}} and \code{\link[=add.blank]{add.blank()}}.
 }
 \examples{
-Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+\dontrun{ Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
 c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blank between every type.
 Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
-c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
+c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type. }
 }
 \seealso{
 Other Runlist Generator: 

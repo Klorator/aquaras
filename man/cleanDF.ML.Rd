@@ -17,7 +17,8 @@ Cleans each data frame by removing blanks and NAs. Also separates Name and
 Sample Text into its composite columns.
 }
 \examples{
-listDF = cleanDF.ML(listDF)
+\dontrun{
+listDF = cleanDF.ML(listDF) }
 }
 \seealso{
 Other Split Output: 

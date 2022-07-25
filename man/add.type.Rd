@@ -28,7 +28,7 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all 
 specified compound and well type.
 }
 \examples{
-Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell")
+\dontrun{ Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell") }
 }
 \seealso{
 Other Runlist Generator: 

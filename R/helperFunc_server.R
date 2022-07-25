@@ -1,5 +1,7 @@
 #' Update well info
 #'
+#' @family Runlist Generator
+#'
 #' @param df Data frame to update row
 #' @param well.current Current well plate position (LC_Position)
 #' @param date New date value (character string)
@@ -30,7 +32,7 @@ well.update = function(df, well.current, date, signature,
   df[df["LC_Position"] == well.current, "Signature"]  = signature
   # New composite sample name & text
   index = df[df["LC_Position"] == well.current, "Index"]
-  new.sample_name = paste0(date, "_", signature, "_", index)
+  new.sample_name = paste0(date, "_", signature, "_", "Index.", index)
   new.sample_text = paste0(compound, "_", timepoint, "_", type, "_", replicate)
   df[df["LC_Position"] == well.current, "Sample_name"] = new.sample_name
   df[df["LC_Position"] == well.current, "Sample_text"] = new.sample_text
@@ -48,6 +50,8 @@ well.update = function(df, well.current, date, signature,
 #' Update Date, Signature, & Sample_name for the entire data frame.
 #' Sample_name is a composite in the format "date_signature_index".
 #'
+#' @family Runlist Generator
+#'
 #' @param df Data frame to use
 #' @param date New date (character string)
 #' @param signature New signature (character string)
@@ -62,21 +66,23 @@ dateSignAll.update = function(df, date, signature) {
   df["Date"]      = date
   df["Signature"] = signature
   for (i in 1:nrow(df)) {
-    df[i, "Sample_name"] = paste0(df[i, "Date"], "_", df[i, "Signature"], "_", df[i, "Index"])
+    df[i, "Sample_name"] = paste0(df[i, "Date"], "_", df[i, "Signature"], "_", "Index.", df[i, "Index"])
   }
   return(df)
 }
 
 #' Sanitize input
 #'
-#' @description Replaces spaces and underscores with periods.
+#' Replaces underscores with periods.
+#'
+#' @family Runlist Generator
 #'
 #' @param inputVar Character string to sanitize
 #'
 #' @return Character string
 #' @export
-#'
+#' @examples sanitizeInput("Spaces etc -- but_no_underscore!")
 sanitizeInput = function(inputVar) {
-  cleanVar = gsub("(\\s|_)", ".", inputVar) # Replace any whitespace (\\s) and underscore
+  cleanVar = gsub("_", ".", inputVar) # Replace any underscore
   return(cleanVar)
 }

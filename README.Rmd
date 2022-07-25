@@ -1,0 +1,75 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  warning = F,
+  message = F
+)
+```
+
+# aquaras
+
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+The goal of aquaras is to make it easier to create runlists for use with MassLynx (Waters LC/MS software) and also facilitate some of the data processing steps with the MassLynx complete summary output file.
+
+## Installation
+
+You can install the development version of aquaras from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("Klorator/aquaras")
+```
+
+## Example workflow:
+
+### Summary
+* Call `RunlistGenerator()`
+* Input all the runlist info under "Well input"
+  * Optionally: download/upload the tsv under "Full list" to save/resume a project
+* Generate a runlist under "Runlist" and download the tsv
+* Do the experiments. Yeay!
+* Call `SplitOutput.ML()` and select the MassLynx complete summary output file (the file-selection window might be hiding behind RStudio)
+* Analyze the results for each compound
+* Publish paper!
+* Design new experiments (rinse and repeat)
+
+### Pre-LC/MS
+Here is a mock example of a populated runlist.
+```{r example runlist}
+library(aquaras)
+# str(Example_Runlist)
+Example_Runlist[c(1:2, 7:8, 13:14), c(1, 5, 8, 12, 14)]
+```
+
+And this is what we get from generating a final runlist version with default settings.
+```{r generated runlist}
+Final_Runlist = create.Runlist(Example_Runlist)
+Final_Runlist[c(1, 5, 8, 12, 14)]
+```
+
+Ready for pasting columns into MassLynx!
+
+### Post-LC/MS examples
+Recommended to place your output file in it's own folder.
+Run `SplitOutput.ML()` and select the output file.
+
+## Planned features
+
+### Plotting of graphs
+
+```{r plotting}
+# Plotting with ggplot2 here...
+```
+

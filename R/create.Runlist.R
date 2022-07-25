@@ -16,7 +16,9 @@
 # Insert blank -----------------------------------------------------------------
 #' Insert blank rows
 #'
-#' @description Function used within [create.Runlist()] to add blanks.
+#' Function used within [create.Runlist()] to add blanks.
+#'
+#' @family Runlist Generator
 #'
 #' @param Runlist A data frame to add blanks to.
 #' @param df.blank A data frame consisting of only blanks to take from.
@@ -59,8 +61,10 @@ add.blank = function(Runlist, df.blank, blank.insert) {
 # Insert analyte: well type segment --------------------------------------------
 #' Insert analyte rows for a well type
 #'
-#' @description Function used within [create.Runlist()] to add all analytes for a
+#' Function used within [create.Runlist()] to add all analytes for a
 #' specified compound and well type.
+#'
+#' @family Runlist Generator
 #'
 #' @param Runlist A data frame to add blanks to.
 #' @param df.analyte A data frame with analytes to take from.
@@ -98,8 +102,10 @@ add.type = function(Runlist, df.analyte, compound, wellType) {
 # Insert analyte: Compound segment ---------------------------------------------
 #' Insert all analyte and blank rows for a compound
 #'
-#' @description Function used within [create.Runlist()] to add all analyte and
+#' Function used within [create.Runlist()] to add all analyte and
 #' blank rows for a compound. Passes arguments to [add.type()] and [add.blank()].
+#'
+#' @family Runlist Generator
 #'
 #' @param Runlist A data frame to add blanks to.
 #' @param df.analyte A data frame with analytes to take from.
@@ -130,8 +136,10 @@ add.compound = function(Runlist, df.analyte, df.blank,
 # Generate Runlist -------------------------------------------------------------
 #' Create a Runlist from data frame
 #'
-#' @description Creates a Runlist from the standardized data frame supplied by/made
+#' Creates a Runlist from the standardized data frame supplied by/made
 #' in the Shiny app [RunlistGenerator()].
+#'
+#' @family Runlist Generator
 #'
 #' @param full.list A full list, according to the package template, to be transformed
 #' into a runlist.

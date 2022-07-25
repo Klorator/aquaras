@@ -23,3 +23,16 @@ Sample_name is a composite in the format "date_signature_index".
 \examples{
 Runlist = update.dateSignAll(Runlist, "20220722", "RH")
 }
+\seealso{
+Other Runlist Generator: 
+\code{\link{RunlistGenerator}()},
+\code{\link{add.blank}()},
+\code{\link{add.compound}()},
+\code{\link{add.type}()},
+\code{\link{aquaras.server}()},
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{sanitizeInput}()},
+\code{\link{well.update}()}
+}
+\concept{Runlist Generator}

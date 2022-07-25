@@ -4,6 +4,8 @@
 #'
 #' Asks the user for a source file and loads it with [readr::read_lines()].
 #'
+#' @family Split Output
+#'
 #' @returns A list of two variables:
 #' @returns   `values[1]` is sourceFile; the source file chosen by the user
 #' @returns   `values[2]` is dataLines: a list of all lines in source file with "END"
@@ -26,6 +28,8 @@ loadFile.ML = function() {
 #' Split loaded file into data frames
 #'
 #' Split the file loaded with [loadFile.ML()] into dataframes by compound.
+#'
+#' @family Split Output
 #'
 #' @param dataLines List of vectors from [readr::read_lines()] in [loadFile.ML()]
 #'
@@ -88,6 +92,8 @@ splitDataLines.ML = function(dataLines) {
 #' Cleans each data frame by removing blanks and NAs. Also separates Name and
 #' Sample Text into its composite columns.
 #'
+#' @family Split Output
+#'
 #' @param listDF List of data frames to clean
 #'
 #' @return List of data frames
@@ -110,6 +116,8 @@ cleanDF.ML = function(listDF) {
 #' Write data frames to files
 #'
 #' Writes data frames to individual .txt files (tsv) in the same directory as source file.
+#'
+#' @family Split Output
 #'
 #' @param listDF List of data frames to write to files
 #' @param sourceFile Source file for locating what directory to write to
@@ -137,13 +145,15 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' based on compound. These data frames are cleaned by [cleanDF.ML()] (unless
 #' clean = FALSE) and written to tsv files in the same directory as the source file.
 #'
+#' @family Split Output
+#'
 #' @param clean Defaults to TRUE,
 #'
 #' @return Writes a tsv file per compound to the same directory as the source file.
 #' @export
 #'
-#' @examples splitOutput.ML() # First thing the function does is ask the user for a file.
-#' splitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
+#' @examples SplitOutput.ML() # First thing the function does is ask the user for a file.
+#' SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
 SplitOutput.ML = function(clean = TRUE) {
   # Load file
   load.list = loadFile.ML()

@@ -38,3 +38,16 @@ Same data frame, but with updated row
 \description{
 Update well info
 }
+\seealso{
+Other Runlist Generator: 
+\code{\link{RunlistGenerator}()},
+\code{\link{add.blank}()},
+\code{\link{add.compound}()},
+\code{\link{add.type}()},
+\code{\link{aquaras.server}()},
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()}
+}
+\concept{Runlist Generator}

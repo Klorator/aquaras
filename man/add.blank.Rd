@@ -23,3 +23,16 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blan
 \examples{
 Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist.
 }
+\seealso{
+Other Runlist Generator: 
+\code{\link{RunlistGenerator}()},
+\code{\link{add.compound}()},
+\code{\link{add.type}()},
+\code{\link{aquaras.server}()},
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
+\code{\link{well.update}()}
+}
+\concept{Runlist Generator}

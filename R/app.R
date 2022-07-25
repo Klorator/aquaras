@@ -17,12 +17,15 @@
 # Run app ----------------------------------------------------------------------
 #' App for making a runlist
 #'
-#' @description Program to input info for 96-well-plates. Generates a runlist for the Waters LC/MS software MassLynx.
+#' Program to input info for 96-well-plates. Generates a runlist for the Waters LC/MS software MassLynx.
+#'
+#' @family Runlist Generator
 #'
 #' @return Creates a Shiny GUI.
 #' @export
 #'
 #' @examples RunlistGenerator() # Launches the Shiny GUI.
 RunlistGenerator = function() {
+  darkModeDF_Options()
   shinyApp(aquaras.ui, aquaras.server)
 }

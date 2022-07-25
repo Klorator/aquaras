@@ -26,3 +26,16 @@ specified compound and well type.
 \examples{
 Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell")
 }
+\seealso{
+Other Runlist Generator: 
+\code{\link{RunlistGenerator}()},
+\code{\link{add.blank}()},
+\code{\link{add.compound}()},
+\code{\link{aquaras.server}()},
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
+\code{\link{well.update}()}
+}
+\concept{Runlist Generator}

@@ -1,4 +1,13 @@
 # Server for RunlistGenerator app.
+
+#' Options for data frame style
+#'
+#' Runs [base::options()] with CSS styling borrowed from the [Reactable example documentation](https://glin.github.io/reactable/articles/examples.html#theming)
+#'
+#' @family Runlist Generator
+#'
+#' @export
+darkModeDF_Options = function() {
 # Set default table options for reactable (ref under Global theme in https://glin.github.io/reactable/articles/examples.html#theming)
 options(reactable.theme = reactable::reactableTheme(
   color = "hsl(233, 9%, 87%)",
@@ -11,8 +20,12 @@ options(reactable.theme = reactable::reactableTheme(
   pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
   pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
 )) # End Options: reactableTheme
+}
+
 # Server -----------------------------------------------------------------------
 #' Server for [RunlistGenerator()]
+#'
+#' @family Runlist Generator
 #'
 #' @export
 aquaras.server = function(input, output, session) {

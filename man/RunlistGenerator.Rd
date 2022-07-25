@@ -15,3 +15,16 @@ Program to input info for 96-well-plates. Generates a runlist for the Waters LC/
 \examples{
 RunlistGenerator() # Launches the Shiny GUI.
 }
+\seealso{
+Other Runlist Generator: 
+\code{\link{add.blank}()},
+\code{\link{add.compound}()},
+\code{\link{add.type}()},
+\code{\link{aquaras.server}()},
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
+\code{\link{well.update}()}
+}
+\concept{Runlist Generator}

@@ -4,7 +4,11 @@
 \alias{SplitOutput.ML}
 \title{Split MassLynx output file}
 \usage{
+<<<<<<< HEAD
 SplitOutput.ML(clean = TRUE)
+=======
+splitOutput.ML(clean = TRUE)
+>>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
 }
 \arguments{
 \item{clean}{Defaults to TRUE,}
@@ -18,8 +22,13 @@ based on compound. These data frames are cleaned by \code{\link[=cleanDF.ML]{cle
 clean = FALSE) and written to tsv files in the same directory as the source file.
 }
 \examples{
+<<<<<<< HEAD
 SplitOutput.ML() # First thing the function does is ask the user for a file.
 SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
+=======
+splitOutput.ML() # First thing the function does is ask the user for a file.
+splitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
+>>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
 }
 \seealso{
 Other Split Output: 

@@ -3,8 +3,11 @@
 #' Load MassLynx complete summary file
 #'
 #' Asks the user for a source file and loads it with [readr::read_lines()].
+<<<<<<< HEAD
 #'
 #' @family Split Output
+=======
+>>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
 #'
 #' @returns A list of two variables:
 #' @returns   `values[1]` is sourceFile; the source file chosen by the user
@@ -29,8 +32,11 @@ loadFile.ML = function() {
 #'
 #' Split the file loaded with [loadFile.ML()] into dataframes by compound.
 #'
+<<<<<<< HEAD
 #' @family Split Output
 #'
+=======
+>>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
 #' @param dataLines List of vectors from [readr::read_lines()] in [loadFile.ML()]
 #'
 #' @return List of data frames
@@ -145,16 +151,25 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' based on compound. These data frames are cleaned by [cleanDF.ML()] (unless
 #' clean = FALSE) and written to tsv files in the same directory as the source file.
 #'
+<<<<<<< HEAD
 #' @family Split Output
 #'
+=======
+>>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
 #' @param clean Defaults to TRUE,
 #'
 #' @return Writes a tsv file per compound to the same directory as the source file.
 #' @export
 #'
+<<<<<<< HEAD
 #' @examples SplitOutput.ML() # First thing the function does is ask the user for a file.
 #' SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
 SplitOutput.ML = function(clean = TRUE) {
+=======
+#' @examples splitOutput.ML() # First thing the function does is ask the user for a file.
+#' splitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
+splitOutput.ML = function(clean = TRUE) {
+>>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
   # Load file
   load.list = loadFile.ML()
   sourceFile = unlist(load.list[1])

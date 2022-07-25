@@ -83,8 +83,9 @@ Ready for pasting columns into MassLynx!
 
 ### Post-LC/MS examples
 
-Recommended to place your output file in it’s own folder. Run
-`SplitOutput.ML()` and select the output file.
+Recommended to place your output file in it’s own folder.
+
+Run `SplitOutput.ML()` and select the output file.
 
 ## Planned features
 

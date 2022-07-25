@@ -19,14 +19,13 @@ library(aquaras)
 ```
 Created primarily for personal use, all the better if anyone else finds this helpful.  
 
-<<<<<<< HEAD
 ### Pre-LC/MS run:
 Provides tools for working with runlists to use with MassLynx (Waters LC/MS software).  Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, create.Runlist() may be used directly.
 
 ### Post-LC/MS run: 
 Use SplitOutput.ML() to split the MassLynx complete summary output file into individual data frames and write them to files. Unless clean = FALSE, this removes blanks and splits the "Name" and "Sample Name" columns according to the pre-LC/MS template.
 
-### Example workflow:
+## Example workflow:
 * Call `RunlistGenerator()`
 * Input all the runlist info under "Well input"
   * Optionally: download/upload the tsv under "Full list" to save/resume a project
@@ -36,13 +35,7 @@ Use SplitOutput.ML() to split the MassLynx complete summary output file into ind
 * Analyze the results for each compound
 * Publish paper!
 * Design new experiments (rinse and repeat)
-=======
-### Pre-LC/MS run: 
-Provides tools for working with runlists to use with MassLynx (Waters LC/MS software).  Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, create.Runlist() may be used directly.  
 
-### Post-LC/MS run: 
-Use splitOutput.ML() to split the MassLynx complete summary output file into individual data frames and write them to files. Unless clean = FALSE, this removes blanks and splits the "Name" and "Sample Name" columns according to the pre-LC/MS template.
->>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
 
 ```{r}
 

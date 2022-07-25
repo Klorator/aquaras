@@ -20,6 +20,9 @@ but with the specified number of appended blanks.
 \description{
 Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blanks.
 }
+\details{
+Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blanks.
+}
 \examples{
 Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist.
 }

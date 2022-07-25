@@ -24,11 +24,8 @@ options(reactable.theme = reactable::reactableTheme(
 
 # Server -----------------------------------------------------------------------
 #' Server for [RunlistGenerator()]
-<<<<<<< HEAD
 #'
 #' @family Runlist Generator
-=======
->>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d
 #'
 #' @export
 aquaras.server = function(input, output, session) {

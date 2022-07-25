@@ -3,8 +3,5 @@
 ^LICENSE\.md$
 ^Example data$
 ^\.gitignore$
-<<<<<<< HEAD
 ^\.github$
 ^README\.Rmd$
-=======
->>>>>>> 14f428ad5efa263519fdfbf42b9b3cc4d157080d

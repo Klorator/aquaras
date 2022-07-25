@@ -61,21 +61,21 @@ default settings.
 
 ``` r
 Final_Runlist = create.Runlist(Example_Runlist)
-Final_Runlist[c(1, 5, 8, 12, 14)]
-#> # A tibble: 150 × 5
-#>    Index LC_Position Sample_name          LC_Well_Type Sample_text      
-#>    <dbl> <chr>       <chr>                <chr>        <chr>            
-#>  1    13 3:B,1       20220725_RH_Index.13 blank        blank            
-#>  2    13 3:B,1       20220725_RH_Index.13 blank        blank            
-#>  3    13 3:B,1       20220725_RH_Index.13 blank        blank            
-#>  4    62 3:F,2       20220725_RH_Index.62 Analyte      Ibuprofen_0_bead_
-#>  5    63 3:F,3       20220725_RH_Index.63 Analyte      Ibuprofen_0_bead_
-#>  6    64 3:F,4       20220725_RH_Index.64 Analyte      Ibuprofen_0_bead_
-#>  7    65 3:F,5       20220725_RH_Index.65 Analyte      Ibuprofen_0_bead_
-#>  8    66 3:F,6       20220725_RH_Index.66 Analyte      Ibuprofen_0_bead_
-#>  9    67 3:F,7       20220725_RH_Index.67 Analyte      Ibuprofen_0_bead_
-#> 10    68 3:F,8       20220725_RH_Index.68 Analyte      Ibuprofen_0_bead_
-#> # … with 140 more rows
+Final_Runlist[c(1, 5, 8, 12, 14, 16)]
+#> # A tibble: 150 × 6
+#>    Index LC_Position Sample_name          LC_Well_Type Sample_text       Draw_…¹
+#>    <dbl> <chr>       <chr>                <chr>        <chr>               <dbl>
+#>  1    13 3:B,1       20220725_RH_Index.13 blank        blank                   1
+#>  2    13 3:B,1       20220725_RH_Index.13 blank        blank                   2
+#>  3    13 3:B,1       20220725_RH_Index.13 blank        blank                   3
+#>  4    62 3:F,2       20220725_RH_Index.62 Analyte      Ibuprofen_0_bead_       1
+#>  5    63 3:F,3       20220725_RH_Index.63 Analyte      Ibuprofen_0_bead_       1
+#>  6    64 3:F,4       20220725_RH_Index.64 Analyte      Ibuprofen_0_bead_       1
+#>  7    65 3:F,5       20220725_RH_Index.65 Analyte      Ibuprofen_0_bead_       1
+#>  8    66 3:F,6       20220725_RH_Index.66 Analyte      Ibuprofen_0_bead_       1
+#>  9    67 3:F,7       20220725_RH_Index.67 Analyte      Ibuprofen_0_bead_       1
+#> 10    68 3:F,8       20220725_RH_Index.68 Analyte      Ibuprofen_0_bead_       1
+#> # … with 140 more rows, and abbreviated variable name ¹​Draw_Count
 #> # ℹ Use `print(n = ...)` to see more rows
 ```
 

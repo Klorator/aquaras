@@ -56,7 +56,7 @@ Example_Runlist[c(1:2, 7:8, 13:14), c(1, 5, 8, 12, 14)]
 And this is what we get from generating a final runlist version with default settings.
 ```{r generated runlist}
 Final_Runlist = create.Runlist(Example_Runlist)
-Final_Runlist[c(1, 5, 8, 12, 14)]
+Final_Runlist[c(1, 5, 8, 12, 14, 16)]
 ```
 
 Ready for pasting columns into MassLynx!

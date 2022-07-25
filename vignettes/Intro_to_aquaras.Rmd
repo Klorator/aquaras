@@ -10,13 +10,18 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = F,
+  message = F
 )
 ```
 
 ```{r setup}
 library(aquaras)
+library(flextable) # To make the tables a little nicer
+library(magrittr) # For the %>% pipe
 ```
+## Overview
 Created primarily for personal use, all the better if anyone else finds this helpful.  
 
 ### Pre-LC/MS run:
@@ -26,6 +31,8 @@ Provides tools for working with runlists to use with MassLynx (Waters LC/MS soft
 Use SplitOutput.ML() to split the MassLynx complete summary output file into individual data frames and write them to files. Unless clean = FALSE, this removes blanks and splits the "Name" and "Sample Name" columns according to the pre-LC/MS template.
 
 ## Example workflow:
+
+### Summary
 * Call `RunlistGenerator()`
 * Input all the runlist info under "Well input"
   * Optionally: download/upload the tsv under "Full list" to save/resume a project
@@ -36,8 +43,34 @@ Use SplitOutput.ML() to split the MassLynx complete summary output file into ind
 * Publish paper!
 * Design new experiments (rinse and repeat)
 
+### Pre-LC/MS
+Here is a mock example of a populated runlist.
+```{r example runlist}
+# str(Example_Runlist) # Run this in the console yourself
+# View(Example_Runlist) # Run this in the console yourself
+Example_Runlist[c(1:2, 7:8, 13:14), c(1, 5, 8, 12, 14)] %>%
+  flextable()
+```
 
-```{r}
+And this is what we get from generating a final runlist version with default settings.
+```{r generated runlist}
+Final_Runlist = create.Runlist(Example_Runlist)
+Final_Runlist[c(1, 5, 8, 12, 14, 16)] %>%
+  flextable()
+```
 
+Ready for pasting columns into MassLynx!
+
+### Post-LC/MS examples
+Recommended to place your output file in it's own folder.
+
+Run `SplitOutput.ML()` and select the output file.
+
+## Planned features
+
+### Plotting of graphs
+
+```{r plotting}
+# Plotting with ggplot2 here...
 ```
 

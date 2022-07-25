@@ -23,6 +23,10 @@ but with appended analytes.
 Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all analytes for a
 specified compound and well type.
 }
+\details{
+Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all analytes for a
+specified compound and well type.
+}
 \examples{
 Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell")
 }

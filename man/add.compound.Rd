@@ -29,6 +29,10 @@ but appended with all analyte and blank rows for a compound.
 Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all analyte and
 blank rows for a compound. Passes arguments to \code{\link[=add.type]{add.type()}} and \code{\link[=add.blank]{add.blank()}}.
 }
+\details{
+Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all analyte and
+blank rows for a compound. Passes arguments to \code{\link[=add.type]{add.type()}} and \code{\link[=add.blank]{add.blank()}}.
+}
 \examples{
 Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
 c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blank between every type.

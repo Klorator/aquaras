@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(aquaras)
-library(flextable) # To make the tables a little nicer
-library(magrittr) # For the %>% pipe
+# library(flextable) # To make the tables a little nicer
+# library(magrittr) # For the %>% pipe
 ```
 ## Overview
 Created primarily for personal use, all the better if anyone else finds this helpful.  
@@ -48,15 +48,15 @@ Here is a mock example of a populated runlist.
 ```{r example runlist}
 # str(Example_Runlist) # Run this in the console yourself
 # View(Example_Runlist) # Run this in the console yourself
-Example_Runlist[c(1:2, 7:8, 13:14), c(1, 5, 8, 12, 14)] %>%
-  flextable()
+Example_Runlist[c(1:2, 7:8, 13:14), c(1, 5, 8, 12, 14)]# %>%
+  # flextable()
 ```
 
 And this is what we get from generating a final runlist version with default settings.
 ```{r generated runlist}
 Final_Runlist = create.Runlist(Example_Runlist)
-Final_Runlist[c(1, 5, 8, 12, 14, 16)] %>%
-  flextable()
+Final_Runlist[c(1, 5, 8, 12, 14, 16)]# %>%
+  # flextable()
 ```
 
 Ready for pasting columns into MassLynx!

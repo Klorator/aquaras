@@ -167,7 +167,7 @@ aquaras.server = function(input, output, session) {
       paste0(Sys.Date(), ".Runlist_default.xlsx")
     },
     content = function(file) {
-      file.copy("R/Data files/Runlist_default.xlsx", file)
+      file.copy(system.file("extdata", "Runlist_default_excel.xlsx", package = "aquaras"), file)
     }
   ) # End (Download default .xlsx file with formatting)
   output$down.Runlist = downloadHandler( # Download final Runlist tsv

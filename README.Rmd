@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
   [![R-CMD-check](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of aquaras is to make it easier to create runlists for use with MassLynx (Waters LC/MS software) and also facilitate some of the data processing steps with the MassLynx complete summary output file.
+The goal of aquaras is to make it easier to create runlists for use with MassLynx (Waters LC/MS software) and facilitate some of the data processing steps with the MassLynx complete summary output file.
 
 ## Installation
 
@@ -56,12 +56,12 @@ Example_Runlist[c(1:2, 7:8, 13:14), c(1, 5, 8, 12, 14)]
 And this is what we get from generating a final runlist version with default settings.
 ```{r generated runlist}
 Final_Runlist = create.Runlist(Example_Runlist)
-Final_Runlist[c(1, 5, 8, 12, 14)]
+Final_Runlist[c(1, 5, 8, 12, 14, 16)]
 ```
 
 Ready for pasting columns into MassLynx!
 
-### Post-LC/MS examples
+### Post-LC/MS
 Recommended to place your output file in it's own folder.
 
 Run `SplitOutput.ML()` and select the output file.

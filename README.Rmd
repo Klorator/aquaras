@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 # aquaras
 
 <!-- badges: start -->
-  [![R-CMD-check](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of aquaras is to make it easier to create runlists for use with MassLynx (Waters LC/MS software) and facilitate some of the data processing steps with the MassLynx complete summary output file.
@@ -74,3 +74,6 @@ Run `SplitOutput.ML()` and select the output file.
 # Plotting with ggplot2 here...
 ```
 
+### Submitting to CRAN
+
+This will probably never happen, but it would be cool.

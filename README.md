@@ -94,3 +94,7 @@ Run `SplitOutput.ML()` and select the output file.
 ``` r
 # Plotting with ggplot2 here...
 ```
+
+### Submitting to CRAN
+
+This will probably never happen, but it would be cool.

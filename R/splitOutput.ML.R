@@ -6,23 +6,22 @@
 #'
 #' @family Split Output
 #'
-#' @returns A list of two variables:
-#' @returns   `values[1]` is sourceFile; the source file chosen by the user
-#' @returns   `values[2]` is dataLines: a list of all lines in source file with "END"
-#' appended as the last line
+#' @param sourceFile A file path
+#'
+#' @returns A list of all lines in source file with "END" appended as the last line
+#'
 #' @export
 #'
-#' @examples load.list = loadFile.ML()
-#'   sourceFile = load.list[1]
-#'   dataLines  = load.list[2]
-loadFile.ML = function() {
-  sourceFile = file.choose()                        # Choose source file
+#' @examples \dontrun{
+#' load.list = loadFile.ML(sourceFile)
+#' }
+loadFile.ML = function(sourceFile) {
+  # sourceFile = file                                 # Choose source file
   dataLines =
     readr::read_lines(sourceFile, skip_empty_rows = T) %>% # Load file
     as.list()                                       # Coerce file into list
   dataLines[[length(dataLines)+1]] = "END"          # Add marker for end of file
-  values = list(sourceFile, dataLines)              # Pack variables to return into a list
-  return(values)
+  return(dataLines)
 }
 
 #' Split loaded file into data frames
@@ -36,7 +35,8 @@ loadFile.ML = function() {
 #' @return List of data frames
 #' @export
 #'
-#' @examples listDF = splitDataLines.ML(dataLines)
+#' @examples \dontrun{
+#' listDF = splitDataLines.ML(dataLines) }
 splitDataLines.ML = function(dataLines) {
   # Create variables -----------------------------------------------------------
   fileSep = "\t"        # Delimiter in file
@@ -99,7 +99,8 @@ splitDataLines.ML = function(dataLines) {
 #' @return List of data frames
 #' @export
 #'
-#' @examples listDF = cleanDF.ML(listDF)
+#' @examples \dontrun{
+#' listDF = cleanDF.ML(listDF) }
 cleanDF.ML = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
@@ -124,7 +125,8 @@ cleanDF.ML = function(listDF) {
 #'
 #' @export
 #'
-#' @examples writeFiles.ML(listDF, sourceFile)
+#' @examples \dontrun{
+#' writeFiles.ML(listDF, sourceFile) }
 writeFiles.ML = function(listDF, sourceFile) {
   old_directory = getwd()          # Save current working directory
   sourceFile %>%
@@ -144,25 +146,30 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' Splits the MassLynx complete summary output file into individual data frames
 #' based on compound. These data frames are cleaned by [cleanDF.ML()] (unless
 #' clean = FALSE) and written to tsv files in the same directory as the source file.
+#' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Use write = FALSE to disable this.
 #'
 #' @family Split Output
 #'
-#' @param clean Defaults to TRUE,
+#' @param sourceFile A file path
+#' @param clean Defaults to TRUE for data cleaning
+#' @param write Defaults to TRUE for writing to file system
 #'
 #' @return Writes a tsv file per compound to the same directory as the source file.
+#' @return Also returns the list of data frames
 #' @export
 #'
-#' @examples SplitOutput.ML() # First thing the function does is ask the user for a file.
+#' @examples \dontrun{
+#' SplitOutput.ML() # First thing the function does is ask the user for a file.
 #' SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
-SplitOutput.ML = function(clean = TRUE) {
+#' listDF = SplitOutput.ML(write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!! }
+SplitOutput.ML = function(sourceFile = file.choose() , clean = TRUE, write = TRUE) {
   # Load file
-  load.list = loadFile.ML()
-  sourceFile = unlist(load.list[1])
-  dataLines = unlist(load.list[2])
+  dataLines = loadFile.ML(sourceFile = sourceFile)
   # Split dataLines into data frames
   listDF = splitDataLines.ML(dataLines)
   # Clean data frames
   if ( clean == TRUE ) {listDF = cleanDF.ML(listDF)}
   # Write each data frame to a separate .txt file
-  writeFiles.ML(listDF, sourceFile)
+  if ( write == TRUE ) {writeFiles.ML(listDF, sourceFile)}
+  return(listDF)
 } # DONE! :)

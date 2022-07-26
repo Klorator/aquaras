@@ -3,6 +3,5 @@
 
 ## usethis namespace: start
 #' @importFrom magrittr %>%
-#' @importFrom shinythemes shinytheme
 ## usethis namespace: end
 NULL

@@ -29,7 +29,7 @@
 #' but with the specified number of appended blanks.
 #' @export
 #'
-#' @examples Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist.
+#' @examples \dontrun{ Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist. }
 add.blank = function(Runlist, df.blank, blank.insert) {
 
   for (i in 1:blank.insert) {
@@ -78,7 +78,7 @@ add.blank = function(Runlist, df.blank, blank.insert) {
 #' but with appended analytes.
 #' @export
 #'
-#' @examples Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell")
+#' @examples \dontrun{ Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell") }
 add.type = function(Runlist, df.analyte, compound, wellType) {
 
   new.segment = dplyr::filter(df.analyte, Compound == compound & Well_Type == wellType)
@@ -125,10 +125,10 @@ add.type = function(Runlist, df.analyte, compound, wellType) {
 #' but appended with all analyte and blank rows for a compound.
 #' @export
 #'
-#' @examples Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+#' @examples \dontrun{ Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
 #' c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blank between every type.
 #' Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
-#' c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
+#' c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type. }
 add.compound = function(Runlist, df.analyte, df.blank,
                         compound, wellType, blank.type = 1) {
   for (i in 1:length(wellType)) {
@@ -160,9 +160,9 @@ add.compound = function(Runlist, df.analyte, df.blank,
 #' @return Returns a Runlist with blanks spaced as defined (with sensible defaults).
 #' @export
 #'
-#' @examples Runlist <- create.Runlist(full.list)
+#' @examples \dontrun{ Runlist <- create.Runlist(full.list)
 #' Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2,
-#' blank.type = 1, blank.max = 5)
+#' blank.type = 1, blank.max = 5) }
 create.Runlist = function(full.list, blank.start = 3, blank.end = 5,
                           blank.comp = 2, blank.type = 1, blank.max = 5) {
   df.analyte = dplyr::filter(full.list, LC_Well_Type == "Analyte") # All sample rows

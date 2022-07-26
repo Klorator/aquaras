@@ -21,7 +21,7 @@ Update Date, Signature, & Sample_name for the entire data frame.
 Sample_name is a composite in the format "date_signature_index".
 }
 \examples{
-Runlist = update.dateSignAll(Runlist, "20220722", "RH")
+\dontrun{ Runlist = update.dateSignAll(Runlist, "20220722", "RH") }
 }
 \seealso{
 Other Runlist Generator: 

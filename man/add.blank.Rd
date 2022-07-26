@@ -24,7 +24,7 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blan
 Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blanks.
 }
 \examples{
-Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist.
+\dontrun{ Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist. }
 }
 \seealso{
 Other Runlist Generator: 

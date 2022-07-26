@@ -59,7 +59,7 @@ well.update = function(df, well.current, date, signature,
 #' @return Updated data frame
 #' @export
 #'
-#' @examples Runlist = update.dateSignAll(Runlist, "20220722", "RH")
+#' @examples \dontrun{ Runlist = update.dateSignAll(Runlist, "20220722", "RH") }
 dateSignAll.update = function(df, date, signature) {
   date      = sanitizeInput(date)
   signature = sanitizeInput(signature)

@@ -1,0 +1,7 @@
+pandoc: '2.18'
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  Intro_to_aquaras: Intro_to_aquaras.html
+last_built: 2022-07-27T21:50Z
+

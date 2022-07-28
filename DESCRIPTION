@@ -22,11 +22,13 @@ Imports:
     dplyr,
     DT,
     magrittr,
+    purrr,
     reactable,
     readr,
     shinythemes,
     stringr,
-    tibble
+    tibble,
+    tidyr
 Suggests: 
     knitr,
     rmarkdown

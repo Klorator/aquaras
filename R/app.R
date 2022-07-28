@@ -27,5 +27,5 @@
 #' @examples RunlistGenerator() # Launches the Shiny GUI.
 RunlistGenerator = function() {
   darkModeDF_Options()
-  shinyApp(aquaras.ui, aquaras.server)
+  shiny::shinyApp(aquaras.ui, aquaras.server)
 }

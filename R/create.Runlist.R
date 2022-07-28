@@ -35,7 +35,7 @@ add.blank = function(Runlist, df.blank, blank.insert) {
   for (i in 1:blank.insert) {
     current.plate = ifelse(length(Runlist$LC_Position) == 0,
                            3, Runlist$Plate[length(Runlist$LC_Position)])
-    new.blank = dplyr::filter(df.blank, Plate >= current.plate & Draw_Count < Draw_Max)[1,]
+    new.blank = dplyr::filter(df.blank, df.blank$Plate >= current.plate & df.blank$Draw_Count < df.blank$Draw_Max)[1,]
     Runlist = Runlist %>%
       tibble::add_row(
         Index = new.blank$Index,
@@ -81,7 +81,7 @@ add.blank = function(Runlist, df.blank, blank.insert) {
 #' @examples \dontrun{ Runlist <- add.type(Runlist, df.analyte, "Warfarin", "cell") }
 add.type = function(Runlist, df.analyte, compound, wellType) {
 
-  new.segment = dplyr::filter(df.analyte, Compound == compound & Well_Type == wellType)
+  new.segment = dplyr::filter(df.analyte, df.analyte$Compound == compound & df.analyte$Well_Type == wellType)
   Runlist = Runlist %>%
     tibble::add_row(
       Index = new.segment$Index,

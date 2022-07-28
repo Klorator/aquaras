@@ -39,7 +39,7 @@ aquaras.server = function(input, output, session) {
   Runlist.default = Runlist_default # Load default list to start with
   Runlist.final.empty = Runlist_final_empty # Load df with zero rows
 
-  Runlist.full = reactiveValues(df = Runlist.default) # Reactive version of df to make it editable and display changes
+  Runlist.full = shiny::reactiveValues(df = Runlist.default) # Reactive version of df to make it editable and display changes
   observe({ # Load df uploaded by user
     temp = readr::read_delim(input$up.file$datapath,
                       col_types = df.col_types)

@@ -40,68 +40,68 @@ aquaras.server = function(input, output, session) {
   Runlist.final.empty = Runlist_final_empty # Load df with zero rows
 
   Runlist.full = shiny::reactiveValues(df = Runlist.default) # Reactive version of df to make it editable and display changes
-  observe({ # Load df uploaded by user
+  shiny::observe({ # Load df uploaded by user
     temp = readr::read_delim(input$up.file$datapath,
                       col_types = df.col_types)
     Runlist.full$df = temp
   }) %>%
-    bindEvent(., input$up.file)
+    shiny::bindEvent(input$up.file)
   Runlist.final = reactiveValues(df = Runlist.final.empty) # Reactive version of final df to make it editable and display changes
-  observe({
+  shiny::observe({
     generatedRunlist =
       create.Runlist(Runlist.full$df, input$blank.start, input$blank.end,
                      input$blank.comp, input$blank.type, input$blank.max)
     Runlist.final$df = generatedRunlist
   }) %>%
-    bindEvent(., input$create.runlist)
+    shiny::bindEvent(input$create.runlist)
   # Well info selection & input  -----------------------------------------------
   # Current well
-  well.current = reactive({ # Create a current well string == LC_Position
+  well.current = shiny::reactive({ # Create a current well string == LC_Position
     paste0(input$well.plate,":",input$well.row,",",input$well.col)
   })
-  output$well.current.display = renderText({ # Display of current well
+  output$well.current.display = shiny::renderText({ # Display of current well
     paste("Current well:", well.current() )
   }) # End (Current well)
-  output$ui.compound = renderUI({ # Input/output for well compound
-    textInput("well.compound", "Compound",
+  output$ui.compound = shiny::renderUI({ # Input/output for well compound
+    shiny::textInput("well.compound", "Compound",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Compound"] )
   }) # End (Input/output for well compound)
-  output$ui.timepoint = renderUI({ # Input/output for well Timepoint
-    textInput("well.timepoint", "Timepoint",
+  output$ui.timepoint = shiny::renderUI({ # Input/output for well Timepoint
+    shiny::textInput("well.timepoint", "Timepoint",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Timepoint"] )
   }) # End (Input/output for well Timepoint)
-  output$ui.type = renderUI({ # Input/output for well Type
-    selectInput("well.type", "Type", sample.type.choices,
+  output$ui.type = shiny::renderUI({ # Input/output for well Type
+    shiny::selectInput("well.type", "Type", sample.type.choices,
                 selected = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Well_Type"] )
   }) # End (Input/output for well Type)
-  output$ui.rep = renderUI({ # Sample replicate
-    textInput("sample.rep", "Replicate",
+  output$ui.rep = shiny::renderUI({ # Sample replicate
+    shiny::textInput("sample.rep", "Replicate",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Replicate"])
   }) # End Sample replicate
-  output$ui.date = renderUI({ # Date string
-    textInput("sample.date", "Date",
+  output$ui.date = shiny::renderUI({ # Date string
+    shiny::textInput("sample.date", "Date",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Date"])
   }) # End (Input/output for sample date)
-  output$ui.sign = renderUI({ # Input/output for sample signature
-    textInput("sample.sign", "Signature (Initials)",
+  output$ui.sign = shiny::renderUI({ # Input/output for sample signature
+    shiny::textInput("sample.sign", "Signature (Initials)",
               value = Runlist.full$df[Runlist.full$df["LC_Position"] == well.current(), "Signature"] )
   }) # End (Input/output for sample signature)
   # End Well info selection & input
   # Update buttons -------------------------------------------------------------
-  observe({
+  shiny::observe({
     Runlist.full$df =
       well.update(Runlist.full$df, well.current(), input$sample.date,
                   input$sample.sign, input$well.compound, input$well.timepoint,
                   input$well.type, input$sample.rep)
-  }) %>% bindEvent(., input$well.update)
-  observe({
+  }) %>% shiny::bindEvent(input$well.update)
+  shiny::observe({
     Runlist.full$df = dateSignAll.update(Runlist.full$df,
                                          input$sample.date, input$sample.sign)
-  }) %>% bindEvent(., input$default.dateSign)
+  }) %>% shiny::bindEvent(input$default.dateSign)
   # End (Update buttons)
   # Output Runlist.full --------------------------------------------------------
   proxy.Runlist.full = DT::dataTableProxy("Runlist.full") # Proxy df of runlist
-  observe({
+  shiny::observe({
     DT::replaceData(proxy.Runlist.full, Runlist.full$df) # Update parts of df to avoid reloading the entire thing
   })
   output$Runlist.full = reactable::renderReactable({ # Display runlist
@@ -128,7 +128,7 @@ aquaras.server = function(input, output, session) {
   }) # End renderReactable (Runlist.full)
   # Output Runlist.final -----------------------------------------------------
   proxy.Runlist.final = DT::dataTableProxy("Runlist.final") # Proxy df of final runlist
-  observe({
+  shiny::observe({
     DT::replaceData(proxy.Runlist.final, Runlist.final$df) # Update parts of the final df to avoid reloading the entire thing
   })
   output$Runlist.final = reactable::renderReactable({ # Display final runlist
@@ -154,7 +154,7 @@ aquaras.server = function(input, output, session) {
     )
   })
   # Download handling ##########################################################
-  output$down.txt = downloadHandler( # Download raw Runlist tsv
+  output$down.txt = shiny::downloadHandler( # Download raw Runlist tsv
     filename = function() {
       paste0(Sys.Date(), ".Runlist_raw.txt")
     },
@@ -162,7 +162,7 @@ aquaras.server = function(input, output, session) {
       readr::write_tsv(Runlist.full$df, file)
     }
   ) # End (Download raw Runlist tsv)
-  output$down.xlsx = downloadHandler( # Download default .xlsx file with formatting
+  output$down.xlsx = shiny::downloadHandler( # Download default .xlsx file with formatting
     filename = function() {
       paste0(Sys.Date(), ".Runlist_default.xlsx")
     },
@@ -170,7 +170,7 @@ aquaras.server = function(input, output, session) {
       file.copy(system.file("extdata", "Runlist_default_excel.xlsx", package = "aquaras"), file)
     }
   ) # End (Download default .xlsx file with formatting)
-  output$down.Runlist = downloadHandler( # Download final Runlist tsv
+  output$down.Runlist = shiny::downloadHandler( # Download final Runlist tsv
     filename = function() {
       paste0(Sys.Date(), ".Runlist_final.txt")
     },

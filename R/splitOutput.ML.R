@@ -104,10 +104,10 @@ splitDataLines.ML = function(dataLines) {
 cleanDF.ML = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
-      dplyr::filter(`Sample Text` != "blank") %>%                   # Drop "blank"
-      tidyr::separate(col = Name, into = c("Date", "Signature",
+      dplyr::filter(listDF[[i]]$`Sample Text` != "blank") %>%                   # Drop "blank"
+      tidyr::separate(col = listDF[[i]]$Name, into = c("Date", "Signature",
                                            "Index"), sep = "_") %>%
-      tidyr::separate(col = `Sample Text`,
+      tidyr::separate(col = listDF[[i]]$`Sample Text`,
                       into = c("Compound", "Timepoint",      # Split "Sample text" into columns
                       "Well_Type", "Replicate"), sep = "_")  # New columns and separator
   }

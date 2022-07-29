@@ -16,8 +16,7 @@ Description: Created primarily for personal use, all the better if anyone
     template.
 License: GPL (>= 3)
 Depends: 
-    R (>= 2.10),
-    shiny
+    R (>= 2.10)
 Imports: 
     dplyr,
     DT,
@@ -25,6 +24,7 @@ Imports:
     purrr,
     reactable,
     readr,
+    shiny,
     shinythemes,
     stringr,
     tibble,

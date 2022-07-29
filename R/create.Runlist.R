@@ -165,13 +165,12 @@ add.compound = function(Runlist, df.analyte, df.blank,
 #' blank.type = 1, blank.max = 5) }
 create.Runlist = function(full.list, blank.start = 3, blank.end = 5,
                           blank.comp = 2, blank.type = 1, blank.max = 5) {
-  df.analyte = dplyr::filter(full.list, LC_Well_Type == "Analyte") # All sample rows
-  df.blank = dplyr::filter(full.list, LC_Well_Type == "blank") %>% # All blank rows
-    dplyr::mutate(., Draw_Max = blank.max, Draw_Count = 0)
+  df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte") # All sample rows
+  df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>% # All blank rows
+    dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
   analyte.compound = unique(df.analyte$Compound) %>% # List of compounds
     sort()
   analyte.wellType = c("bead", "medium", "cell", "STD") # List of well types
-  # Empty Runlist (col types: "ddcdcccccccccc#dd")
   Runlist = tibble::tibble(
     Index = double(),
     Plate = double(),

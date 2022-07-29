@@ -6,8 +6,16 @@
 \usage{
 aquaras.server(input, output, session)
 }
+\arguments{
+\item{input, output, session}{As described under \code{server} in \code{\link[shiny:shinyApp]{shiny::shinyApp()}}}
+}
 \description{
-Server for \code{\link[=RunlistGenerator]{RunlistGenerator()}}
+Fulfills the \code{server} argument in \code{\link[shiny:shinyApp]{shiny::shinyApp()}}.
+}
+\examples{
+\dontrun{
+shiny::shinyApp(ui = ui, server = aquaras.server)
+}
 }
 \seealso{
 Other Runlist Generator: 

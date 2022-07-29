@@ -5,3 +5,4 @@
 ^\.gitignore$
 ^\.github$
 ^README\.Rmd$
+^docs$

@@ -25,9 +25,18 @@ options(reactable.theme = reactable::reactableTheme(
 # Server -----------------------------------------------------------------------
 #' Server for [RunlistGenerator()]
 #'
+#' Fulfills the `server` argument in [shiny::shinyApp()].
+#'
+#' @param input,output,session As described under `server` in [shiny::shinyApp()]
+#'
+#'
 #' @family Runlist Generator
 #'
 #' @export
+#'
+#' @examples \dontrun{
+#' shiny::shinyApp(ui = ui, server = aquaras.server)
+#' }
 aquaras.server = function(input, output, session) {
   # Load data --------------------------------------------------------------------
   sample.type.choices = c("Bead" = "bead", # Well Type options
@@ -46,7 +55,7 @@ aquaras.server = function(input, output, session) {
     Runlist.full$df = temp
   }) %>%
     shiny::bindEvent(input$up.file)
-  Runlist.final = reactiveValues(df = Runlist.final.empty) # Reactive version of final df to make it editable and display changes
+  Runlist.final = shiny::reactiveValues(df = Runlist.final.empty) # Reactive version of final df to make it editable and display changes
   shiny::observe({
     generatedRunlist =
       create.Runlist(Runlist.full$df, input$blank.start, input$blank.end,

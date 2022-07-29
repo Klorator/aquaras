@@ -1,86 +1,86 @@
 # UI for RunlistGenerator app.
 # UI ---------------------------------------------------------------------------
 aquaras.ui =
-  fluidPage(
+  shiny::fluidPage(
   theme = shinythemes::shinytheme("cyborg"),
-  titlePanel("Data processing for LC/MS"),
+  shiny::titlePanel("Data processing for LC/MS"),
 
-  tabsetPanel(
+  shiny::tabsetPanel(
 
-    tabPanel("Well input", # Tab: Well input -----------------------------------
-      fluidRow( # top row: [Plate slider], [current well], [Update button]
-        br(),
-        column(width = 5,
-          radioButtons("well.plate", "Well plate", seq(from=3, to=9, by=1), inline = T),
-          radioButtons("well.row", "Row",
+    shiny::tabPanel("Well input", # Tab: Well input -----------------------------------
+                    shiny::fluidRow( # top row: [Plate slider], [current well], [Update button]
+                      htmltools::br(),
+                      shiny::column(width = 5,
+                                    shiny::radioButtons("well.plate", "Well plate", seq(from=3, to=9, by=1), inline = T),
+                                    shiny::radioButtons("well.row", "Row",
             LETTERS[seq(from = 1, to = 8, by = 1)], inline = T)),
-        column(width = 3,
-          textOutput("well.current.display"),
-          actionButton("well.update", "Update well",
-            icon = icon("save"), class = "btn-success")),
-        column(width = 4 # top row far right column
+            shiny::column(width = 3,
+                          shiny::textOutput("well.current.display"),
+                          shiny::actionButton("well.update", "Update well",
+            icon = shiny::icon("save"), class = "btn-success")),
+            shiny::column(width = 4 # top row far right column
         ) # End column (top row far right column)
       ), # End fluidRow (top row)
-      fluidRow(
-        column(width = 8,
-          radioButtons("well.col", "Column", seq(1:12), inline = T))
+      shiny::fluidRow(
+        shiny::column(width = 8,
+                      shiny::radioButtons("well.col", "Column", seq(1:12), inline = T))
       ),
-      fluidRow( # Well info section
-        column(width = 4,
-          uiOutput("ui.compound"),
-          uiOutput("ui.timepoint"),
-          uiOutput("ui.type")), # End column (Output: well position info)
-        column(width = 4, # Input: sample data
-          uiOutput("ui.rep")), # End column (Input: sample data)
-        column(width = 4, # Input: meta data
-          uiOutput("ui.date"),
-          uiOutput("ui.sign"),
-          actionButton("default.dateSign", "Set date & signature for all wells")) # End column (Input: meta data)
+      shiny::fluidRow( # Well info section
+        shiny::column(width = 4,
+                      shiny::uiOutput("ui.compound"),
+                      shiny::uiOutput("ui.timepoint"),
+                      shiny::uiOutput("ui.type")), # End column (Output: well position info)
+        shiny::column(width = 4, # Input: sample data
+                      shiny::uiOutput("ui.rep")), # End column (Input: sample data)
+        shiny::column(width = 4, # Input: meta data
+                      shiny::uiOutput("ui.date"),
+                      shiny::uiOutput("ui.sign"),
+                      shiny::actionButton("default.dateSign", "Set date & signature for all wells")) # End column (Input: meta data)
       ) # End fluidRow (Output: well info)
     ), # End tabPanel "Well input"
 
-    tabPanel("Full list", # Tab: Full list -------------------------------------
-      fluidRow( # Upload/Download
-        column(width = 3,
-          br(),
-          fileInput("up.file", "Upload csv or tsv file")),
-        column(width = 3,
-          br(),
-          br(),
-          downloadButton("down.txt", "Download list tsv")),
-        column(width = 6,
-          br(),
-          br(),
-          downloadButton("down.xlsx", "Download default .xlsx with formatting"))
+    shiny::tabPanel("Full list", # Tab: Full list -------------------------------------
+                    shiny::fluidRow( # Upload/Download
+                      shiny::column(width = 3,
+                                    htmltools::br(),
+          shiny::fileInput("up.file", "Upload csv or tsv file")),
+          shiny::column(width = 3,
+                        htmltools::br(),
+                        htmltools::br(),
+          shiny::downloadButton("down.txt", "Download list tsv")),
+          shiny::column(width = 6,
+                        htmltools::br(),
+                        htmltools::br(),
+          shiny::downloadButton("down.xlsx", "Download default .xlsx with formatting"))
       ), # End fluidRow (Upload/Download)
-      fluidRow( # Full runlist data frame
+      shiny::fluidRow( # Full runlist data frame
         reactable::reactableOutput("Runlist.full")
       ) # End fluidRow (Full runlist data frame)
     ), # End tabPanel "Full list"
 
-    tabPanel("Runlist", # Tab: Runlist -----------------------------------------
-      fluidRow(
-        column(width = 3,
-          br(),
-          numericInput("blank.start", "Blanks at start", value = 3),
-          numericInput("blank.end", "Blanks at end", value = 5)),
-        column(width = 3,
-          br(),
-          numericInput("blank.comp", "Blanks between compounds", value = 2),
-          numericInput("blank.type", "Blanks between well types", value = 1)),
-        column(width = 3,
-          br(),
-          numericInput("blank.max", "Max draw from same blank", value = 5)),
-        column(width = 3,
-          br(),
-          br(),
-          actionButton("create.runlist", "Generate Runlist",
+    shiny::tabPanel("Runlist", # Tab: Runlist -----------------------------------------
+                    shiny::fluidRow(
+                      shiny::column(width = 3,
+                                    htmltools::br(),
+          shiny::numericInput("blank.start", "Blanks at start", value = 3),
+          shiny::numericInput("blank.end", "Blanks at end", value = 5)),
+          shiny::column(width = 3,
+                        htmltools::br(),
+          shiny::numericInput("blank.comp", "Blanks between compounds", value = 2),
+          shiny::numericInput("blank.type", "Blanks between well types", value = 1)),
+          shiny::column(width = 3,
+                        htmltools::br(),
+          shiny::numericInput("blank.max", "Max draw from same blank", value = 5)),
+          shiny::column(width = 3,
+                        htmltools::br(),
+                        htmltools::br(),
+          shiny::actionButton("create.runlist", "Generate Runlist",
             class = "btn-success"),
-          br(),
-          br(),
-          downloadButton("down.Runlist", "Download Runlist"))
+          htmltools::br(),
+          htmltools::br(),
+          shiny::downloadButton("down.Runlist", "Download Runlist"))
       ), # End fluidRow (top row)
-      fluidRow( # Display generated Runlist
+      shiny::fluidRow( # Display generated Runlist
         reactable::reactableOutput("Runlist.final")
       ) # End fluidRow (Display generated Runlist)
     ) # End tabPanel "Runlist"

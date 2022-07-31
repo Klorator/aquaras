@@ -39,9 +39,16 @@ Creates a Runlist from the standardized data frame supplied by/made
 in the Shiny app \code{\link[=RunlistGenerator]{RunlistGenerator()}}.
 }
 \examples{
-\dontrun{ Runlist <- create.Runlist(full.list)
-Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2,
-blank.type = 1, blank.max = 5) }
+head(Example_Runlist)
+Runlist <- create.Runlist(full.list = Example_Runlist)
+head(Runlist)
+Runlist2 <- create.Runlist(full.list = Example_Runlist,
+                          blank.start = 3,
+                          blank.end = 5,
+                          blank.comp = 2,
+                          blank.type = 1,
+                          blank.max = 5)
+head(Runlist2)
 }
 \seealso{
 Other Runlist Generator: 

@@ -16,7 +16,7 @@ well.update(
 )
 }
 \arguments{
-\item{df}{Data frame to update row}
+\item{df}{Data frame to update}
 
 \item{well.current}{Current well plate position (LC_Position)}
 
@@ -37,6 +37,18 @@ Same data frame, but with updated row
 }
 \description{
 Update well info
+}
+\examples{
+Example_Runlist[1,]
+Example_Runlist = well.update(df = Example_Runlist,
+                              well.current = "3:A,1",
+                              date = "20220730",
+                              signature = "RH",
+                              compound = "Warfarin",
+                              timepoint = "42",
+                              type = "bead",
+                              replicate = "6")
+Example_Runlist[1,]
 }
 \seealso{
 Other Runlist Generator: 

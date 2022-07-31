@@ -2,7 +2,7 @@
 #'
 #' @family Runlist Generator
 #'
-#' @param df Data frame to update row
+#' @param df Data frame to update
 #' @param well.current Current well plate position (LC_Position)
 #' @param date New date value (character string)
 #' @param signature New signature value
@@ -14,6 +14,17 @@
 #' @return Same data frame, but with updated row
 #' @export
 #'
+#' @examples
+#' Example_Runlist[1,]
+#' Example_Runlist = well.update(df = Example_Runlist,
+#'                               well.current = "3:A,1",
+#'                               date = "20220730",
+#'                               signature = "RH",
+#'                               compound = "Warfarin",
+#'                               timepoint = "42",
+#'                               type = "bead",
+#'                               replicate = "6")
+#' Example_Runlist[1,]
 well.update = function(df, well.current, date, signature,
                        compound, timepoint, type, replicate) {
   # Sanitize input
@@ -52,14 +63,17 @@ well.update = function(df, well.current, date, signature,
 #'
 #' @family Runlist Generator
 #'
-#' @param df Data frame to use
-#' @param date New date (character string)
-#' @param signature New signature (character string)
+#' @inheritParams well.update
 #'
 #' @return Updated data frame
 #' @export
 #'
-#' @examples \dontrun{ Runlist = update.dateSignAll(Runlist, "20220722", "RH") }
+#' @examples
+#' head(Example_Runlist)
+#' Example_Runlist = dateSignAll.update(df = Example_Runlist,
+#'                                      date = "20220730",
+#'                                      signature = "RH")
+#' head(Example_Runlist)
 dateSignAll.update = function(df, date, signature) {
   date      = sanitizeInput(date)
   signature = sanitizeInput(signature)
@@ -81,7 +95,8 @@ dateSignAll.update = function(df, date, signature) {
 #'
 #' @return Character string
 #' @export
-#' @examples sanitizeInput("Spaces etc -- but_no_underscore!")
+#' @examples
+#' sanitizeInput("Spaces etc -- but_no_underscore!")
 sanitizeInput = function(inputVar) {
   cleanVar = gsub("_", ".", inputVar) # Replace any underscore
   return(cleanVar)

@@ -7,11 +7,11 @@
 dateSignAll.update(df, date, signature)
 }
 \arguments{
-\item{df}{Data frame to use}
+\item{df}{Data frame to update}
 
-\item{date}{New date (character string)}
+\item{date}{New date value (character string)}
 
-\item{signature}{New signature (character string)}
+\item{signature}{New signature value}
 }
 \value{
 Updated data frame
@@ -21,7 +21,11 @@ Update Date, Signature, & Sample_name for the entire data frame.
 Sample_name is a composite in the format "date_signature_index".
 }
 \examples{
-\dontrun{ Runlist = update.dateSignAll(Runlist, "20220722", "RH") }
+head(Example_Runlist)
+Example_Runlist = dateSignAll.update(df = Example_Runlist,
+                                     date = "20220730",
+                                     signature = "RH")
+head(Example_Runlist)
 }
 \seealso{
 Other Runlist Generator: 

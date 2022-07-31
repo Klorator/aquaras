@@ -160,9 +160,17 @@ add.compound = function(Runlist, df.analyte, df.blank,
 #' @return Returns a Runlist with blanks spaced as defined (with sensible defaults).
 #' @export
 #'
-#' @examples \dontrun{ Runlist <- create.Runlist(full.list)
-#' Runlist <- create.Runlist(full.list, blank.start = 3, blank.end = 5, blank.comp = 2,
-#' blank.type = 1, blank.max = 5) }
+#' @examples
+#' head(Example_Runlist)
+#' Runlist <- create.Runlist(full.list = Example_Runlist)
+#' head(Runlist)
+#' Runlist2 <- create.Runlist(full.list = Example_Runlist,
+#'                           blank.start = 3,
+#'                           blank.end = 5,
+#'                           blank.comp = 2,
+#'                           blank.type = 1,
+#'                           blank.max = 5)
+#' head(Runlist2)
 create.Runlist = function(full.list, blank.start = 3, blank.end = 5,
                           blank.comp = 2, blank.type = 1, blank.max = 5) {
   df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte") # All sample rows

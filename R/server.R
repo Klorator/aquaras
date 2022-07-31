@@ -2,11 +2,14 @@
 
 #' Options for data frame style
 #'
-#' Runs [base::options()] with CSS styling borrowed from the [Reactable example documentation](https://glin.github.io/reactable/articles/examples.html#theming)
+#' Sets `reactable.theme` in [base::options()] with CSS styling borrowed from the [Reactable example documentation](https://glin.github.io/reactable/articles/examples.html#theming)
 #'
 #' @family Runlist Generator
 #'
 #' @export
+#' @examples \dontrun{
+#' darkModeDF_Options() # Sets the global options for reactable.theme
+#' }
 darkModeDF_Options = function() {
 # Set default table options for reactable (ref under Global theme in https://glin.github.io/reactable/articles/examples.html#theming)
 options(reactable.theme = reactable::reactableTheme(
@@ -45,8 +48,8 @@ aquaras.server = function(input, output, session) {
                           "Standard" = "STD",
                           "Blank" = "blank")
   df.col_types = "ddcdcccccccccc"
-  Runlist.default = Runlist_default # Load default list to start with
-  Runlist.final.empty = Runlist_final_empty # Load df with zero rows
+  Runlist.default = Runlist_default # Load default list to start with (Internal)
+  Runlist.final.empty = Runlist_final_empty # Load df with zero rows (Internal)
 
   Runlist.full = shiny::reactiveValues(df = Runlist.default) # Reactive version of df to make it editable and display changes
   shiny::observe({ # Load df uploaded by user

@@ -7,7 +7,12 @@
 darkModeDF_Options()
 }
 \description{
-Runs \code{\link[base:options]{base::options()}} with CSS styling borrowed from the \href{https://glin.github.io/reactable/articles/examples.html#theming}{Reactable example documentation}
+Sets \code{reactable.theme} in \code{\link[base:options]{base::options()}} with CSS styling borrowed from the \href{https://glin.github.io/reactable/articles/examples.html#theming}{Reactable example documentation}
+}
+\examples{
+\dontrun{
+darkModeDF_Options() # Sets the global options for reactable.theme
+}
 }
 \seealso{
 Other Runlist Generator: 

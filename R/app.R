@@ -21,10 +21,14 @@
 #'
 #' @family Runlist Generator
 #'
+#'
+#'
 #' @return Creates a Shiny GUI.
 #' @export
 #'
-#' @examples RunlistGenerator() # Launches the Shiny GUI.
+#' @examples \dontrun{
+#' RunlistGenerator() # Launches the Shiny GUI.
+#' }
 RunlistGenerator = function() {
   darkModeDF_Options()
   shiny::shinyApp(aquaras.ui, aquaras.server)

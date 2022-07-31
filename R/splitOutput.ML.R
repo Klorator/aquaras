@@ -4,7 +4,7 @@
 #'
 #' Asks the user for a source file and loads it with [readr::read_lines()].
 #'
-#' @family Split Output
+#' @family SplitOutput
 #'
 #' @param sourceFile A file path
 #'
@@ -28,7 +28,7 @@ loadFile.ML = function(sourceFile) {
 #'
 #' Split the file loaded with [loadFile.ML()] into dataframes by compound.
 #'
-#' @family Split Output
+#' @family SplitOutput
 #'
 #' @param dataLines List of vectors from [readr::read_lines()] in [loadFile.ML()]
 #'
@@ -92,7 +92,7 @@ splitDataLines.ML = function(dataLines) {
 #' Cleans each data frame by removing blanks and NAs. Also separates Name and
 #' Sample Text into its composite columns.
 #'
-#' @family Split Output
+#' @family SplitOutput
 #'
 #' @param listDF List of data frames to clean
 #'
@@ -118,7 +118,7 @@ cleanDF.ML = function(listDF) {
 #'
 #' Writes data frames to individual .txt files (tsv) in the same directory as source file.
 #'
-#' @family Split Output
+#' @family SplitOutput
 #'
 #' @param listDF List of data frames to write to files
 #' @param sourceFile Source file for locating what directory to write to
@@ -148,7 +148,7 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' clean = FALSE) and written to tsv files in the same directory as the source file.
 #' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Use write = FALSE to disable this.
 #'
-#' @family Split Output
+#' @family SplitOutput
 #'
 #' @param sourceFile A file path
 #' @param clean Defaults to TRUE for data cleaning

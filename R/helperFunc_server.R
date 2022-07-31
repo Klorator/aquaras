@@ -1,6 +1,6 @@
 #' Update well info
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #'
 #' @param df Data frame to update
 #' @param well.current Current well plate position (LC_Position)
@@ -61,7 +61,7 @@ well.update = function(df, well.current, date, signature,
 #' Update Date, Signature, & Sample_name for the entire data frame.
 #' Sample_name is a composite in the format "date_signature_index".
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #'
 #' @inheritParams well.update
 #'

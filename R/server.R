@@ -4,7 +4,7 @@
 #'
 #' Sets `reactable.theme` in [base::options()] with CSS styling borrowed from the [Reactable example documentation](https://glin.github.io/reactable/articles/examples.html#theming)
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #'
 #' @export
 #' @examples \dontrun{

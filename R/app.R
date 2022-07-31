@@ -19,7 +19,7 @@
 #'
 #' Program to input info for 96-well-plates. Generates a runlist for the Waters LC/MS software MassLynx.
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #'
 #'
 #'

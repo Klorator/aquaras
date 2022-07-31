@@ -18,7 +18,7 @@
 #'
 #' Function used within [create.Runlist()] to add blanks.
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #' @description Function used within [create.Runlist()] to add blanks.
 #'
 #' @param Runlist A data frame to add blanks to.
@@ -65,9 +65,7 @@ add.blank = function(Runlist, df.blank, blank.insert) {
 #' Function used within [create.Runlist()] to add all analytes for a
 #' specified compound and well type.
 #'
-#' @family Runlist Generator
-#' @description Function used within [create.Runlist()] to add all analytes for a
-#' specified compound and well type.
+#' @family RunlistGenerator
 #'
 #' @param Runlist A data frame to add blanks to.
 #' @param df.analyte A data frame with analytes to take from.
@@ -144,7 +142,7 @@ add.compound = function(Runlist, df.analyte, df.blank,
 #' Creates a Runlist from the standardized data frame supplied by/made
 #' in the Shiny app [RunlistGenerator()].
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #'
 #' @description Creates a Runlist from the standardized data frame supplied by/made
 #' in the Shiny app [RunlistGenerator()].

@@ -22,18 +22,21 @@ Sample_name is a composite in the format "date_signature_index".
 }
 \examples{
 head(Example_Runlist)
-Example_Runlist = dateSignAll.update(df = Example_Runlist,
-                                     date = "20220730",
+Example_Runlist1 = dateSignAll.update(df       = Example_Runlist,
+                                     date      = "20220730",
                                      signature = "RH")
-head(Example_Runlist)
+head(Example_Runlist1)
 }
 \seealso{
 Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
 \code{\link{add.blank}()},
+\code{\link{add.compound}()},
 \code{\link{add.type}()},
+\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{darkModeDF_Options}()},
+\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
 \concept{RunlistGenerator}

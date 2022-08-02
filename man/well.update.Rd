@@ -40,7 +40,7 @@ Update well info
 }
 \examples{
 Example_Runlist[1,]
-Example_Runlist = well.update(df = Example_Runlist,
+Example_Runlist1 = well.update(df = Example_Runlist,
                               well.current = "3:A,1",
                               date = "20220730",
                               signature = "RH",
@@ -48,15 +48,18 @@ Example_Runlist = well.update(df = Example_Runlist,
                               timepoint = "42",
                               type = "bead",
                               replicate = "6")
-Example_Runlist[1,]
+Example_Runlist1[1,]
 }
 \seealso{
 Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
 \code{\link{add.blank}()},
+\code{\link{add.compound}()},
 \code{\link{add.type}()},
+\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{darkModeDF_Options}()},
-\code{\link{dateSignAll.update}()}
+\code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()}
 }
 \concept{RunlistGenerator}

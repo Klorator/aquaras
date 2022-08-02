@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' Example_Runlist[1,]
-#' Example_Runlist = well.update(df = Example_Runlist,
+#' Example_Runlist1 = well.update(df = Example_Runlist,
 #'                               well.current = "3:A,1",
 #'                               date = "20220730",
 #'                               signature = "RH",
@@ -24,7 +24,7 @@
 #'                               timepoint = "42",
 #'                               type = "bead",
 #'                               replicate = "6")
-#' Example_Runlist[1,]
+#' Example_Runlist1[1,]
 well.update = function(df, well.current, date, signature,
                        compound, timepoint, type, replicate) {
   # Sanitize input
@@ -70,10 +70,10 @@ well.update = function(df, well.current, date, signature,
 #'
 #' @examples
 #' head(Example_Runlist)
-#' Example_Runlist = dateSignAll.update(df = Example_Runlist,
-#'                                      date = "20220730",
+#' Example_Runlist1 = dateSignAll.update(df       = Example_Runlist,
+#'                                      date      = "20220730",
 #'                                      signature = "RH")
-#' head(Example_Runlist)
+#' head(Example_Runlist1)
 dateSignAll.update = function(df, date, signature) {
   date      = sanitizeInput(date)
   signature = sanitizeInput(signature)
@@ -89,7 +89,7 @@ dateSignAll.update = function(df, date, signature) {
 #'
 #' Replaces underscores with periods.
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #'
 #' @param inputVar Character string to sanitize
 #'

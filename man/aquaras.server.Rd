@@ -18,8 +18,15 @@ shiny::shinyApp(ui = ui, server = aquaras.server)
 }
 }
 \seealso{
-Other Runlist Generator: 
+Other RunlistGenerator: 
+\code{\link{RunlistGenerator}()},
+\code{\link{add.blank}()},
 \code{\link{add.compound}()},
-\code{\link{sanitizeInput}()}
+\code{\link{add.type}()},
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
+\code{\link{well.update}()}
 }
-\concept{Runlist Generator}
+\concept{RunlistGenerator}

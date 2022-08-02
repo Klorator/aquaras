@@ -24,24 +24,43 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blan
 Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blanks.
 }
 \examples{
-library(dplyr)
-
+# Setup
 full.list = Example_Runlist
-Runlist = Runlist_final_empty
 blank.max = 5
 df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") \%>\% # All blank rows
   dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
+Runlist = tibble::tibble(
+  Index        = double(),
+  Plate        = double(),
+  Row          = character(),
+  Col          = double(),
+  LC_Position  = character(),
+  Date         = character(),
+  Signature    = character(),
+  Sample_name  = character(),
+  Compound     = character(),
+  Timepoint    = character(),
+  Well_Type    = character(),
+  LC_Well_Type = character(),
+  Replicate    = character(),
+  Sample_text  = character(),
+  Draw_Max     = double(),
+  Draw_Count   = double())
 
-Runlist = add.blank(Runlist, df.blank, 3) # Adds 3 blanks to Runlist.
-Runlist
+# Run function
+Runlist1 = add.blank(Runlist, df.blank, 3) # Adds 3 blanks to Runlist.
+Runlist1
 }
 \seealso{
 Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
+\code{\link{add.compound}()},
 \code{\link{add.type}()},
+\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{darkModeDF_Options}()},
 \code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
 \concept{RunlistGenerator}

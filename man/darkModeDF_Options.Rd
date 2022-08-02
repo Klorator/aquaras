@@ -18,9 +18,12 @@ darkModeDF_Options() # Sets the global options for reactable.theme
 Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
 \code{\link{add.blank}()},
+\code{\link{add.compound}()},
 \code{\link{add.type}()},
+\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
 \concept{RunlistGenerator}

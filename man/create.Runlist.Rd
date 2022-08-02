@@ -39,24 +39,32 @@ Creates a Runlist from the standardized data frame supplied by/made
 in the Shiny app \code{\link[=RunlistGenerator]{RunlistGenerator()}}.
 }
 \examples{
-head(Example_Runlist)
-Runlist <- create.Runlist(full.list = Example_Runlist)
-head(Runlist)
-Runlist2 <- create.Runlist(full.list = Example_Runlist,
+# Setup
+full.list = Example_Runlist
+head(full.list)
+
+# Run function
+Runlist1 <- create.Runlist(full.list)
+head(Runlist1)
+
+Runlist2 <- create.Runlist(full.list,
                            blank.start = 3,
-                           blank.end = 5,
-                           blank.comp = 2,
-                           blank.type = 1,
-                           blank.max = 5)
+                           blank.end   = 5,
+                           blank.comp  = 2,
+                           blank.type  = 1,
+                           blank.max   = 5)
 head(Runlist2)
 }
 \seealso{
 Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
 \code{\link{add.blank}()},
+\code{\link{add.compound}()},
 \code{\link{add.type}()},
+\code{\link{aquaras.server}()},
 \code{\link{darkModeDF_Options}()},
 \code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
 \concept{RunlistGenerator}

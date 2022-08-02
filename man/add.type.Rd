@@ -24,19 +24,42 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all 
 specified compound and well type.
 }
 \examples{
-library(dplyr)
+# Setup
 full.list = Example_Runlist
+blank.max = 5
 df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte") # All sample rows
-Runlist <- add.type(Runlist, df.analyte, "Paracetamol", "cell")
-Runlist
+Runlist = tibble::tibble(
+  Index        = double(),
+  Plate        = double(),
+  Row          = character(),
+  Col          = double(),
+  LC_Position  = character(),
+  Date         = character(),
+  Signature    = character(),
+  Sample_name  = character(),
+  Compound     = character(),
+  Timepoint    = character(),
+  Well_Type    = character(),
+  LC_Well_Type = character(),
+  Replicate    = character(),
+  Sample_text  = character(),
+  Draw_Max     = double(),
+  Draw_Count   = double())
+
+# Run function
+Runlist1 <- add.type(Runlist, df.analyte, "Paracetamol", "cell")
+Runlist1
 }
 \seealso{
 Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
 \code{\link{add.blank}()},
+\code{\link{add.compound}()},
+\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{darkModeDF_Options}()},
 \code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
 \concept{RunlistGenerator}

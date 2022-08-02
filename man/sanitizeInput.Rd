@@ -19,8 +19,15 @@ Replaces underscores with periods.
 sanitizeInput("Spaces etc -- but_no_underscore!")
 }
 \seealso{
-Other Runlist Generator: 
+Other RunlistGenerator: 
+\code{\link{RunlistGenerator}()},
+\code{\link{add.blank}()},
 \code{\link{add.compound}()},
-\code{\link{aquaras.server}()}
+\code{\link{add.type}()},
+\code{\link{aquaras.server}()},
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{dateSignAll.update}()},
+\code{\link{well.update}()}
 }
-\concept{Runlist Generator}
+\concept{RunlistGenerator}

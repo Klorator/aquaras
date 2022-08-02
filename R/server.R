@@ -33,7 +33,7 @@ options(reactable.theme = reactable::reactableTheme(
 #' @param input,output,session As described under `server` in [shiny::shinyApp()]
 #'
 #'
-#' @family Runlist Generator
+#' @family RunlistGenerator
 #'
 #' @export
 #'

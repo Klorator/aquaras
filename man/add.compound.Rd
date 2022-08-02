@@ -34,23 +34,50 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add all 
 blank rows for a compound. Passes arguments to \code{\link[=add.type]{add.type()}} and \code{\link[=add.blank]{add.blank()}}.
 }
 \examples{
-library(dplyr)
+# Setup
 full.list = Example_Runlist
+blank.max = 5
 df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") \%>\% # All blank rows
   dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
 df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte") # All sample rows
+Runlist = tibble::tibble(
+  Index        = double(),
+  Plate        = double(),
+  Row          = character(),
+  Col          = double(),
+  LC_Position  = character(),
+  Date         = character(),
+  Signature    = character(),
+  Sample_name  = character(),
+  Compound     = character(),
+  Timepoint    = character(),
+  Well_Type    = character(),
+  LC_Well_Type = character(),
+  Replicate    = character(),
+  Sample_text  = character(),
+  Draw_Max     = double(),
+  Draw_Count   = double())
 
-Runlist <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+
+# Run function
+Runlist1 <- add.compound(Runlist, df.analyte, df.blank, "Paracetamol",
 c("bead", "medium", "cell", "STD", "blank")) # Adds 1 blank between every type.
-Runlist
+Runlist1
 
-Runlist2 <- add.compound(Runlist, df.analyte, df.blank, "warfarin",
+Runlist2 <- add.compound(Runlist, df.analyte, df.blank, "Ibuprofen",
 c("bead", "medium", "cell", "STD", "blank"), 3) # Adds 3 blanks between every type.
 Runlist2
 }
 \seealso{
-Other Runlist Generator: 
+Other RunlistGenerator: 
+\code{\link{RunlistGenerator}()},
+\code{\link{add.blank}()},
+\code{\link{add.type}()},
 \code{\link{aquaras.server}()},
-\code{\link{sanitizeInput}()}
+\code{\link{create.Runlist}()},
+\code{\link{darkModeDF_Options}()},
+\code{\link{dateSignAll.update}()},
+\code{\link{sanitizeInput}()},
+\code{\link{well.update}()}
 }
-\concept{Runlist Generator}
+\concept{RunlistGenerator}

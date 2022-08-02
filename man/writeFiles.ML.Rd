@@ -16,13 +16,14 @@ Writes data frames to individual .txt files (tsv) in the same directory as sourc
 }
 \examples{
 \dontrun{
-writeFiles.ML(listDF, sourceFile) }
+writeFiles.ML(listDF, sourceFile)
+}
 }
 \seealso{
-Other Split Output: 
+Other SplitOutput: 
 \code{\link{SplitOutput.ML}()},
 \code{\link{cleanDF.ML}()},
 \code{\link{loadFile.ML}()},
 \code{\link{splitDataLines.ML}()}
 }
-\concept{Split Output}
+\concept{SplitOutput}

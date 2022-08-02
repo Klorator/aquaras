@@ -126,7 +126,8 @@ cleanDF.ML = function(listDF) {
 #' @export
 #'
 #' @examples \dontrun{
-#' writeFiles.ML(listDF, sourceFile) }
+#' writeFiles.ML(listDF, sourceFile)
+#' }
 writeFiles.ML = function(listDF, sourceFile) {
   old_directory = getwd()          # Save current working directory
   sourceFile %>%
@@ -161,7 +162,8 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' @examples \dontrun{
 #' SplitOutput.ML() # First thing the function does is ask the user for a file.
 #' SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
-#' listDF = SplitOutput.ML(write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!! }
+#' listDF = SplitOutput.ML(write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
+#' }
 SplitOutput.ML = function(sourceFile = file.choose() , clean = TRUE, write = TRUE) {
   # Load file
   dataLines = loadFile.ML(sourceFile = sourceFile)

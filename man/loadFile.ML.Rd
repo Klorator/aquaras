@@ -21,10 +21,10 @@ load.list = loadFile.ML(sourceFile)
 }
 }
 \seealso{
-Other Split Output: 
+Other SplitOutput: 
 \code{\link{SplitOutput.ML}()},
 \code{\link{cleanDF.ML}()},
 \code{\link{splitDataLines.ML}()},
 \code{\link{writeFiles.ML}()}
 }
-\concept{Split Output}
+\concept{SplitOutput}

@@ -21,10 +21,10 @@ Sample Text into its composite columns.
 listDF = cleanDF.ML(listDF) }
 }
 \seealso{
-Other Split Output: 
+Other SplitOutput: 
 \code{\link{SplitOutput.ML}()},
 \code{\link{loadFile.ML}()},
 \code{\link{splitDataLines.ML}()},
 \code{\link{writeFiles.ML}()}
 }
-\concept{Split Output}
+\concept{SplitOutput}

@@ -51,15 +51,12 @@ Example_Runlist = well.update(df = Example_Runlist,
 Example_Runlist[1,]
 }
 \seealso{
-Other Runlist Generator: 
+Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
 \code{\link{add.blank}()},
-\code{\link{add.compound}()},
 \code{\link{add.type}()},
-\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{darkModeDF_Options}()},
-\code{\link{dateSignAll.update}()},
-\code{\link{sanitizeInput}()}
+\code{\link{dateSignAll.update}()}
 }
-\concept{Runlist Generator}
+\concept{RunlistGenerator}

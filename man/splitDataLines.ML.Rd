@@ -20,10 +20,10 @@ Split the file loaded with \code{\link[=loadFile.ML]{loadFile.ML()}} into datafr
 listDF = splitDataLines.ML(dataLines) }
 }
 \seealso{
-Other Split Output: 
+Other SplitOutput: 
 \code{\link{SplitOutput.ML}()},
 \code{\link{cleanDF.ML}()},
 \code{\link{loadFile.ML}()},
 \code{\link{writeFiles.ML}()}
 }
-\concept{Split Output}
+\concept{SplitOutput}

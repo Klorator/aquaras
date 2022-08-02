@@ -43,23 +43,20 @@ head(Example_Runlist)
 Runlist <- create.Runlist(full.list = Example_Runlist)
 head(Runlist)
 Runlist2 <- create.Runlist(full.list = Example_Runlist,
-                          blank.start = 3,
-                          blank.end = 5,
-                          blank.comp = 2,
-                          blank.type = 1,
-                          blank.max = 5)
+                           blank.start = 3,
+                           blank.end = 5,
+                           blank.comp = 2,
+                           blank.type = 1,
+                           blank.max = 5)
 head(Runlist2)
 }
 \seealso{
-Other Runlist Generator: 
+Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
 \code{\link{add.blank}()},
-\code{\link{add.compound}()},
 \code{\link{add.type}()},
-\code{\link{aquaras.server}()},
 \code{\link{darkModeDF_Options}()},
 \code{\link{dateSignAll.update}()},
-\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
-\concept{Runlist Generator}
+\concept{RunlistGenerator}

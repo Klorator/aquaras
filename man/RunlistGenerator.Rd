@@ -18,15 +18,12 @@ RunlistGenerator() # Launches the Shiny GUI.
 }
 }
 \seealso{
-Other Runlist Generator: 
+Other RunlistGenerator: 
 \code{\link{add.blank}()},
-\code{\link{add.compound}()},
 \code{\link{add.type}()},
-\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{darkModeDF_Options}()},
 \code{\link{dateSignAll.update}()},
-\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
-\concept{Runlist Generator}
+\concept{RunlistGenerator}

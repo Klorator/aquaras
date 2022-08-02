@@ -24,18 +24,24 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blan
 Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blanks.
 }
 \examples{
-\dontrun{ Runlist <- add.blank(Runlist, df.blank, 3) # Adds 3 blanks (from df.blank) to Runlist. }
+library(dplyr)
+
+full.list = Example_Runlist
+Runlist = Runlist_final_empty
+blank.max = 5
+df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") \%>\% # All blank rows
+  dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
+
+Runlist = add.blank(Runlist, df.blank, 3) # Adds 3 blanks to Runlist.
+Runlist
 }
 \seealso{
-Other Runlist Generator: 
+Other RunlistGenerator: 
 \code{\link{RunlistGenerator}()},
-\code{\link{add.compound}()},
 \code{\link{add.type}()},
-\code{\link{aquaras.server}()},
 \code{\link{create.Runlist}()},
 \code{\link{darkModeDF_Options}()},
 \code{\link{dateSignAll.update}()},
-\code{\link{sanitizeInput}()},
 \code{\link{well.update}()}
 }
-\concept{Runlist Generator}
+\concept{RunlistGenerator}

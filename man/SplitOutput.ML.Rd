@@ -28,13 +28,14 @@ clean = FALSE) and written to tsv files in the same directory as the source file
 \dontrun{
 SplitOutput.ML() # First thing the function does is ask the user for a file.
 SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
-listDF = SplitOutput.ML(write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!! }
+listDF = SplitOutput.ML(write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
+}
 }
 \seealso{
-Other Split Output: 
+Other SplitOutput: 
 \code{\link{cleanDF.ML}()},
 \code{\link{loadFile.ML}()},
 \code{\link{splitDataLines.ML}()},
 \code{\link{writeFiles.ML}()}
 }
-\concept{Split Output}
+\concept{SplitOutput}

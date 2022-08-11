@@ -1,0 +1,70 @@
+Quantify Compound Summary Report 																			
+																			
+Printed Tue Mar 15 16:33:55 2022																			
+																			
+Compound 1:  Ibuprofen																			
+																			
+	Name	Sample Text	Type	Std. Conc	RT	Area	IS Area	Response	Primary Flags	nM	%Dev	S/N	Conc. Dev. Flagged	Conc. Dev. Allowed	Pk Width	Vial	Acq.Date	Acq.Time	ID
+1	20220725_RH_Index_001	blank	Blank	50	3.97	25432		25432.006	bb	23.43604	-53.1	1329.93	NO	0	2.884	4:G,10	23-feb-22	11:56:26	
+2	20220725_RH_Index_002	blank	Blank	50	3.96	25071		25071.139	bb	23.1035	-53.8	1649.934	NO	0	2.67	4:G,10	23-feb-22	12:03:04	
+3	20220725_RH_Index_003	blank	Blank	50	3.95	25559		25559.383	bb	23.55342	-52.9	1943.923	NO	0	2.86	4:G,10	23-feb-22	12:09:07	
+4	20220725_RH_Index_004	blank	Blank	50	3.96	25055		25054.875	bb	23.08851	-53.8	2114.842	NO	0	2.675	4:G,10	23-feb-22	12:15:09	
+5	20220725_RH_Index_005	blank	Blank	50	3.96	25825		25825.176	bb	23.79835	-52.4	2097.918	NO	0	2.721	4:G,10	23-feb-22	12:21:12	
+6	20220725_RH_Index_006	Ibuprofen_0_cell_2	Analyte	50	3.96	11171		11170.61	bb	10.29391	-79.4	945.1	NO	0	3.99	4:A,1	23-feb-22	12:27:15	
+7	20220725_RH_Index_007	Ibuprofen_15_cell_2	Analyte	50	3.96	10070		10069.771	bb	9.27947	-81.4	793.704	NO	0	5.115	4:A,2	23-feb-22	12:33:17	
+8	20220725_RH_Index_008	Ibuprofen_30_cell_2	Analyte	50	3.96	14646		14645.96	bb	13.49651	-73	1731.491	NO	0	3.411	4:A,3	23-feb-22	12:39:20	
+9	20220725_RH_Index_009	Ibuprofen_60_cell_2	Analyte	50	3.96	11718		11718.259	bb	10.79858	-78.4	1202.853	NO	0	3.531	4:A,4	23-feb-22	12:45:23	
+10	20220725_RH_Index_010	Ibuprofen_90_cell_2	Analyte	50	3.96	11348		11347.764	bb	10.45716	-79.1	707.617	NO	0	4.486	4:A,5	23-feb-22	12:51:26	
+11	20220725_RH_Index_011	blank	Blank	50	3.96	25342		25341.746	bb	23.35286	-53.3	2057.022	NO	0	2.651	4:G,11	23-feb-22	12:57:29	
+12	20220725_RH_Index_012	blank	Blank	50	3.96	25093		25093.004	bb	23.12364	-53.8	2857.301	NO	0	2.797	4:G,11	23-feb-22	13:03:32	
+13	20220725_RH_Index_013	Ibuprofen_0_STD_	Analyte	50	3.96	10373		10373.271	bb	9.55915	-80.9	972.466	NO	0	4.313	4:A,6	23-feb-22	13:09:34	
+14	20220725_RH_Index_014	Ibuprofen_0_STD_	Analyte	50	3.96	11953		11952.766	bb	11.01468	-78	1179.287	NO	0	3.852	4:A,7	23-feb-22	13:15:37	
+15	20220725_RH_Index_015	Ibuprofen_0_STD_	Analyte	50	3.96	10112		10112.404	bb	9.31876	-81.4	1008.988	NO	0	3.442	4:A,8	23-feb-22	13:21:40	
+16	20220725_RH_Index_016	Ibuprofen_0_STD_	Analyte	50	3.96	9893		9892.557	bb	9.11617	-81.8	864.328	NO	0	4.352	4:A,9	23-feb-22	13:27:43	
+17	20220725_RH_Index_017	Ibuprofen_0_STD_	Analyte	50	3.96	8445		8444.872	bb	7.7821	-84.4	904.988	NO	0	4.474	4:A,10	23-feb-22	13:33:45	
+18	20220725_RH_Index_018	blank	Blank	50	3.96	7735		7735.303	bb	7.12822	-85.7	453.673	NO	0	2.922	4:G,12	23-feb-22	13:39:47	
+19	20220725_RH_Index_019	blank	Blank	50	3.96	8134		8133.504	bb	7.49517	-85	592.746	NO	0	2.93	4:G,12	23-feb-22	13:45:49	
+																			
+Compound 2:  Loperamide																			
+																			
+	Name	Sample Text	Type	Std. Conc	RT	Area	IS Area	Response	Primary Flags	nM	%Dev	S/N	Conc. Dev. Flagged	Conc. Dev. Allowed	Pk Width	Vial	Acq.Date	Acq.Time	ID
+1	20220725_RH_Index_001	blank	Blank				25432.006						NO	0		4:G,10	23-feb-22	11:56:26	
+2	20220725_RH_Index_002	blank	Blank				25071.139						NO	0		4:G,10	23-feb-22	12:03:04	
+3	20220725_RH_Index_003	blank	Blank				25559.383						NO	0		4:G,10	23-feb-22	12:09:07	
+4	20220725_RH_Index_004	blank	Blank				25054.875						NO	0		4:G,10	23-feb-22	12:15:09	
+5	20220725_RH_Index_005	blank	Blank				25825.176						NO	0		4:G,10	23-feb-22	12:21:12	
+6	20220725_RH_Index_006	Loperamide_0_bead_	Analyte		2.34	288034	11170.61	1289.249	bb			21759.044	NO	0	2.468	4:A,1	23-feb-22	12:27:15	
+7	20220725_RH_Index_007	Loperamide_0_bead_	Analyte		2.33	269700	10069.771	1339.155	bb			16189.105	NO	0	2.51	4:A,2	23-feb-22	12:33:17	
+8	20220725_RH_Index_008	Loperamide_0_bead_	Analyte		2.34	337501	14645.96	1152.198	bb			24879.31	NO	0	2.475	4:A,3	23-feb-22	12:39:20	
+9	20220725_RH_Index_009	Loperamide_0_bead_	Analyte		2.33	314270	11718.259	1340.94	bb			17399.287	NO	0	2.529	4:A,4	23-feb-22	12:45:23	
+10	20220725_RH_Index_010	Loperamide_0_bead_	Analyte		2.34	296403	11347.764	1305.997	bb			19891.39	NO	0	2.621	4:A,5	23-feb-22	12:51:26	
+11	20220725_RH_Index_011	blank	Blank		2.34	50	25341.746	0.098	bb			3.428	NO	0	2.904	4:G,11	23-feb-22	12:57:29	
+12	20220725_RH_Index_012	blank	Blank				25093.004						NO	0		4:G,11	23-feb-22	13:03:32	
+13	20220725_RH_Index_013	Loperamide_0_medium_	Analyte		2.33	262816	10373.271	1266.796	bb			15521.891	NO	0	2.693	4:A,6	23-feb-22	13:09:34	
+14	20220725_RH_Index_014	Loperamide_15_medium_	Analyte		2.33	338490	11952.766	1415.948	bb			18723.516	NO	0	2.515	4:A,7	23-feb-22	13:15:37	
+15	20220725_RH_Index_015	Loperamide_30_medium_	Analyte		2.34	300627	10112.404	1486.427	bb			16945.093	NO	0	2.476	4:A,8	23-feb-22	13:21:40	
+16	20220725_RH_Index_016	Loperamide_60_medium_	Analyte		2.34	298127	9892.557	1506.825	bb			15491.5	NO	0	2.495	4:A,9	23-feb-22	13:27:43	
+17	20220725_RH_Index_017	Loperamide_90_medium_	Analyte		2.34	188537	8444.872	1116.283	bb			14998.812	NO	0	2.485	4:A,10	23-feb-22	13:33:45	
+18	20220725_RH_Index_018	blank	Blank				7735.303						NO	0		4:G,12	23-feb-22	13:39:47	
+19	20220725_RH_Index_019	blank	Blank				8133.504						NO	0		4:G,12	23-feb-22	13:45:49	
+20	20220725_RH_Index_020	Loperamide_0_cell_2	Analyte		2.34	372432	10725.858	1736.141	bb			9338.778	NO	0	2.435	4:B,1	23-feb-22	13:51:52	
+21	20220725_RH_Index_021	Loperamide_15_cell_2	Analyte		2.34	341380	11920.614	1431.889	bb			19322.296	NO	0	2.479	4:B,2	23-feb-22	13:57:54	
+22	20220725_RH_Index_022	Loperamide_30_cell_2	Analyte		2.34	365363	13219.477	1381.913	bb			25492.299	NO	0	2.466	4:B,3	23-feb-22	14:03:57	
+23	20220725_RH_Index_023	Loperamide_60_cell_2	Analyte		2.34	350150	12235.257	1430.904	bb			19779.976	NO	0	2.486	4:B,4	23-feb-22	14:10:00	
+24	20220725_RH_Index_024	Loperamide_90_cell_2	Analyte		2.33	318057	11992.935	1326.017	bb			11914.696	NO	0	2.571	4:B,5	23-feb-22	14:16:03	
+25	20220725_RH_Index_025	blank	Blank		2.34	21	23774.311	0.044	bb			2.396	NO	0	0.951	4:G,10	23-feb-22	14:22:05	
+																			
+Compound 3:  Paracetamol																			
+																			
+	Name	Sample Text	Type	Std. Conc	RT	Area	IS Area	Response	Primary Flags	nM	%Dev	S/N	Conc. Dev. Flagged	Conc. Dev. Allowed	Pk Width	Vial	Acq.Date	Acq.Time	ID
+1	20220725_RH_Index_001	blank	Blank		2.19	28	25432.006	0.056	bb			0.674	NO	0	2.083	4:G,10	23-feb-22	11:56:26	
+2	20220725_RH_Index_002	blank	Blank				25071.139						NO	0		4:G,10	23-feb-22	12:03:04	
+3	20220725_RH_Index_003	blank	Blank				25559.383						NO	0		4:G,10	23-feb-22	12:09:07	
+4	20220725_RH_Index_004	blank	Blank				25054.875						NO	0		4:G,10	23-feb-22	12:15:09	
+5	20220725_RH_Index_005	blank	Blank				25825.176						NO	0		4:G,10	23-feb-22	12:21:12	
+6	20220725_RH_Index_006	Paracetamol_0_STD_	Analyte		2.22	430	11170.61	1.925	bb			49.218	NO	0	2.429	4:A,1	23-feb-22	12:27:15	
+7	20220725_RH_Index_007	Paracetamol_0_STD_	Analyte		2.22	2402	10069.771	11.928	bb			184.334	NO	0	2.498	4:A,2	23-feb-22	12:33:17	
+8	20220725_RH_Index_008	Paracetamol_0_STD_	Analyte		2.22	9111	14645.96	31.103	bb			659.181	NO	0	2.51	4:A,3	23-feb-22	12:39:20	
+9	20220725_RH_Index_009	Paracetamol_0_STD_	Analyte		2.22	21724	11718.259	92.692	bb			791.477	NO	0	2.558	4:A,4	23-feb-22	12:45:23	
+10	20220725_RH_Index_010	Paracetamol_0_STD_	Analyte				11347.764						NO	0		4:A,5	23-feb-22	12:51:26	
+																			

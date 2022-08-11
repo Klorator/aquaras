@@ -25,11 +25,17 @@ clean = FALSE) and written to tsv files in the same directory as the source file
 \strong{!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!} Use write = FALSE to disable this.
 }
 \examples{
-\dontrun{
+  \dontrun{
 SplitOutput.ML() # First thing the function does is ask the user for a file.
 SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
-listDF = SplitOutput.ML(write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
 }
+
+listDF = SplitOutput.ML(sourceFile = system.file("extdata",
+                                                 "Example_MLOutput.txt",
+                                                 package = "aquaras",
+                                                 mustWork = TRUE),
+                        write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
+listDF
 }
 \seealso{
 Other SplitOutput: 

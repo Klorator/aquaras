@@ -104,12 +104,19 @@ splitDataLines.ML = function(dataLines) {
 cleanDF.ML = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
-      dplyr::filter(listDF[[i]]$`Sample Text` != "blank") %>%                   # Drop "blank"
-      tidyr::separate(col = listDF[[i]]$Name, into = c("Date", "Signature",
-                                           "Index"), sep = "_") %>%
-      tidyr::separate(col = listDF[[i]]$`Sample Text`,
-                      into = c("Compound", "Timepoint",      # Split "Sample text" into columns
-                      "Well_Type", "Replicate"), sep = "_")  # New columns and separator
+      dplyr::filter(`Sample Text` != "blank") %>%                   # Drop "blank"
+      tidyr::separate(col = Name,
+                      into = c("Date",
+                               "Signature",
+                               "Index",
+                               "Internal row"),
+                      sep = "_") %>%
+      tidyr::separate(col = `Sample Text`,
+                      into = c("Compound",
+                               "Timepoint",      # Split "Sample text" into columns
+                               "Well_Type",
+                               "Replicate"),
+                      sep = "_")  # New columns and separator
   }
   return(listDF)
 }
@@ -159,11 +166,19 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' @return Also returns the list of data frames
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#'   \dontrun{
 #' SplitOutput.ML() # First thing the function does is ask the user for a file.
 #' SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
-#' listDF = SplitOutput.ML(write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
 #' }
+#'
+#' listDF = SplitOutput.ML(sourceFile = system.file("extdata",
+#'                                                  "Example_MLOutput.txt",
+#'                                                  package = "aquaras",
+#'                                                  mustWork = TRUE),
+#'                         write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
+#' listDF
+#'
 SplitOutput.ML = function(sourceFile = file.choose() , clean = TRUE, write = TRUE) {
   # Load file
   dataLines = loadFile.ML(sourceFile = sourceFile)

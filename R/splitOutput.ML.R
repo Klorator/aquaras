@@ -132,7 +132,8 @@ cleanDF.ML = function(listDF) {
 #'
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#'  \dontrun{
 #' writeFiles.ML(listDF, sourceFile)
 #' }
 writeFiles.ML = function(listDF, sourceFile) {
@@ -152,9 +153,14 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' Split MassLynx output file
 #'
 #' Splits the MassLynx complete summary output file into individual data frames
-#' based on compound. These data frames are cleaned by [cleanDF.ML()] (unless
+#' based on compound.
+#' ##
+#' Spliting the file generates a stream of ```"New names: • `` -> `...1`"```
+#' output in the console that is not particularly interesting but lets you know
+#' it's doing something.
+#' ## These data frames are cleaned by [cleanDF.ML()] (unless
 #' clean = FALSE) and written to tsv files in the same directory as the source file.
-#' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Use write = FALSE to disable this.
+#' ## **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Use write = FALSE to disable this.
 #'
 #' @family SplitOutput
 #'
@@ -172,14 +178,15 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
 #' }
 #'
+#' # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
 #' listDF = SplitOutput.ML(sourceFile = system.file("extdata",
 #'                                                  "Example_MLOutput.txt",
 #'                                                  package = "aquaras",
 #'                                                  mustWork = TRUE),
-#'                         write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
+#'                         write = FALSE)
 #' listDF
 #'
-SplitOutput.ML = function(sourceFile = file.choose() , clean = TRUE, write = TRUE) {
+SplitOutput.ML = function(sourceFile = file.choose(), clean = TRUE, write = TRUE) {
   # Load file
   dataLines = loadFile.ML(sourceFile = sourceFile)
   # Split dataLines into data frames

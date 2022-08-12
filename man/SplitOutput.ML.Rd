@@ -20,9 +20,20 @@ Also returns the list of data frames
 }
 \description{
 Splits the MassLynx complete summary output file into individual data frames
-based on compound. These data frames are cleaned by \code{\link[=cleanDF.ML]{cleanDF.ML()}} (unless
+based on compound.
+\subsection{Spliting the file generates a stream of \code{"New names: • `` -> `...1`"}}{
+
+output in the console that is not particularly interesting but lets you know
+it's doing something.
+}
+
+\subsection{These data frames are cleaned by \code{\link[=cleanDF.ML]{cleanDF.ML()}} (unless}{
+
 clean = FALSE) and written to tsv files in the same directory as the source file.
-\strong{!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!} Use write = FALSE to disable this.
+}
+
+\subsection{\strong{!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!} Use write = FALSE to disable this.}{
+}
 }
 \examples{
   \dontrun{
@@ -30,12 +41,14 @@ SplitOutput.ML() # First thing the function does is ask the user for a file.
 SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
 }
 
+# !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
 listDF = SplitOutput.ML(sourceFile = system.file("extdata",
                                                  "Example_MLOutput.txt",
                                                  package = "aquaras",
                                                  mustWork = TRUE),
-                        write = FALSE) # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
+                        write = FALSE)
 listDF
+
 }
 \seealso{
 Other SplitOutput: 

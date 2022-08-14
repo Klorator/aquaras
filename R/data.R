@@ -19,7 +19,7 @@
 #'   \item{Well_Type}{Type of well contents, one of "bead", "medium", "cell", "STD", or "blank"}
 #'   \item{LC_Well_Type}{Either "blank" or "Analyte"}
 #'   \item{Replicate}{Integer for numbering replicate experiments}
-#'   \item{Sample_text}{Sample text, composite of "`Compound` _ `Timepoint` _ `Well_Type` _ `Replicate`"}
+#'   \item{Sample_text}{Sample text, composite of "`Compound`_`Timepoint`_`Well_Type`_`Replicate`"}
 #'  }
 #' @source Created in house
 "Example_Runlist"

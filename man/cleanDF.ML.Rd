@@ -17,8 +17,16 @@ Cleans each data frame by removing blanks and NAs. Also separates Name and
 Sample Text into its composite columns.
 }
 \examples{
-\dontrun{
-listDF = cleanDF.ML(listDF) }
+# Setup
+dataLines = loadFile.ML(sourceFile = system.file("extdata",
+                                                 "Example_MLOutput.txt",
+                                                 package = "aquaras",
+                                                 mustWork = TRUE))
+### Ignore the "New names:" output.
+listDF = splitDataLines.ML(dataLines)
+
+listDF.clean = cleanDF.ML(listDF)
+listDF.clean
 }
 \seealso{
 Other SplitOutput: 

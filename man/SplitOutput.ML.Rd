@@ -21,18 +21,22 @@ Also returns the list of data frames
 \description{
 Splits the MassLynx complete summary output file into individual data frames
 based on compound.
-\subsection{Spliting the file generates a stream of \code{"New names: • `` -> `...1`"}}{
+\subsection{Uninteresting output}{
 
+Spliting the file generates a stream of \code{"New names: • `` -> `...1`"}
 output in the console that is not particularly interesting but lets you know
 it's doing something.
 }
 
-\subsection{These data frames are cleaned by \code{\link[=cleanDF.ML]{cleanDF.ML()}} (unless}{
+\subsection{clean = TRUE}{
 
-clean = FALSE) and written to tsv files in the same directory as the source file.
+These data frames are cleaned by \code{\link[=cleanDF.ML]{cleanDF.ML()}} (unless clean = FALSE).
 }
 
-\subsection{\strong{!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!} Use write = FALSE to disable this.}{
+\subsection{write = TRUE}{
+
+\strong{!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!} Data frames written to tsv files
+in the same directory as the source file. Use write = FALSE to disable this.
 }
 }
 \examples{

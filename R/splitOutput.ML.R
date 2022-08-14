@@ -12,11 +12,13 @@
 #'
 #' @export
 #'
-#' @examples \dontrun{
-#' load.list = loadFile.ML(sourceFile)
-#' }
+#' @examples
+#' dataLines = loadFile.ML(sourceFile = system.file("extdata",
+#'                                                  "Example_MLOutput.txt",
+#'                                                  package = "aquaras",
+#'                                                  mustWork = TRUE))
+#' head(dataLines)
 loadFile.ML = function(sourceFile) {
-  # sourceFile = file                                 # Choose source file
   dataLines =
     readr::read_lines(sourceFile, skip_empty_rows = T) %>% # Load file
     as.list()                                       # Coerce file into list
@@ -35,8 +37,15 @@ loadFile.ML = function(sourceFile) {
 #' @return List of data frames
 #' @export
 #'
-#' @examples \dontrun{
-#' listDF = splitDataLines.ML(dataLines) }
+#' @examples
+#' # Setup
+#' dataLines = loadFile.ML(sourceFile = system.file("extdata",
+#'                                                  "Example_MLOutput.txt",
+#'                                                  package = "aquaras",
+#'                                                  mustWork = TRUE))
+#' ### Ignore the "New names:" output.
+#' listDF = splitDataLines.ML(dataLines)
+#' listDF
 splitDataLines.ML = function(dataLines) {
   # Create variables -----------------------------------------------------------
   fileSep = "\t"        # Delimiter in file
@@ -99,12 +108,21 @@ splitDataLines.ML = function(dataLines) {
 #' @return List of data frames
 #' @export
 #'
-#' @examples \dontrun{
-#' listDF = cleanDF.ML(listDF) }
+#' @examples
+#' # Setup
+#' dataLines = loadFile.ML(sourceFile = system.file("extdata",
+#'                                                  "Example_MLOutput.txt",
+#'                                                  package = "aquaras",
+#'                                                  mustWork = TRUE))
+#' ### Ignore the "New names:" output.
+#' listDF = splitDataLines.ML(dataLines)
+#'
+#' listDF.clean = cleanDF.ML(listDF)
+#' listDF.clean
 cleanDF.ML = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
-      dplyr::filter(`Sample Text` != "blank") %>%                   # Drop "blank"
+      dplyr::filter(`Sample Text` != "blank") %>% # Drop "blank"
       tidyr::separate(col = Name,
                       into = c("Date",
                                "Signature",
@@ -113,10 +131,10 @@ cleanDF.ML = function(listDF) {
                       sep = "_") %>%
       tidyr::separate(col = `Sample Text`,
                       into = c("Compound",
-                               "Timepoint",      # Split "Sample text" into columns
+                               "Timepoint",       # Split "Sample text" into columns
                                "Well_Type",
                                "Replicate"),
-                      sep = "_")  # New columns and separator
+                      sep = "_")                  # New columns and separator
   }
   return(listDF)
 }
@@ -133,7 +151,7 @@ cleanDF.ML = function(listDF) {
 #' @export
 #'
 #' @examples
-#'  \dontrun{
+#'   \dontrun{
 #' writeFiles.ML(listDF, sourceFile)
 #' }
 writeFiles.ML = function(listDF, sourceFile) {
@@ -153,14 +171,16 @@ writeFiles.ML = function(listDF, sourceFile) {
 #' Split MassLynx output file
 #'
 #' Splits the MassLynx complete summary output file into individual data frames
-#' based on compound.
-#' ##
+#'  based on compound.
+#' ## Uninteresting output
 #' Spliting the file generates a stream of ```"New names: • `` -> `...1`"```
-#' output in the console that is not particularly interesting but lets you know
-#' it's doing something.
-#' ## These data frames are cleaned by [cleanDF.ML()] (unless
-#' clean = FALSE) and written to tsv files in the same directory as the source file.
-#' ## **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Use write = FALSE to disable this.
+#'  output in the console that is not particularly interesting but lets you know
+#'   it's doing something.
+#' ## clean = TRUE
+#' These data frames are cleaned by [cleanDF.ML()] (unless clean = FALSE).
+#' ## write = TRUE
+#' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Data frames written to tsv files
+#'  in the same directory as the source file. Use write = FALSE to disable this.
 #'
 #' @family SplitOutput
 #'

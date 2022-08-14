@@ -16,8 +16,14 @@ List of data frames
 Split the file loaded with \code{\link[=loadFile.ML]{loadFile.ML()}} into dataframes by compound.
 }
 \examples{
-\dontrun{
-listDF = splitDataLines.ML(dataLines) }
+# Setup
+dataLines = loadFile.ML(sourceFile = system.file("extdata",
+                                                 "Example_MLOutput.txt",
+                                                 package = "aquaras",
+                                                 mustWork = TRUE))
+### Ignore the "New names:" output.
+listDF = splitDataLines.ML(dataLines)
+listDF
 }
 \seealso{
 Other SplitOutput: 

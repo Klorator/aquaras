@@ -21,12 +21,12 @@
 #'
 #' @family RunlistGenerator
 #'
-#'
-#'
 #' @return Creates a Shiny GUI.
+#'
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#'  \dontrun{
 #' RunlistGenerator() # Launches the Shiny GUI.
 #' }
 RunlistGenerator = function() {

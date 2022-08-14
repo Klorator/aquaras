@@ -7,7 +7,8 @@
 #' @family RunlistGenerator
 #'
 #' @export
-#' @examples \dontrun{
+#' @examples
+#'  \dontrun{
 #' darkModeDF_Options() # Sets the global options for reactable.theme
 #' }
 darkModeDF_Options = function() {
@@ -37,7 +38,8 @@ options(reactable.theme = reactable::reactableTheme(
 #'
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
+#'  \dontrun{
 #' shiny::shinyApp(ui = ui, server = aquaras.server)
 #' }
 aquaras.server = function(input, output, session) {

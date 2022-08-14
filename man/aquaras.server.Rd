@@ -13,7 +13,7 @@ aquaras.server(input, output, session)
 Fulfills the \code{server} argument in \code{\link[shiny:shinyApp]{shiny::shinyApp()}}.
 }
 \examples{
-\dontrun{
+ \dontrun{
 shiny::shinyApp(ui = ui, server = aquaras.server)
 }
 }

@@ -13,7 +13,7 @@ Creates a Shiny GUI.
 Program to input info for 96-well-plates. Generates a runlist for the Waters LC/MS software MassLynx.
 }
 \examples{
-\dontrun{
+ \dontrun{
 RunlistGenerator() # Launches the Shiny GUI.
 }
 }

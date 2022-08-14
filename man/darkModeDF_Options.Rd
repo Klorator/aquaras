@@ -10,7 +10,7 @@ darkModeDF_Options()
 Sets \code{reactable.theme} in \code{\link[base:options]{base::options()}} with CSS styling borrowed from the \href{https://glin.github.io/reactable/articles/examples.html#theming}{Reactable example documentation}
 }
 \examples{
-\dontrun{
+ \dontrun{
 darkModeDF_Options() # Sets the global options for reactable.theme
 }
 }

@@ -383,7 +383,7 @@
       # i Use `colnames()` to see all variable names
       
 
-# cleanDF.ML() looks as intended
+# cleanDF.ML() snapshot looks as intended
 
     Code
       dataLines = loadFile.ML(sourceFile = system.file("extdata",
@@ -500,6 +500,188 @@
       * `` -> `...1`
     Code
       cleanDF.ML(listDF)
+    Output
+      $`Compound 1 Ibuprofen\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
+      # A tibble: 10 x 26
+         ...1  Date     Signature Index Intern~1 Compo~2 Timep~3 Well_~4 Repli~5 Type 
+         <chr> <chr>    <chr>     <chr> <chr>    <chr>   <chr>   <chr>   <chr>   <chr>
+       1 6     20220725 RH        Index 006      Ibupro~ 0       cell    "2"     Anal~
+       2 7     20220725 RH        Index 007      Ibupro~ 15      cell    "2"     Anal~
+       3 8     20220725 RH        Index 008      Ibupro~ 30      cell    "2"     Anal~
+       4 9     20220725 RH        Index 009      Ibupro~ 60      cell    "2"     Anal~
+       5 10    20220725 RH        Index 010      Ibupro~ 90      cell    "2"     Anal~
+       6 13    20220725 RH        Index 013      Ibupro~ 0       STD     ""      Anal~
+       7 14    20220725 RH        Index 014      Ibupro~ 0       STD     ""      Anal~
+       8 15    20220725 RH        Index 015      Ibupro~ 0       STD     ""      Anal~
+       9 16    20220725 RH        Index 016      Ibupro~ 0       STD     ""      Anal~
+      10 17    20220725 RH        Index 017      Ibupro~ 0       STD     ""      Anal~
+      # ... with 16 more variables: `Std. Conc` <chr>, RT <chr>, Area <chr>,
+      #   `IS Area` <chr>, Response <chr>, `Primary Flags` <chr>, nM <chr>,
+      #   `%Dev` <chr>, `S/N` <chr>, `Conc. Dev. Flagged` <chr>,
+      #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
+      #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
+      #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
+      # i Use `colnames()` to see all variable names
+      
+      $`Compound 2 Loperamide\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
+      # A tibble: 15 x 26
+         ...1  Date     Signature Index Intern~1 Compo~2 Timep~3 Well_~4 Repli~5 Type 
+         <chr> <chr>    <chr>     <chr> <chr>    <chr>   <chr>   <chr>   <chr>   <chr>
+       1 6     20220725 RH        Index 006      Lopera~ 0       bead    ""      Anal~
+       2 7     20220725 RH        Index 007      Lopera~ 0       bead    ""      Anal~
+       3 8     20220725 RH        Index 008      Lopera~ 0       bead    ""      Anal~
+       4 9     20220725 RH        Index 009      Lopera~ 0       bead    ""      Anal~
+       5 10    20220725 RH        Index 010      Lopera~ 0       bead    ""      Anal~
+       6 13    20220725 RH        Index 013      Lopera~ 0       medium  ""      Anal~
+       7 14    20220725 RH        Index 014      Lopera~ 15      medium  ""      Anal~
+       8 15    20220725 RH        Index 015      Lopera~ 30      medium  ""      Anal~
+       9 16    20220725 RH        Index 016      Lopera~ 60      medium  ""      Anal~
+      10 17    20220725 RH        Index 017      Lopera~ 90      medium  ""      Anal~
+      11 20    20220725 RH        Index 020      Lopera~ 0       cell    "2"     Anal~
+      12 21    20220725 RH        Index 021      Lopera~ 15      cell    "2"     Anal~
+      13 22    20220725 RH        Index 022      Lopera~ 30      cell    "2"     Anal~
+      14 23    20220725 RH        Index 023      Lopera~ 60      cell    "2"     Anal~
+      15 24    20220725 RH        Index 024      Lopera~ 90      cell    "2"     Anal~
+      # ... with 16 more variables: `Std. Conc` <chr>, RT <chr>, Area <chr>,
+      #   `IS Area` <chr>, Response <chr>, `Primary Flags` <chr>, nM <chr>,
+      #   `%Dev` <chr>, `S/N` <chr>, `Conc. Dev. Flagged` <chr>,
+      #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
+      #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
+      #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
+      # i Use `colnames()` to see all variable names
+      
+      $`Compound 3 Paracetamol\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
+      # A tibble: 5 x 26
+        ...1  Date     Signature Index Interna~1 Compo~2 Timep~3 Well_~4 Repli~5 Type 
+        <chr> <chr>    <chr>     <chr> <chr>     <chr>   <chr>   <chr>   <chr>   <chr>
+      1 6     20220725 RH        Index 006       Parace~ 0       STD     ""      Anal~
+      2 7     20220725 RH        Index 007       Parace~ 0       STD     ""      Anal~
+      3 8     20220725 RH        Index 008       Parace~ 0       STD     ""      Anal~
+      4 9     20220725 RH        Index 009       Parace~ 0       STD     ""      Anal~
+      5 10    20220725 RH        Index 010       Parace~ 0       STD     ""      Anal~
+      # ... with 16 more variables: `Std. Conc` <chr>, RT <chr>, Area <chr>,
+      #   `IS Area` <chr>, Response <chr>, `Primary Flags` <chr>, nM <chr>,
+      #   `%Dev` <chr>, `S/N` <chr>, `Conc. Dev. Flagged` <chr>,
+      #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
+      #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
+      #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
+      # i Use `colnames()` to see all variable names
+      
+
+# SplitOutput.ML() snapshot looks as intended
+
+    Code
+      SplitOutput.ML(sourceFile = system.file("extdata", "Example_MLOutput.txt",
+        package = "aquaras", mustWork = TRUE), write = FALSE)
+    Message <rlib_message_name_repair>
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
+      New names:
+      * `` -> `...1`
     Output
       $`Compound 1 Ibuprofen\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 10 x 26

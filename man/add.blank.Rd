@@ -25,7 +25,6 @@ Function used within \code{\link[=create.Runlist]{create.Runlist()}} to add blan
 }
 \examples{
 # Setup
-library()
 full.list = Example_Runlist
 blank.max = 5
 df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") \%>\% # All blank rows

@@ -22,7 +22,7 @@ Sample_name is a composite in the format "date_signature_index".
 }
 \examples{
 head(Example_Runlist)
-Example_Runlist1 = dateSignAll.update(df       = Example_Runlist,
+Example_Runlist1 = dateSignAll.update(df = Example_Runlist,
                                      date      = "20220730",
                                      signature = "RH")
 head(Example_Runlist1)

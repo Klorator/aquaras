@@ -17,13 +17,13 @@
 #' @examples
 #' Example_Runlist[1,]
 #' Example_Runlist1 = well.update(df = Example_Runlist,
-#'                               well.current = "3:A,1",
-#'                               date = "20220730",
-#'                               signature = "RH",
-#'                               compound = "Warfarin",
-#'                               timepoint = "42",
-#'                               type = "bead",
-#'                               replicate = "6")
+#'                                well.current = "3:A,1",
+#'                                date         = "20220730",
+#'                                signature    = "RH",
+#'                                compound     = "Warfarin",
+#'                                timepoint    = "42",
+#'                                type         = "bead",
+#'                                replicate    = "6")
 #' Example_Runlist1[1,]
 well.update = function(df, well.current, date, signature,
                        compound, timepoint, type, replicate) {
@@ -70,7 +70,7 @@ well.update = function(df, well.current, date, signature,
 #'
 #' @examples
 #' head(Example_Runlist)
-#' Example_Runlist1 = dateSignAll.update(df       = Example_Runlist,
+#' Example_Runlist1 = dateSignAll.update(df = Example_Runlist,
 #'                                      date      = "20220730",
 #'                                      signature = "RH")
 #' head(Example_Runlist1)

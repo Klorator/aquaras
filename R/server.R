@@ -120,15 +120,27 @@ aquaras.server = function(input, output, session) {
   })
   output$Runlist.full = reactable::renderReactable({ # Display runlist
     reactable::reactable(
-      Runlist.full$df,
+      Runlist.full$df[,c(1,5:14)],
       defaultColDef = reactable::colDef(
         header = function(value) gsub("_", " ", value, fixed = T)), # End defaultColDef
       columns = list(
-        Index = reactable::colDef(align = "center"),
-        Plate = reactable::colDef(align = "center"),
-        Row   = reactable::colDef(align = "center"),
-        Col   = reactable::colDef(align = "center"),
-        LC_Position = reactable::colDef(align = "center")),
+        Index = reactable::colDef(align = "center",
+                                  width = 50),
+        Plate = reactable::colDef(align = "center",
+                                  width = 50),
+        Row   = reactable::colDef(align = "center",
+                                  width = 50),
+        Col   = reactable::colDef(align = "center",
+                                  width = 50),
+        LC_Position  = reactable::colDef(align = "center",
+                                         width = 100),
+        Date         = reactable::colDef(maxWidth = 150),
+        Signature    = reactable::colDef(maxWidth = 150),
+        Compound     = reactable::colDef(maxWidth = 250),
+        Timepoint    = reactable::colDef(width = 90),
+        Well_Type    = reactable::colDef(width = 90),
+        LC_Well_Type = reactable::colDef(width = 100),
+        Replicate    = reactable::colDef(width = 90)),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,
@@ -147,15 +159,27 @@ aquaras.server = function(input, output, session) {
   })
   output$Runlist.final = reactable::renderReactable({ # Display final runlist
     reactable::reactable(
-      Runlist.final$df,
+      Runlist.final$df[,c(1,5:14)],
       defaultColDef = reactable::colDef(
         header = function(value) gsub("_", " ", value, fixed = T)),
       columns = list(
-        Index = reactable::colDef(align = "center"),
-        Plate = reactable::colDef(align = "center"),
-        Row   = reactable::colDef(align = "center"),
-        Col   = reactable::colDef(align = "center"),
-        LC_Position = reactable::colDef(align = "center")),
+        Index = reactable::colDef(align = "center",
+                                  width = 50),
+        Plate = reactable::colDef(align = "center",
+                                  width = 50),
+        Row   = reactable::colDef(align = "center",
+                                  width = 50),
+        Col   = reactable::colDef(align = "center",
+                                  width = 50),
+        LC_Position  = reactable::colDef(align = "center",
+                                         width = 100),
+        Date         = reactable::colDef(maxWidth = 150),
+        Signature    = reactable::colDef(maxWidth = 150),
+        Compound     = reactable::colDef(maxWidth = 250),
+        Timepoint    = reactable::colDef(width = 90),
+        Well_Type    = reactable::colDef(width = 90),
+        LC_Well_Type = reactable::colDef(width = 100),
+        Replicate    = reactable::colDef(width = 90)),
       showPageSizeOptions = T,
       pageSizeOptions = seq(from = 96, to = 672, by = 96),
       defaultPageSize = 96,

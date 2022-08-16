@@ -1,39 +1,39 @@
-test_that("loadFile.ML() loads dataLines", {
+test_that("ras.loadFile() loads dataLines", {
   expect_snapshot(
-    loadFile.ML(sourceFile = system.file("extdata",
-                                         "Example_MLOutput.txt",
-                                         package = "aquaras",
-                                         mustWork = TRUE))
+    ras.loadFile(sourceFile = system.file("extdata",
+                                          "Example_MLOutput.txt",
+                                          package = "aquaras",
+                                          mustWork = TRUE))
     )
 })
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-test_that("splitDataLines.ML() splits into data frame list", {
+test_that("ras.splitDataLines() splits into data frame list", {
   expect_snapshot({
     # Setup
-    dataLines = loadFile.ML(sourceFile = system.file("extdata",
-                                                     "Example_MLOutput.txt",
-                                                     package = "aquaras",
-                                                     mustWork = TRUE))
+    dataLines = ras.loadFile(sourceFile = system.file("extdata",
+                                                      "Example_MLOutput.txt",
+                                                      package = "aquaras",
+                                                      mustWork = TRUE))
     ### Ignore the "New names:" output.
-    splitDataLines.ML(dataLines)
+    ras.splitDataLines(dataLines)
   })
 })
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-test_that("cleanDF.ML() snapshot looks as intended", {
+test_that("ras.cleanDF() snapshot looks as intended", {
   expect_snapshot({
     # Setup
-    dataLines = loadFile.ML(sourceFile = system.file("extdata",
-                                                     "Example_MLOutput.txt",
-                                                     package = "aquaras",
-                                                     mustWork = TRUE))
+    dataLines = ras.loadFile(sourceFile = system.file("extdata",
+                                                      "Example_MLOutput.txt",
+                                                      package = "aquaras",
+                                                      mustWork = TRUE))
     ### Ignore the "New names:" output.
-    listDF = splitDataLines.ML(dataLines)
+    listDF = ras.splitDataLines(dataLines)
 
-    cleanDF.ML(listDF)
+    ras.cleanDF(listDF)
   })
 })
 
@@ -43,13 +43,13 @@ test_that("cleanDF.ML() snapshot looks as intended", {
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-test_that("SplitOutput.ML() snapshot looks as intended", {
+test_that("ras.SplitOutput() snapshot looks as intended", {
   expect_snapshot({
     # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
-    SplitOutput.ML(sourceFile = system.file("extdata",
-                                            "Example_MLOutput.txt",
-                                            package = "aquaras",
-                                            mustWork = TRUE),
-                   write = FALSE)
+    ras.SplitOutput(sourceFile = system.file("extdata",
+                                             "Example_MLOutput.txt",
+                                             package = "aquaras",
+                                             mustWork = TRUE),
+                    write = FALSE)
   })
 })

@@ -9,9 +9,9 @@
 #' @export
 #' @examples
 #'  \dontrun{
-#' darkModeDF_Options() # Sets the global options for reactable.theme
+#' ras.darkModeDF_Options() # Sets the global options for reactable.theme
 #' }
-darkModeDF_Options = function() {
+ras.darkModeDF_Options = function() {
 # Set default table options for reactable (ref under Global theme in https://glin.github.io/reactable/articles/examples.html#theming)
 options(reactable.theme = reactable::reactableTheme(
   color = "hsl(233, 9%, 87%)",
@@ -27,7 +27,7 @@ options(reactable.theme = reactable::reactableTheme(
 }
 
 # Server -----------------------------------------------------------------------
-#' Server for [RunlistGenerator()]
+#' Server for [ras.RunlistGenerator()]
 #'
 #' Fulfills the `server` argument in [shiny::shinyApp()].
 #'
@@ -40,7 +40,7 @@ options(reactable.theme = reactable::reactableTheme(
 #'
 #' @examples
 #'  \dontrun{
-#' shiny::shinyApp(ui = ui, server = aquaras.server)
+#' shiny::shinyApp(ui = aquaras.ui, server = aquaras.server)
 #' }
 aquaras.server = function(input, output, session) {
   # Load data --------------------------------------------------------------------
@@ -63,7 +63,7 @@ aquaras.server = function(input, output, session) {
   Runlist.final = shiny::reactiveValues(df = Runlist.final.empty) # Reactive version of final df to make it editable and display changes
   shiny::observe({
     generatedRunlist =
-      create.Runlist(Runlist.full$df, input$blank.start, input$blank.end,
+      ras.create.Runlist(Runlist.full$df, input$blank.start, input$blank.end,
                      input$blank.comp, input$blank.type, input$blank.max)
     Runlist.final$df = generatedRunlist
   }) %>%
@@ -104,12 +104,12 @@ aquaras.server = function(input, output, session) {
   # Update buttons -------------------------------------------------------------
   shiny::observe({
     Runlist.full$df =
-      well.update(Runlist.full$df, well.current(), input$sample.date,
+      ras.well.update(Runlist.full$df, well.current(), input$sample.date,
                   input$sample.sign, input$well.compound, input$well.timepoint,
                   input$well.type, input$sample.rep)
   }) %>% shiny::bindEvent(input$well.update)
   shiny::observe({
-    Runlist.full$df = dateSignAll.update(Runlist.full$df,
+    Runlist.full$df = ras.dateSignAll.update(Runlist.full$df,
                                          input$sample.date, input$sample.sign)
   }) %>% shiny::bindEvent(input$default.dateSign)
   # End (Update buttons)

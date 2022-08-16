@@ -2,7 +2,7 @@
 % Please edit documentation in R/server.R
 \name{aquaras.server}
 \alias{aquaras.server}
-\title{Server for \code{\link[=RunlistGenerator]{RunlistGenerator()}}}
+\title{Server for \code{\link[=ras.RunlistGenerator]{ras.RunlistGenerator()}}}
 \usage{
 aquaras.server(input, output, session)
 }
@@ -14,19 +14,19 @@ Fulfills the \code{server} argument in \code{\link[shiny:shinyApp]{shiny::shinyA
 }
 \examples{
  \dontrun{
-shiny::shinyApp(ui = ui, server = aquaras.server)
+shiny::shinyApp(ui = aquaras.ui, server = aquaras.server)
 }
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{RunlistGenerator}()},
-\code{\link{add.blank}()},
-\code{\link{add.compound}()},
-\code{\link{add.type}()},
-\code{\link{create.Runlist}()},
-\code{\link{darkModeDF_Options}()},
-\code{\link{dateSignAll.update}()},
-\code{\link{sanitizeInput}()},
-\code{\link{well.update}()}
+\code{\link{ras.RunlistGenerator}()},
+\code{\link{ras.add.blank}()},
+\code{\link{ras.add.compound}()},
+\code{\link{ras.add.type}()},
+\code{\link{ras.create.Runlist}()},
+\code{\link{ras.darkModeDF_Options}()},
+\code{\link{ras.dateSignAll.update}()},
+\code{\link{ras.sanitizeInput}()},
+\code{\link{ras.well.update}()}
 }
 \concept{RunlistGenerator}

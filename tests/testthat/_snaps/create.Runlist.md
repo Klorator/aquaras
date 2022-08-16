@@ -1,4 +1,4 @@
-# add.blank() snapshot looks as intended
+# ras.add.blank() snapshot looks as intended
 
     Code
       full.list = Example_Runlist
@@ -10,7 +10,7 @@
       Sample_name = character(), Compound = character(), Timepoint = character(),
       Well_Type = character(), LC_Well_Type = character(), Replicate = character(),
       Sample_text = character(), Draw_Max = double(), Draw_Count = double())
-      add.blank(Runlist, df.blank, 3)
+      ras.add.blank(Runlist, df.blank, 3)
     Output
       # A tibble: 3 x 16
         Index Plate Row     Col LC_Pos~1 Date  Signa~2 Sampl~3 Compo~4 Timep~5 Well_~6
@@ -24,7 +24,7 @@
       #   5: Timepoint, 6: Well_Type
       # i Use `colnames()` to see all variable names
 
-# add.type() snapshot
+# ras.add.type() snapshot
 
     Code
       full.list = Example_Runlist
@@ -35,7 +35,7 @@
       Sample_name = character(), Compound = character(), Timepoint = character(),
       Well_Type = character(), LC_Well_Type = character(), Replicate = character(),
       Sample_text = character(), Draw_Max = double(), Draw_Count = double())
-      add.type(Runlist, df.analyte, "Paracetamol", "cell")
+      ras.add.type(Runlist, df.analyte, "Paracetamol", "cell")
     Output
       # A tibble: 18 x 16
          Index Plate Row     Col LC_Po~1 Date  Signa~2 Sampl~3 Compo~4 Timep~5 Well_~6
@@ -64,7 +64,7 @@
       #   5: Timepoint, 6: Well_Type
       # i Use `colnames()` to see all variable names
 
-# add.compound() snapshot (1 blank, default)
+# ras.add.compound() snapshot (1 blank, default)
 
     Code
       full.list = Example_Runlist
@@ -77,8 +77,8 @@
       Sample_name = character(), Compound = character(), Timepoint = character(),
       Well_Type = character(), LC_Well_Type = character(), Replicate = character(),
       Sample_text = character(), Draw_Max = double(), Draw_Count = double())
-      add.compound(Runlist, df.analyte, df.blank, "Paracetamol", c("bead", "medium",
-        "cell", "STD", "blank"))
+      ras.add.compound(Runlist, df.analyte, df.blank, "Paracetamol", c("bead",
+        "medium", "cell", "STD", "blank"))
     Output
       # A tibble: 47 x 16
          Index Plate Row     Col LC_Po~1 Date  Signa~2 Sampl~3 Compo~4 Timep~5 Well_~6
@@ -99,7 +99,7 @@
       #   5: Timepoint, 6: Well_Type
       # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
-# add.compound() snapshot (3 blanks)
+# ras.add.compound() snapshot (3 blanks)
 
     Code
       full.list = Example_Runlist
@@ -112,7 +112,7 @@
       Sample_name = character(), Compound = character(), Timepoint = character(),
       Well_Type = character(), LC_Well_Type = character(), Replicate = character(),
       Sample_text = character(), Draw_Max = double(), Draw_Count = double())
-      add.compound(Runlist, df.analyte, df.blank, "Ibuprofen", c("bead", "medium",
+      ras.add.compound(Runlist, df.analyte, df.blank, "Ibuprofen", c("bead", "medium",
         "cell", "STD", "blank"), 3)
     Output
       # A tibble: 55 x 16
@@ -134,11 +134,11 @@
       #   5: Timepoint, 6: Well_Type
       # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
-# create.Runlist() snapshot (default)
+# ras.create.Runlist() snapshot (default)
 
     Code
       full.list = Example_Runlist
-      create.Runlist(full.list)
+      ras.create.Runlist(full.list)
     Output
       # A tibble: 150 x 16
          Index Plate Row     Col LC_Po~1 Date  Signa~2 Sampl~3 Compo~4 Timep~5 Well_~6
@@ -159,11 +159,11 @@
       #   4: Compound, 5: Timepoint, 6: Well_Type
       # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
-# create.Runlist() snapshot
+# ras.create.Runlist() snapshot
 
     Code
       full.list = Example_Runlist
-      create.Runlist(full.list, blank.start = 4, blank.end = 2, blank.comp = 3,
+      ras.create.Runlist(full.list, blank.start = 4, blank.end = 2, blank.comp = 3,
         blank.type = 2, blank.max = 3)
     Output
       # A tibble: 159 x 16

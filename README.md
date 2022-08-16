@@ -26,13 +26,13 @@ devtools::install_github("Klorator/aquaras")
 
 ### Summary
 
--   Call `RunlistGenerator()`
+-   Call `ras.RunlistGenerator()`
 -   Input all the runlist info under “Well input”
     -   Optionally: download/upload the tsv under “Full list” to
         save/resume a project
 -   Generate a runlist under “Runlist” and download the tsv
 -   Do the experiments. Yeay!
--   Call `SplitOutput.ML()` and select the MassLynx complete summary
+-   Call `ras.SplitOutput()` and select the MassLynx complete summary
     output file (the file-selection window might be hiding behind
     RStudio)
 -   Analyze the results for each compound
@@ -60,7 +60,7 @@ And this is what we get from generating a final runlist version with
 default settings.
 
 ``` r
-Final_Runlist = create.Runlist(Example_Runlist)
+Final_Runlist = ras.create.Runlist(Example_Runlist)
 Final_Runlist[c(1, 5, 8, 12, 14, 16)]
 #> # A tibble: 150 × 6
 #>    Index LC_Position Sample_name          LC_Well_Type Sample_text       Draw_…¹
@@ -85,7 +85,7 @@ Ready for pasting columns into MassLynx!
 
 Recommended to place your output file in it’s own folder.
 
-Run `SplitOutput.ML()` and select the output file.
+Run `ras.SplitOutput()` and select the output file.
 
 ## Planned features
 

@@ -1,13 +1,14 @@
 test_that("well.update() snapshot test", {
   expect_snapshot({
-    well.update(df = Example_Runlist,
-                well.current = "3:A,1",
-                date         = "20220730",
-                signature    = "RH",
-                compound     = "Warfarin",
-                timepoint    = "42",
-                type         = "bead",
-                replicate    = "6")
+    New_list = well.update(df = Example_Runlist,
+                           well.current = "3:A,1",
+                           date         = "20220730",
+                           signature    = "RH",
+                           compound     = "Warfarin",
+                           timepoint    = "42",
+                           type         = "bead",
+                           replicate    = "6")
+    New_list[1,]
   })
 })
 

@@ -41,13 +41,13 @@ Update well info
 \examples{
 Example_Runlist[1,]
 Example_Runlist1 = well.update(df = Example_Runlist,
-                              well.current = "3:A,1",
-                              date         = "20220730",
-                              signature    = "RH",
-                              compound     = "Warfarin",
-                              timepoint    = "42",
-                              type         = "bead",
-                              replicate    = "6")
+                               well.current = "3:A,1",
+                               date         = "20220730",
+                               signature    = "RH",
+                               compound     = "Warfarin",
+                               timepoint    = "42",
+                               type         = "bead",
+                               replicate    = "6")
 Example_Runlist1[1,]
 }
 \seealso{

@@ -1,7 +1,7 @@
-# well.update() snapshot test
+# ras.well.update() snapshot test (warning)
 
     Code
-      New_list = well.update(df = Example_Runlist, well.current = "3:A,1", date = "20220730",
+      New_list = ras.well.update(df = Example_Runlist, well.current = "3:A,1", date = "20220730",
         signature = "RH", compound = "Warfarin", timepoint = "42", type = "bead",
         replicate = "6")
     Warning <lifecycle_warning_deprecated>
@@ -37,10 +37,10 @@
       #   2: Signature, 3: Sample_name, 4: Compound, 5: Timepoint, 6: Well_Type
       # i Use `colnames()` to see all variable names
 
-# dateSignAll.update() snapshot
+# ras.dateSignAll.update() snapshot
 
     Code
-      dateSignAll.update(df = Example_Runlist, date = "20220730", signature = "RH")
+      ras.dateSignAll.update(df = Example_Runlist, date = "20220730", signature = "RH")
     Output
       # A tibble: 672 x 14
          Index Plate Row     Col LC_Po~1 Date  Signa~2 Sampl~3 Compo~4 Timep~5 Well_~6
@@ -61,10 +61,10 @@
       #   6: Well_Type
       # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
-# sanitizeInput() snapshot
+# ras.sanitizeInput() snapshot
 
     Code
-      sanitizeInput("Spaces etc. / -- but_no_underscore!")
+      ras.sanitizeInput("Spaces etc. / -- but_no_underscore!")
     Output
       [1] "Spaces etc. / -- but.no.underscore!"
 

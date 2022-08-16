@@ -13,12 +13,12 @@
 #' @export
 #'
 #' @examples
-#' dataLines = loadFile.ML(sourceFile = system.file("extdata",
-#'                                                  "Example_MLOutput.txt",
-#'                                                  package = "aquaras",
-#'                                                  mustWork = TRUE))
+#' dataLines = ras.loadFile(sourceFile = system.file("extdata",
+#'                                                   "Example_MLOutput.txt",
+#'                                                   package = "aquaras",
+#'                                                   mustWork = TRUE))
 #' head(dataLines)
-loadFile.ML = function(sourceFile) {
+ras.loadFile = function(sourceFile) {
   dataLines =
     readr::read_lines(sourceFile, skip_empty_rows = T) %>% # Load file
     as.list()                                       # Coerce file into list
@@ -28,25 +28,25 @@ loadFile.ML = function(sourceFile) {
 
 #' Split loaded file into data frames
 #'
-#' Split the file loaded with [loadFile.ML()] into dataframes by compound.
+#' Split the file loaded with [ras.loadFile()] into dataframes by compound.
 #'
 #' @family SplitOutput
 #'
-#' @param dataLines List of vectors from [readr::read_lines()] in [loadFile.ML()]
+#' @param dataLines List of vectors from [readr::read_lines()] in [ras.loadFile()]
 #'
 #' @return List of data frames
 #' @export
 #'
 #' @examples
 #' # Setup
-#' dataLines = loadFile.ML(sourceFile = system.file("extdata",
-#'                                                  "Example_MLOutput.txt",
-#'                                                  package = "aquaras",
-#'                                                  mustWork = TRUE))
+#' dataLines = ras.loadFile(sourceFile = system.file("extdata",
+#'                                                   "Example_MLOutput.txt",
+#'                                                   package = "aquaras",
+#'                                                   mustWork = TRUE))
 #' ### Ignore the "New names:" output.
-#' listDF = splitDataLines.ML(dataLines)
+#' listDF = ras.splitDataLines(dataLines)
 #' listDF
-splitDataLines.ML = function(dataLines) {
+ras.splitDataLines = function(dataLines) {
   # Create variables -----------------------------------------------------------
   fileSep = "\t"        # Delimiter in file
   tempDF = ""           # Stores temp df
@@ -110,16 +110,16 @@ splitDataLines.ML = function(dataLines) {
 #'
 #' @examples
 #' # Setup
-#' dataLines = loadFile.ML(sourceFile = system.file("extdata",
-#'                                                  "Example_MLOutput.txt",
-#'                                                  package = "aquaras",
-#'                                                  mustWork = TRUE))
+#' dataLines = ras.loadFile(sourceFile = system.file("extdata",
+#'                                                   "Example_MLOutput.txt",
+#'                                                   package = "aquaras",
+#'                                                   mustWork = TRUE))
 #' ### Ignore the "New names:" output.
-#' listDF = splitDataLines.ML(dataLines)
+#' listDF = ras.splitDataLines(dataLines)
 #'
-#' listDF.clean = cleanDF.ML(listDF)
+#' listDF.clean = ras.cleanDF(listDF)
 #' listDF.clean
-cleanDF.ML = function(listDF) {
+ras.cleanDF = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
       dplyr::filter(`Sample Text` != "blank") %>% # Drop "blank"
@@ -152,9 +152,9 @@ cleanDF.ML = function(listDF) {
 #'
 #' @examples
 #'   \dontrun{
-#' writeFiles.ML(listDF, sourceFile)
+#' ras.writeFiles(listDF, sourceFile)
 #' }
-writeFiles.ML = function(listDF, sourceFile) {
+ras.writeFiles = function(listDF, sourceFile) {
   old_directory = getwd()          # Save current working directory
   sourceFile %>%
     dirname() %>%                  # Get directory of source file
@@ -177,7 +177,7 @@ writeFiles.ML = function(listDF, sourceFile) {
 #'  output in the console that is not particularly interesting but lets you know
 #'   it's doing something.
 #' ## clean = TRUE
-#' These data frames are cleaned by [cleanDF.ML()] (unless clean = FALSE).
+#' These data frames are cleaned by [ras.cleanDF()] (unless clean = FALSE).
 #' ## write = TRUE
 #' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Data frames written to tsv files
 #'  in the same directory as the source file. Use write = FALSE to disable this.
@@ -194,26 +194,26 @@ writeFiles.ML = function(listDF, sourceFile) {
 #'
 #' @examples
 #'   \dontrun{
-#' SplitOutput.ML() # First thing the function does is ask the user for a file.
-#' SplitOutput.ML(clean = FALSE) # If the summary output file was not based on the provided template.
+#' ras.SplitOutput() # First thing the function does is ask the user for a file.
+#' ras.SplitOutput(clean = FALSE) # If the summary output file was not based on the provided template.
 #' }
 #'
 #' # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
-#' listDF = SplitOutput.ML(sourceFile = system.file("extdata",
-#'                                                  "Example_MLOutput.txt",
-#'                                                  package = "aquaras",
-#'                                                  mustWork = TRUE),
-#'                         write = FALSE)
+#' listDF = ras.SplitOutput(sourceFile = system.file("extdata",
+#'                                                   "Example_MLOutput.txt",
+#'                                                   package = "aquaras",
+#'                                                   mustWork = TRUE),
+#'                          write = FALSE)
 #' listDF
 #'
-SplitOutput.ML = function(sourceFile = file.choose(), clean = TRUE, write = TRUE) {
+ras.SplitOutput = function(sourceFile = file.choose(), clean = TRUE, write = TRUE) {
   # Load file
-  dataLines = loadFile.ML(sourceFile = sourceFile)
+  dataLines = ras.loadFile(sourceFile = sourceFile)
   # Split dataLines into data frames
-  listDF = splitDataLines.ML(dataLines)
+  listDF = ras.splitDataLines(dataLines)
   # Clean data frames
-  if ( clean == TRUE ) {listDF = cleanDF.ML(listDF)}
+  if ( clean == TRUE ) {listDF = ras.cleanDF(listDF)}
   # Write each data frame to a separate .txt file
-  if ( write == TRUE ) {writeFiles.ML(listDF, sourceFile)}
+  if ( write == TRUE ) {ras.writeFiles(listDF, sourceFile)}
   return(listDF)
 } # DONE! :)

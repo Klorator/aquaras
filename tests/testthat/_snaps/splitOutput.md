@@ -1,7 +1,7 @@
-# loadFile.ML() loads dataLines
+# ras.loadFile() loads dataLines
 
     Code
-      loadFile.ML(sourceFile = system.file("extdata", "Example_MLOutput.txt",
+      ras.loadFile(sourceFile = system.file("extdata", "Example_MLOutput.txt",
         package = "aquaras", mustWork = TRUE))
     Output
       [[1]]
@@ -194,12 +194,12 @@
       [1] "END"
       
 
-# splitDataLines.ML() splits into data frame list
+# ras.splitDataLines() splits into data frame list
 
     Code
-      dataLines = loadFile.ML(sourceFile = system.file("extdata",
+      dataLines = ras.loadFile(sourceFile = system.file("extdata",
         "Example_MLOutput.txt", package = "aquaras", mustWork = TRUE))
-      splitDataLines.ML(dataLines)
+      ras.splitDataLines(dataLines)
     Message <rlib_message_name_repair>
       New names:
       * `` -> `...1`
@@ -383,12 +383,12 @@
       # i Use `colnames()` to see all variable names
       
 
-# cleanDF.ML() snapshot looks as intended
+# ras.cleanDF() snapshot looks as intended
 
     Code
-      dataLines = loadFile.ML(sourceFile = system.file("extdata",
+      dataLines = ras.loadFile(sourceFile = system.file("extdata",
         "Example_MLOutput.txt", package = "aquaras", mustWork = TRUE))
-      listDF = splitDataLines.ML(dataLines)
+      listDF = ras.splitDataLines(dataLines)
     Message <rlib_message_name_repair>
       New names:
       * `` -> `...1`
@@ -499,7 +499,7 @@
       New names:
       * `` -> `...1`
     Code
-      cleanDF.ML(listDF)
+      ras.cleanDF(listDF)
     Output
       $`Compound 1 Ibuprofen\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 10 x 26
@@ -568,10 +568,10 @@
       # i Use `colnames()` to see all variable names
       
 
-# SplitOutput.ML() snapshot looks as intended
+# ras.SplitOutput() snapshot looks as intended
 
     Code
-      SplitOutput.ML(sourceFile = system.file("extdata", "Example_MLOutput.txt",
+      ras.SplitOutput(sourceFile = system.file("extdata", "Example_MLOutput.txt",
         package = "aquaras", mustWork = TRUE), write = FALSE)
     Message <rlib_message_name_repair>
       New names:

@@ -16,24 +16,24 @@
 #'
 #' @examples
 #' Example_Runlist[1,]
-#' Example_Runlist1 = well.update(df = Example_Runlist,
-#'                                well.current = "3:A,1",
-#'                                date         = "20220730",
-#'                                signature    = "RH",
-#'                                compound     = "Warfarin",
-#'                                timepoint    = "42",
-#'                                type         = "bead",
-#'                                replicate    = "6")
+#' Example_Runlist1 = ras.well.update(df = Example_Runlist,
+#'                                    well.current = "3:A,1",
+#'                                    date         = "20220730",
+#'                                    signature    = "RH",
+#'                                    compound     = "Warfarin",
+#'                                    timepoint    = "42",
+#'                                    type         = "bead",
+#'                                    replicate    = "6")
 #' Example_Runlist1[1,]
-well.update = function(df, well.current, date, signature,
-                       compound, timepoint, type, replicate) {
+ras.well.update = function(df, well.current, date, signature,
+                           compound, timepoint, type, replicate) {
   # Sanitize input
-  date      = sanitizeInput(date)
-  signature = sanitizeInput(signature)
-  compound  = sanitizeInput(compound)
-  timepoint = sanitizeInput(timepoint)
-  type      = sanitizeInput(type)
-  replicate = sanitizeInput(replicate)
+  date      = ras.sanitizeInput(date)
+  signature = ras.sanitizeInput(signature)
+  compound  = ras.sanitizeInput(compound)
+  timepoint = ras.sanitizeInput(timepoint)
+  type      = ras.sanitizeInput(type)
+  replicate = ras.sanitizeInput(replicate)
   # New well info
   df[df["LC_Position"] == well.current, "Compound"]   = compound
   df[df["LC_Position"] == well.current, "Timepoint"]  = timepoint
@@ -63,20 +63,20 @@ well.update = function(df, well.current, date, signature,
 #'
 #' @family RunlistGenerator
 #'
-#' @inheritParams well.update
+#' @inheritParams ras.well.update
 #'
 #' @return Updated data frame
 #' @export
 #'
 #' @examples
 #' head(Example_Runlist)
-#' Example_Runlist1 = dateSignAll.update(df = Example_Runlist,
-#'                                      date      = "20220730",
-#'                                      signature = "RH")
+#' Example_Runlist1 = ras.dateSignAll.update(df = Example_Runlist,
+#'                                           date      = "20220730",
+#'                                           signature = "RH")
 #' head(Example_Runlist1)
-dateSignAll.update = function(df, date, signature) {
-  date      = sanitizeInput(date)
-  signature = sanitizeInput(signature)
+ras.dateSignAll.update = function(df, date, signature) {
+  date      = ras.sanitizeInput(date)
+  signature = ras.sanitizeInput(signature)
   df["Date"]      = date
   df["Signature"] = signature
   for (i in 1:nrow(df)) {
@@ -96,8 +96,8 @@ dateSignAll.update = function(df, date, signature) {
 #' @return Character string
 #' @export
 #' @examples
-#' sanitizeInput("Spaces etc -- but_no_underscore!")
-sanitizeInput = function(inputVar) {
+#' ras.sanitizeInput("Spaces etc -- but_no_underscore!")
+ras.sanitizeInput = function(inputVar) {
   cleanVar = gsub("_", ".", inputVar) # Replace any underscore
   return(cleanVar)
 }

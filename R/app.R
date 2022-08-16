@@ -27,9 +27,9 @@
 #'
 #' @examples
 #'  \dontrun{
-#' RunlistGenerator() # Launches the Shiny GUI.
+#' ras.RunlistGenerator() # Launches the Shiny GUI.
 #' }
-RunlistGenerator = function() {
-  darkModeDF_Options()
+ras.RunlistGenerator = function() {
+  ras.darkModeDF_Options()
   shiny::shinyApp(aquaras.ui, aquaras.server)
 }

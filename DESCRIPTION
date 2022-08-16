@@ -5,13 +5,14 @@ Version: 0.1.3
 Author: Rasmus Hammar
 Maintainer: Rasmus Hammar <Rasmus.Hammar@gmx.com>
 Description: Pre-LC/MS run: Provides tools for working with runlists to
-    use with MassLynx (Waters LC/MS software).  Calling ras.RunlistGenerator()
-    launches a Shiny app that lets you create the full data frame and a
-    runlist. Alternatively, ras.create.Runlist() may be used directly.
-    Post-LC/MS run: Use ras.SplitOutput() to split the MassLynx complete
-    summary output file into individual data frames and write them to
-    files. Unless clean = FALSE, this removes blanks and splits the "Name"
-    and "Sample Name" columns according to the pre-LC/MS template.
+    use with MassLynx (Waters LC/MS software).  Calling
+    ras.RunlistGenerator() launches a Shiny app that lets you create the
+    full data frame and a runlist. Alternatively, ras.create.Runlist() may
+    be used directly.  Post-LC/MS run: Use ras.SplitOutput() to split the
+    MassLynx complete summary output file into individual data frames and
+    write them to files. Unless clean = FALSE, this removes blanks and
+    splits the "Name" and "Sample Name" columns according to the pre-LC/MS
+    template.
 License: GPL (>= 3)
 Depends: 
     R (>= 2.10)
@@ -33,8 +34,8 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
-Config/testthat/edition: 3

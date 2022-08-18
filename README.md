@@ -8,7 +8,6 @@
 [![R-CMD-check](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml)
 [![Coveralls test
 coverage](https://coveralls.io/repos/github/Klorator/aquaras/badge.svg)](https://coveralls.io/r/Klorator/aquaras?branch=master)
-![Coveralls](https://img.shields.io/coveralls/github/Klorator/aquaras)
 <!-- badges: end -->
 
 The goal of aquaras is to make it easier to create runlists for use with

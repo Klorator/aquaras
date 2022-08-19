@@ -8,7 +8,7 @@ specified compound and well type."><!-- mathjax --><script src="https://cdnjs.cl
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
@@ -20,14 +20,11 @@ specified compound and well type."><!-- mathjax --><script src="https://cdnjs.cl
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/aquaras.html">Get started</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_aquaras.html">Introduction to aquaras</a>
-  </div>
+<li class="active nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -82,7 +79,6 @@ but with appended analytes.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other RunlistGenerator: 
-<code><a href="aquaras.server.html">aquaras.server</a>()</code>,
 <code><a href="ras.RunlistGenerator.html">ras.RunlistGenerator</a>()</code>,
 <code><a href="ras.add.blank.html">ras.add.blank</a>()</code>,
 <code><a href="ras.add.compound.html">ras.add.compound</a>()</code>,
@@ -90,13 +86,14 @@ but with appended analytes.</p>
 <code><a href="ras.darkModeDF_Options.html">ras.darkModeDF_Options</a>()</code>,
 <code><a href="ras.dateSignAll.update.html">ras.dateSignAll.update</a>()</code>,
 <code><a href="ras.sanitizeInput.html">ras.sanitizeInput</a>()</code>,
+<code><a href="ras.server.html">ras.server</a>()</code>,
 <code><a href="ras.well.update.html">ras.well.update</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Setup</span></span></span>
-<span class="r-in"><span><span class="va">full.list</span> <span class="op">=</span> <span class="va">Example_Runlist</span></span></span>
+<span class="r-in"><span><span class="va">full.list</span> <span class="op">=</span> <span class="va">ras.Example_Runlist</span></span></span>
 <span class="r-in"><span><span class="va">blank.max</span> <span class="op">=</span> <span class="fl">5</span></span></span>
 <span class="r-in"><span><span class="va">df.analyte</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">full.list</span>, <span class="va">full.list</span><span class="op">$</span><span class="va">LC_Well_Type</span> <span class="op">==</span> <span class="st">"Analyte"</span><span class="op">)</span> <span class="co"># All sample rows</span></span></span>
 <span class="r-in"><span><span class="va">Runlist</span> <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>

@@ -7,7 +7,7 @@
     <loc>https://klorator.github.io/aquaras/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://klorator.github.io/aquaras/articles/Intro_to_aquaras.html</loc>
+    <loc>https://klorator.github.io/aquaras/articles/aquaras.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/articles/index.html</loc>
@@ -19,19 +19,16 @@
     <loc>https://klorator.github.io/aquaras/index.html</loc>
   </url>
   <url>
-    <loc>https://klorator.github.io/aquaras/reference/Example_Runlist.html</loc>
-  </url>
-  <url>
     <loc>https://klorator.github.io/aquaras/reference/aquaras-package.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/aquaras.server.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/index.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.Example_Runlist.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.RunlistGenerator.html</loc>
@@ -65,6 +62,9 @@
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.sanitizeInput.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.server.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.splitDataLines.html</loc>

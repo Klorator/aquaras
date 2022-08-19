@@ -7,3 +7,5 @@
 ^README\.Rmd$
 ^docs$
 ^\.covrignore$
+^_pkgdown\.yml$
+^pkgdown$

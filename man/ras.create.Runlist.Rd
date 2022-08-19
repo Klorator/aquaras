@@ -36,7 +36,7 @@ in the Shiny app \code{\link[=ras.RunlistGenerator]{ras.RunlistGenerator()}}.
 }
 \examples{
 # Setup
-full.list = Example_Runlist
+full.list = ras.Example_Runlist
 head(full.list)
 
 # Run function
@@ -53,7 +53,6 @@ head(Runlist2)
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{aquaras.server}()},
 \code{\link{ras.RunlistGenerator}()},
 \code{\link{ras.add.blank}()},
 \code{\link{ras.add.compound}()},
@@ -61,6 +60,7 @@ Other RunlistGenerator:
 \code{\link{ras.darkModeDF_Options}()},
 \code{\link{ras.dateSignAll.update}()},
 \code{\link{ras.sanitizeInput}()},
+\code{\link{ras.server}()},
 \code{\link{ras.well.update}()}
 }
 \concept{RunlistGenerator}

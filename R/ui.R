@@ -1,6 +1,6 @@
 # UI for RunlistGenerator app.
 # UI ---------------------------------------------------------------------------
-aquaras.ui =
+ras.ui =
   shiny::fluidPage(
   theme = shinythemes::shinytheme("cyborg"),
   shiny::titlePanel("Data processing for LC/MS"),

@@ -1,4 +1,37 @@
 url: https://klorator.github.io/aquaras/
 template:
   bootstrap: 5
+  bootswatch: cyborg
+  theme: github-dark
 
+reference:
+- title: "Runlist generator"
+  desc: >
+    Functions used for building and generating a runlist.
+  contents:
+  - ras.RunlistGenerator
+  - ras.create.Runlist
+  - ras.add.blank
+  - ras.add.type
+  - ras.add.compound
+  - ras.well.update
+  - ras.dateSignAll.update
+  - ras.sanitizeInput
+  - ras.darkModeDF_Options
+  - ras.server
+
+- title: "Split output"
+  desc: >
+    Functions used for processing the MassLynx output summary file.
+  contents:
+  - ras.SplitOutput
+  - ras.loadFile
+  - ras.splitDataLines
+  - ras.cleanDF
+  - ras.writeFiles
+
+- title: "Example data"
+  desc: >
+    Example data for documentation purposes.
+  contents:
+  - ras.Example_Runlist

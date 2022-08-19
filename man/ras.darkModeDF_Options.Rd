@@ -16,7 +16,6 @@ ras.darkModeDF_Options() # Sets the global options for reactable.theme
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{aquaras.server}()},
 \code{\link{ras.RunlistGenerator}()},
 \code{\link{ras.add.blank}()},
 \code{\link{ras.add.compound}()},
@@ -24,6 +23,7 @@ Other RunlistGenerator:
 \code{\link{ras.create.Runlist}()},
 \code{\link{ras.dateSignAll.update}()},
 \code{\link{ras.sanitizeInput}()},
+\code{\link{ras.server}()},
 \code{\link{ras.well.update}()}
 }
 \concept{RunlistGenerator}

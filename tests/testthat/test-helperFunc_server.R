@@ -1,6 +1,6 @@
 test_that("ras.well.update() snapshot test (warning)", {
   expect_snapshot({
-    New_list = ras.well.update(df = Example_Runlist,
+    New_list = ras.well.update(df = ras.Example_Runlist,
                                well.current = "3:A,1",
                                date         = "20220730",
                                signature    = "RH",
@@ -22,7 +22,7 @@ test_that("ras.well.update() snapshot test (warning)", {
 
 test_that("ras.dateSignAll.update() snapshot", {
   expect_snapshot({
-    ras.dateSignAll.update(df = Example_Runlist,
+    ras.dateSignAll.update(df = ras.Example_Runlist,
                            date      = "20220730",
                            signature = "RH")
   })

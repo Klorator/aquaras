@@ -1,9 +1,9 @@
 # ras.well.update() snapshot test (warning)
 
     Code
-      New_list = ras.well.update(df = Example_Runlist, well.current = "3:A,1", date = "20220730",
-        signature = "RH", compound = "Warfarin", timepoint = "42", type = "bead",
-        replicate = "6")
+      New_list = ras.well.update(df = ras.Example_Runlist, well.current = "3:A,1",
+        date = "20220730", signature = "RH", compound = "Warfarin", timepoint = "42",
+        type = "bead", replicate = "6")
     Warning <lifecycle_warning_deprecated>
       The `i` argument of `[<-` can't be a matrix as of tibble 3.0.0.
       Convert to a vector.
@@ -40,7 +40,7 @@
 # ras.dateSignAll.update() snapshot
 
     Code
-      ras.dateSignAll.update(df = Example_Runlist, date = "20220730", signature = "RH")
+      ras.dateSignAll.update(df = ras.Example_Runlist, date = "20220730", signature = "RH")
     Output
       # A tibble: 672 x 14
          Index Plate Row     Col LC_Po~1 Date  Signa~2 Sampl~3 Compo~4 Timep~5 Well_~6

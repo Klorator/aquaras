@@ -1,7 +1,7 @@
-test_that("ras.add.blank() snapshot looks as intended", {
+test_that("ras.add.blank() snapshot", {
   expect_snapshot({
     # Setup
-    full.list = Example_Runlist
+    full.list = ras.Example_Runlist
     blank.max = 5
     df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>% # All blank rows
       dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -32,7 +32,7 @@ test_that("ras.add.blank() snapshot looks as intended", {
 test_that("ras.add.type() snapshot", {
   expect_snapshot({
     # Setup
-    full.list = Example_Runlist
+    full.list = ras.Example_Runlist
     blank.max = 5
     df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte") # All sample rows
     Runlist = tibble::tibble(
@@ -62,7 +62,7 @@ test_that("ras.add.type() snapshot", {
 test_that("ras.add.compound() snapshot (1 blank, default)", {
   expect_snapshot({
     # Setup
-    full.list = Example_Runlist
+    full.list = ras.Example_Runlist
     blank.max = 5
     df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>% # All blank rows
       dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -94,7 +94,7 @@ test_that("ras.add.compound() snapshot (1 blank, default)", {
 test_that("ras.add.compound() snapshot (3 blanks)", {
   expect_snapshot({
     # Setup
-    full.list = Example_Runlist
+    full.list = ras.Example_Runlist
     blank.max = 5
     df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>% # All blank rows
       dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -128,7 +128,7 @@ test_that("ras.add.compound() snapshot (3 blanks)", {
 test_that("ras.create.Runlist() snapshot (default)", {
   expect_snapshot({
     # Setup
-    full.list = Example_Runlist
+    full.list = ras.Example_Runlist
     # Run function
     ras.create.Runlist(full.list)
   })
@@ -137,7 +137,7 @@ test_that("ras.create.Runlist() snapshot (default)", {
 test_that("ras.create.Runlist() snapshot", {
   expect_snapshot({
     # Setup
-    full.list = Example_Runlist
+    full.list = ras.Example_Runlist
     # Run function
     ras.create.Runlist(full.list,
                        blank.start = 4,

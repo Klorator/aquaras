@@ -3,5 +3,8 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Intro_to_aquaras: Intro_to_aquaras.html
-last_built: 2022-08-19T13:26Z
+last_built: 2022-08-19T18:11Z
+urls:
+  reference: https://klorator.github.io/aquaras/reference
+  article: https://klorator.github.io/aquaras/articles
 

@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://klorator.github.io/aquaras/404.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://klorator.github.io/aquaras/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/Intro_to_aquaras.html</loc>
+    <loc>https://klorator.github.io/aquaras/articles/Intro_to_aquaras.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://klorator.github.io/aquaras/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://klorator.github.io/aquaras/index.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://klorator.github.io/aquaras/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/reference/add.blank.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/add.blank.html</loc>
   </url>
   <url>
-    <loc>/reference/add.compound.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/add.compound.html</loc>
   </url>
   <url>
-    <loc>/reference/add.type.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/add.type.html</loc>
   </url>
   <url>
-    <loc>/reference/aquaras-package.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/aquaras-package.html</loc>
   </url>
   <url>
-    <loc>/reference/aquaras.server.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/aquaras.server.html</loc>
   </url>
   <url>
-    <loc>/reference/cleanDF.ML.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/cleanDF.ML.html</loc>
   </url>
   <url>
-    <loc>/reference/create.Runlist.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/create.Runlist.html</loc>
   </url>
   <url>
-    <loc>/reference/darkModeDF_Options.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/darkModeDF_Options.html</loc>
   </url>
   <url>
-    <loc>/reference/dateSignAll.update.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/dateSignAll.update.html</loc>
   </url>
   <url>
-    <loc>/reference/Example_Runlist.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/Example_Runlist.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/loadFile.ML.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/loadFile.ML.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.add.blank.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.add.blank.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.add.compound.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.add.compound.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.add.type.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.add.type.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.cleanDF.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.cleanDF.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.create.Runlist.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.create.Runlist.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.darkModeDF_Options.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.darkModeDF_Options.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.dateSignAll.update.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.dateSignAll.update.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.loadFile.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.loadFile.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.RunlistGenerator.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.RunlistGenerator.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.sanitizeInput.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.sanitizeInput.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.splitDataLines.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.splitDataLines.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.SplitOutput.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.SplitOutput.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.well.update.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.well.update.html</loc>
   </url>
   <url>
-    <loc>/reference/ras.writeFiles.html</loc>
+    <loc>https://klorator.github.io/aquaras/reference/ras.writeFiles.html</loc>
   </url>
 </urlset>

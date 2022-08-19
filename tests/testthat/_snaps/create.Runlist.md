@@ -1,7 +1,7 @@
-# ras.add.blank() snapshot looks as intended
+# ras.add.blank() snapshot
 
     Code
-      full.list = Example_Runlist
+      full.list = ras.Example_Runlist
       blank.max = 5
       df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>%
         dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -27,7 +27,7 @@
 # ras.add.type() snapshot
 
     Code
-      full.list = Example_Runlist
+      full.list = ras.Example_Runlist
       blank.max = 5
       df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte")
       Runlist = tibble::tibble(Index = double(), Plate = double(), Row = character(),
@@ -67,7 +67,7 @@
 # ras.add.compound() snapshot (1 blank, default)
 
     Code
-      full.list = Example_Runlist
+      full.list = ras.Example_Runlist
       blank.max = 5
       df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>%
         dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -102,7 +102,7 @@
 # ras.add.compound() snapshot (3 blanks)
 
     Code
-      full.list = Example_Runlist
+      full.list = ras.Example_Runlist
       blank.max = 5
       df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>%
         dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -137,7 +137,7 @@
 # ras.create.Runlist() snapshot (default)
 
     Code
-      full.list = Example_Runlist
+      full.list = ras.Example_Runlist
       ras.create.Runlist(full.list)
     Output
       # A tibble: 150 x 16
@@ -162,7 +162,7 @@
 # ras.create.Runlist() snapshot
 
     Code
-      full.list = Example_Runlist
+      full.list = ras.Example_Runlist
       ras.create.Runlist(full.list, blank.start = 4, blank.end = 2, blank.comp = 3,
         blank.type = 2, blank.max = 3)
     Output

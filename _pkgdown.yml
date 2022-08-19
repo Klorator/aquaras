@@ -4,6 +4,9 @@ template:
   bootswatch: cyborg
   theme: github-dark
 
+navbar:
+  bg: primary
+
 reference:
 - title: "Runlist generator"
   desc: >

@@ -4,10 +4,10 @@
     <loc>https://klorator.github.io/aquaras/404.html</loc>
   </url>
   <url>
-    <loc>https://klorator.github.io/aquaras/articles/index.html</loc>
+    <loc>https://klorator.github.io/aquaras/articles/aquaras.html</loc>
   </url>
   <url>
-    <loc>https://klorator.github.io/aquaras/articles/Intro_to_aquaras.html</loc>
+    <loc>https://klorator.github.io/aquaras/articles/index.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/authors.html</loc>
@@ -19,40 +19,10 @@
     <loc>https://klorator.github.io/aquaras/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://klorator.github.io/aquaras/reference/add.blank.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/add.compound.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/add.type.html</loc>
-  </url>
-  <url>
     <loc>https://klorator.github.io/aquaras/reference/aquaras-package.html</loc>
   </url>
   <url>
-    <loc>https://klorator.github.io/aquaras/reference/aquaras.server.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/cleanDF.ML.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/create.Runlist.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/darkModeDF_Options.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/dateSignAll.update.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/Example_Runlist.html</loc>
-  </url>
-  <url>
     <loc>https://klorator.github.io/aquaras/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://klorator.github.io/aquaras/reference/loadFile.ML.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/pipe.html</loc>
@@ -79,6 +49,9 @@
     <loc>https://klorator.github.io/aquaras/reference/ras.dateSignAll.update.html</loc>
   </url>
   <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.Example_Runlist.html</loc>
+  </url>
+  <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.loadFile.html</loc>
   </url>
   <url>
@@ -86,6 +59,9 @@
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.sanitizeInput.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.server.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.splitDataLines.html</loc>

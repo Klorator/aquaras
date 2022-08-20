@@ -75,20 +75,16 @@
 <div class="section level5">
 <h5 id="pre-lcms-run">Pre-LC/MS run<a class="anchor" aria-label="anchor" href="#pre-lcms-run"></a>
 </h5>
-<p>Provides tools for working with runlists to use with MassLynx (Waters LC/MS software). Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, create.Runlist() may be used directly.</p>
+<p>Provides tools for working with runlists to use with MassLynx (Waters LC/MS software). Calling <code><a href="../reference/ras.RunlistGenerator.html">ras.RunlistGenerator()</a></code> launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, <code><a href="../reference/ras.create.Runlist.html">ras.create.Runlist()</a></code> may be used directly.</p>
 </div>
 <div class="section level5">
 <h5 id="post-lcms-run">Post-LC/MS run<a class="anchor" aria-label="anchor" href="#post-lcms-run"></a>
 </h5>
-<p>Use SplitOutput.ML() to split the MassLynx complete summary output file into individual data frames and write them to files. Unless clean = FALSE, this removes blanks and splits the “Name” and “Sample Name” columns according to the pre-LC/MS template.</p>
+<p>Use <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> to split the MassLynx complete summary output file into individual data frames and write them to files. Unless <code>clean = FALSE</code>, this removes blanks and splits the <code>Name</code> and <code>Sample Name</code> columns according to the pre-LC/MS template. To only return the list of data frames and not write to the file system, use <code>write = FALSE</code>.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="example-workflow">Example workflow<a class="anchor" aria-label="anchor" href="#example-workflow"></a>
-</h2>
-<div class="section level4">
-<h4 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
-</h4>
+<div class="section level5">
+<h5 id="workflow-summary">Workflow summary<a class="anchor" aria-label="anchor" href="#workflow-summary"></a>
+</h5>
 <ul>
 <li>Call <code><a href="../reference/ras.RunlistGenerator.html">ras.RunlistGenerator()</a></code>
 </li>
@@ -98,13 +94,17 @@
 </ul>
 </li>
 <li>Generate a runlist under “Runlist” and download the tsv</li>
-<li>Do the experiments. Yeay!</li>
+<li>Do experiments. Yeay!</li>
 <li>Call <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> and select the MassLynx complete summary output file (the file-selection window might be hiding behind RStudio)</li>
 <li>Analyze the results for each compound</li>
 <li>Publish paper!</li>
 <li>Design new experiments (rinse and repeat)</li>
 </ul>
 </div>
+</div>
+<div class="section level2">
+<h2 id="example-workflow">Example workflow<a class="anchor" aria-label="anchor" href="#example-workflow"></a>
+</h2>
 <div class="section level4">
 <h4 id="pre-lcms">Pre-LC/MS<a class="anchor" aria-label="anchor" href="#pre-lcms"></a>
 </h4>
@@ -142,20 +142,11 @@
 <p>Ready for pasting columns into MassLynx!</p>
 </div>
 <div class="section level4">
-<h4 id="post-lcms-examples">Post-LC/MS examples<a class="anchor" aria-label="anchor" href="#post-lcms-examples"></a>
+<h4 id="post-lcms">Post-LC/MS<a class="anchor" aria-label="anchor" href="#post-lcms"></a>
 </h4>
 <p>Recommended to place your output file in it’s own folder.</p>
 <p>Run <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> and select the output file.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="planned-features">Planned features<a class="anchor" aria-label="anchor" href="#planned-features"></a>
-</h2>
-<div class="section level4">
-<h4 id="plotting-of-graphs">Plotting of graphs<a class="anchor" aria-label="anchor" href="#plotting-of-graphs"></a>
-</h4>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Plotting with ggplot2 here...</span></span></code></pre></div>
+<p>This splits the output into its constituent data frames and (unless <code>write = FALSE</code>) writes them as individual .txt files in the same directory as the source file. Naming convention used is “[source file name] - [compound name]”. <code>clean = FALSE</code> may be used to not perform any data manipulation at this stage. This is recommended if the source file was not created using the {aquaras} standard format.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

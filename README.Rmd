@@ -32,48 +32,25 @@ You can install the development version of aquaras from [GitHub](https://github.
 devtools::install_github("Klorator/aquaras")
 ```
 
-## Example workflow:
-
-### Summary
+## Workflow summary
 * Call `ras.RunlistGenerator()`
 * Input all the runlist info under "Well input"
   * Optionally: download/upload the tsv under "Full list" to save/resume a project
 * Generate a runlist under "Runlist" and download the tsv
-* Do the experiments. Yeay!
+* Do experiments. Yeay!
 * Call `ras.SplitOutput()` and select the MassLynx complete summary output file (the file-selection window might be hiding behind RStudio)
 * Analyze the results for each compound
 * Publish paper!
 * Design new experiments (rinse and repeat)
 
-### Pre-LC/MS
-Here is a mock example of a populated runlist.
-```{r example runlist}
-library(aquaras)
-# str(Example_Runlist)
-Example_Runlist[c(1:2, 7:8, 13:14), c(1, 5, 8, 12, 14)]
-```
-
-And this is what we get from generating a final runlist version with default settings.
-```{r generated runlist}
-Final_Runlist = ras.create.Runlist(Example_Runlist)
-Final_Runlist[c(1, 5, 8, 12, 14, 16)]
-```
-
-Ready for pasting columns into MassLynx!
-
-### Post-LC/MS
-Recommended to place your output file in it's own folder.
-
-Run `ras.SplitOutput()` and select the output file.
-
 ## Planned features
 
-### Plotting of graphs
+##### Plotting of graphs
 
 ```{r plotting}
 # Plotting with ggplot2 here...
 ```
 
-### Submitting to CRAN
+##### Submitting to CRAN
 
 This will probably never happen, but it would be cool.

@@ -3,9 +3,12 @@ template:
   bootstrap: 5
   bootswatch: cyborg
   theme: github-dark
+  bslib:
+    code-bg: "#24292e"
 
 navbar:
   bg: primary
+
 
 reference:
 - title: "Runlist generator"

@@ -60,12 +60,3 @@ Ready for pasting columns into MassLynx!
 Recommended to place your output file in it's own folder.
 
 Run `ras.SplitOutput()` and select the output file.
-
-## Planned features
-
-#### Plotting of graphs
-
-```{r plotting}
-# Plotting with ggplot2 here...
-```
-

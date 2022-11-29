@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,6 +40,12 @@
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/Random_groups.html">Create random groups</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -75,12 +81,21 @@
 <div class="section level5">
 <h5 id="pre-lcms-run">Pre-LC/MS run<a class="anchor" aria-label="anchor" href="#pre-lcms-run"></a>
 </h5>
-<p>Provides tools for working with runlists to use with MassLynx (Waters LC/MS software). Calling <code><a href="../reference/ras.RunlistGenerator.html">ras.RunlistGenerator()</a></code> launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, <code><a href="../reference/ras.create.Runlist.html">ras.create.Runlist()</a></code> may be used directly.</p>
+<p>Provides tools for working with runlists to use with MassLynx (Waters
+LC/MS software). Calling <code><a href="../reference/ras.RunlistGenerator.html">ras.RunlistGenerator()</a></code> launches a
+Shiny app that lets you create the full data frame and a runlist.
+Alternatively, <code><a href="../reference/ras.create.Runlist.html">ras.create.Runlist()</a></code> may be used
+directly.</p>
 </div>
 <div class="section level5">
 <h5 id="post-lcms-run">Post-LC/MS run<a class="anchor" aria-label="anchor" href="#post-lcms-run"></a>
 </h5>
-<p>Use <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> to split the MassLynx complete summary output file into individual data frames and write them to files. Unless <code>clean = FALSE</code>, this removes blanks and splits the <code>Name</code> and <code>Sample Name</code> columns according to the pre-LC/MS template. To only return the list of data frames and not write to the file system, use <code>write = FALSE</code>.</p>
+<p>Use <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> to split the MassLynx complete
+summary output file into individual data frames and write them to files.
+Unless <code>clean = FALSE</code>, this removes blanks and splits the
+<code>Name</code> and <code>Sample Name</code> columns according to the
+pre-LC/MS template. To only return the list of data frames and not write
+to the file system, use <code>write = FALSE</code>.</p>
 </div>
 <div class="section level5">
 <h5 id="workflow-summary">Workflow summary<a class="anchor" aria-label="anchor" href="#workflow-summary"></a>
@@ -90,12 +105,15 @@
 </li>
 <li>Input all the runlist info under “Well input”
 <ul>
-<li>Optionally: download/upload the tsv under “Full list” to save/resume a project</li>
+<li>Optionally: download/upload the tsv under “Full list” to save/resume
+a project</li>
 </ul>
 </li>
 <li>Generate a runlist under “Runlist” and download the tsv</li>
 <li>Do experiments. Yeay!</li>
-<li>Call <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> and select the MassLynx complete summary output file (the file-selection window might be hiding behind RStudio)</li>
+<li>Call <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> and select the MassLynx complete
+summary output file (the file-selection window might be hiding behind
+RStudio)</li>
 <li>Analyze the results for each compound</li>
 <li>Publish paper!</li>
 <li>Design new experiments (rinse and repeat)</li>
@@ -120,7 +138,8 @@
 <span><span class="co">#&gt; 8      8       3:A,8  20220725_RH_Index.8      Analyte    Paracetamol_0_STD_</span></span>
 <span><span class="co">#&gt; 13    13       3:B,1 20220725_RH_Index.13        blank                 blank</span></span>
 <span><span class="co">#&gt; 14    14       3:B,2 20220725_RH_Index.14        blank                 blank</span></span></code></pre></div>
-<p>And this is what we get from generating a final runlist version with default settings.</p>
+<p>And this is what we get from generating a final runlist version with
+default settings.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Final_Runlist</span> <span class="op">=</span> <span class="fu"><a href="../reference/ras.create.Runlist.html">ras.create.Runlist</a></span><span class="op">(</span><span class="va">ras.Example_Runlist</span><span class="op">)</span></span>
 <span><span class="va">Final_Runlist</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">12</span>, <span class="fl">14</span>, <span class="fl">16</span><span class="op">)</span><span class="op">]</span></span>
@@ -137,8 +156,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    66 3:F,6       20220725_RH_Index.66 Analyte      Ibuprofen_0_bead_       1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    67 3:F,7       20220725_RH_Index.67 Analyte      Ibuprofen_0_bead_       1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    68 3:F,8       20220725_RH_Index.68 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 140 more rows, and abbreviated variable name ¹​Draw_Count</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 140 more rows, and abbreviated variable name ¹​Draw_Count</span></span></span></code></pre></div>
 <p>Ready for pasting columns into MassLynx!</p>
 </div>
 <div class="section level4">
@@ -146,7 +164,12 @@
 </h4>
 <p>Recommended to place your output file in it’s own folder.</p>
 <p>Run <code><a href="../reference/ras.SplitOutput.html">ras.SplitOutput()</a></code> and select the output file.</p>
-<p>This splits the output into its constituent data frames and (unless <code>write = FALSE</code>) writes them as individual .txt files in the same directory as the source file. Naming convention used is “[source file name] - [compound name]”. <code>clean = FALSE</code> may be used to not perform any data manipulation at this stage. This is recommended if the source file was not created using the {aquaras} standard format.</p>
+<p>This splits the output into its constituent data frames and (unless
+<code>write = FALSE</code>) writes them as individual .txt files in the
+same directory as the source file. Naming convention used is “[source
+file name] - [compound name]”. <code>clean = FALSE</code> may be used to
+not perform any data manipulation at this stage. This is recommended if
+the source file was not created using the {aquaras} standard format.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

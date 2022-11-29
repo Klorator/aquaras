@@ -1,9 +1,10 @@
-pandoc: 2.14.2
+pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
+  Random_groups: Random_groups.html
   aquaras: aquaras.html
-last_built: 2022-08-20T23:04Z
+last_built: 2022-11-29T00:49Z
 urls:
   reference: https://klorator.github.io/aquaras/reference
   article: https://klorator.github.io/aquaras/articles

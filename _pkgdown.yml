@@ -4,15 +4,12 @@ template:
   bootswatch: cyborg
   theme: github-dark
   bslib:
-    code-bg: "#24292e"
-
+    code-bg: '#24292e'
 navbar:
   bg: primary
-
-
 reference:
-- title: "Runlist generator"
-  desc: >
+- title: Runlist generator
+  desc: |
     Functions used for building and generating a runlist.
   contents:
   - ras.RunlistGenerator
@@ -25,9 +22,8 @@ reference:
   - ras.sanitizeInput
   - ras.darkModeDF_Options
   - ras.server
-
-- title: "Split output"
-  desc: >
+- title: Split output
+  desc: |
     Functions used for processing the MassLynx output summary file.
   contents:
   - ras.SplitOutput
@@ -35,9 +31,8 @@ reference:
   - ras.splitDataLines
   - ras.cleanDF
   - ras.writeFiles
-
-- title: "Example data"
-  desc: >
+- title: Example data
+  desc: |
     Example data for documentation purposes.
-  contents:
-  - ras.Example_Runlist
+  contents: ras.Example_Runlist
+

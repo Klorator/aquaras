@@ -24,18 +24,22 @@ devtools::install_github("Klorator/aquaras")
 
 ## Workflow summary
 
--   Call `ras.RunlistGenerator()`
--   Input all the runlist info under “Well input”
-    -   Optionally: download/upload the tsv under “Full list” to
-        save/resume a project
--   Generate a runlist under “Runlist” and download the tsv
--   Do experiments. Yeay!
--   Call `ras.SplitOutput()` and select the MassLynx complete summary
-    output file (the file-selection window might be hiding behind
-    RStudio)
--   Analyze the results for each compound
--   Publish paper!
--   Design new experiments (rinse and repeat)
+- Call `ras.RunlistGenerator()`
+- Input all the runlist info under “Well input”
+  - Optionally: download/upload the tsv under “Full list” to save/resume
+    a project
+- Generate a runlist under “Runlist” and download the tsv
+- Do experiments. Yeay!
+- Call `ras.SplitOutput()` and select the MassLynx complete summary
+  output file (the file-selection window might be hiding behind RStudio)
+- Analyze the results for each compound
+- Publish paper!
+- Design new experiments (rinse and repeat)
+
+## Random group generator
+
+Created the function `ras.ran_series()` to distribute a list of
+observations/compounds into groups randomly.
 
 ## Planned features
 

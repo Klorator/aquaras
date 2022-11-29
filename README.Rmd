@@ -43,6 +43,9 @@ devtools::install_github("Klorator/aquaras")
 * Publish paper!
 * Design new experiments (rinse and repeat)
 
+## Random group generator
+Created the function `ras.ran_series()` to distribute a list of observations/compounds into groups randomly.
+
 ## Planned features
 
 ##### Plotting of graphs

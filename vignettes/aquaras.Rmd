@@ -22,24 +22,23 @@ library(aquaras)
 ## Overview
 
 ##### Pre-LC/MS run
-Provides tools for working with runlists to use with MassLynx (Waters LC/MS software).  Calling RunlistGenerator() launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, create.Runlist() may be used directly.
+Provides tools for working with runlists to use with MassLynx (Waters LC/MS software).  Calling `ras.RunlistGenerator()` launches a Shiny app that lets you create the full data frame and a runlist. Alternatively, `ras.create.Runlist()` may be used directly.
 
 ##### Post-LC/MS run
-Use SplitOutput.ML() to split the MassLynx complete summary output file into individual data frames and write them to files. Unless clean = FALSE, this removes blanks and splits the "Name" and "Sample Name" columns according to the pre-LC/MS template.
+Use `ras.SplitOutput()` to split the MassLynx complete summary output file into individual data frames and write them to files. Unless `clean = FALSE`, this removes blanks and splits the `Name` and `Sample Name` columns according to the pre-LC/MS template. To only return the list of data frames and not write to the file system, use `write = FALSE`.
 
-## Example workflow
-
-#### Summary
+##### Workflow summary
 * Call `ras.RunlistGenerator()`
 * Input all the runlist info under "Well input"
   * Optionally: download/upload the tsv under "Full list" to save/resume a project
 * Generate a runlist under "Runlist" and download the tsv
-* Do the experiments. Yeay!
+* Do experiments. Yeay!
 * Call `ras.SplitOutput()` and select the MassLynx complete summary output file (the file-selection window might be hiding behind RStudio)
 * Analyze the results for each compound
 * Publish paper!
 * Design new experiments (rinse and repeat)
 
+## Example workflow
 #### Pre-LC/MS
 Here is a mock example of a populated runlist.
 ```{r example runlist}
@@ -56,7 +55,9 @@ Final_Runlist[c(1, 5, 8, 12, 14, 16)]
 
 Ready for pasting columns into MassLynx!
 
-#### Post-LC/MS examples
+#### Post-LC/MS
 Recommended to place your output file in it's own folder.
 
 Run `ras.SplitOutput()` and select the output file.
+
+This splits the output into its constituent data frames and (unless `write = FALSE`) writes them as individual .txt files in the same directory as the source file. Naming convention used is "[source file name] - [compound name]". `clean = FALSE` may be used to not perform any data manipulation at this stage. This is recommended if the source file was not created using the {aquaras} standard format.

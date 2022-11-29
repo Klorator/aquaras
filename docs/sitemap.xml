@@ -10,6 +10,9 @@
     <loc>https://klorator.github.io/aquaras/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://klorator.github.io/aquaras/articles/Random_groups.html</loc>
+  </url>
+  <url>
     <loc>https://klorator.github.io/aquaras/authors.html</loc>
   </url>
   <url>
@@ -53,6 +56,12 @@
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.loadFile.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.ran_group.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.ran_series.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.RunlistGenerator.html</loc>

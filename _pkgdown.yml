@@ -31,6 +31,12 @@ reference:
   - ras.splitDataLines
   - ras.cleanDF
   - ras.writeFiles
+- title: Random groups
+  desc: |
+    Distribute a list of observations/compounds randomly into groups.
+  contents:
+  - ras.ran_series
+  - ras.ran_group
 - title: Example data
   desc: |
     Example data for documentation purposes.

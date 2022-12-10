@@ -83,7 +83,7 @@ message is printed to the console and <code>N/A</code> inserted instead.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A list of character vectors with each random group</p>
+<p>A list of character vectors with each random group (data frame?)</p>
     </div>
 
     <div class="section level2">
@@ -97,21 +97,15 @@ message is printed to the console and <code>N/A</code> inserted instead.</p>
 <span class="r-in"><span><span class="st">"Comp_16"</span>, <span class="st">"Comp_17"</span>, <span class="st">"Comp_18"</span>, <span class="st">"Comp_19"</span>, <span class="st">"Comp_20"</span>,</span></span>
 <span class="r-in"><span><span class="st">"Comp_21"</span>, <span class="st">"Comp_22"</span>, <span class="st">"Comp_23"</span>, <span class="st">"Comp_24"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">series_A</span> <span class="op">=</span> <span class="fu">ras.ran_series</span><span class="op">(</span>master_list <span class="op">=</span> <span class="va">Compound_list</span>,</span></span>
-<span class="r-in"><span>                          group_size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">series_A</span> <span class="op">=</span> <span class="fu">ras.ran_series</span><span class="op">(</span>master_list <span class="op">=</span> <span class="va">Compound_list</span>, group_size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">series_A</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_18" "Comp_8"  "Comp_7"  "Comp_13" "Comp_17" "Comp_2" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_20" "Comp_23" "Comp_21" "Comp_11" "Comp_3"  "Comp_10"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_14" "Comp_5"  "Comp_4"  "Comp_1"  "Comp_16" "Comp_6" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_24" "Comp_9"  "Comp_19" "Comp_15" "Comp_12" "Comp_22"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Comp_8  Comp_17  Comp_13  Comp_14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_5   Comp_7   Comp_1  Comp_16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_21   Comp_6  Comp_23   Comp_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Comp_4  Comp_20  Comp_19  Comp_24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_10   Comp_3  Comp_22  Comp_12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_15   Comp_9  Comp_18  Comp_11</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example with 5 uneven groups</span></span></span>
 <span class="r-in"><span><span class="co"># Compound list</span></span></span>
@@ -122,8 +116,7 @@ message is printed to the console and <code>N/A</code> inserted instead.</p>
 <span class="r-in"><span><span class="st">"Comp_16"</span>, <span class="st">"Comp_17"</span>, <span class="st">"Comp_18"</span>, <span class="st">"Comp_19"</span>, <span class="st">"Comp_20"</span>,</span></span>
 <span class="r-in"><span><span class="st">"Comp_21"</span>, <span class="st">"Comp_22"</span>, <span class="st">"Comp_23"</span>, <span class="st">"Comp_24"</span>, <span class="st">"Comp_25"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">series_B</span> <span class="op">=</span> <span class="fu">ras.ran_series</span><span class="op">(</span><span class="va">Compound_list</span>,</span></span>
-<span class="r-in"><span>                          group_size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">series_B</span> <span class="op">=</span> <span class="fu">ras.ran_series</span><span class="op">(</span><span class="va">Compound_list</span>, group_size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span>
@@ -131,21 +124,13 @@ message is printed to the console and <code>N/A</code> inserted instead.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">series_B</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_10" "Comp_2"  "Comp_11" "Comp_22" "Comp_20" "Comp_21"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_24" "Comp_13" "Comp_17" "Comp_9"  "Comp_1"  "Comp_7" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_12" "Comp_4"  "Comp_6"  "Comp_18" "Comp_19" "Comp_16"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_25" "Comp_8"  "Comp_14" "Comp_23" "Comp_3"  "Comp_15"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Comp_5" "N/A"    "N/A"    "N/A"    "N/A"    "N/A"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04 Group_05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Comp_6  Comp_12  Comp_21   Comp_8  Comp_25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_7  Comp_15  Comp_17  Comp_18      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_10   Comp_4  Comp_11  Comp_19      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Comp_3   Comp_1   Comp_9  Comp_20      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_23  Comp_13  Comp_24  Comp_22      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_16   Comp_5   Comp_2  Comp_14      N/A</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

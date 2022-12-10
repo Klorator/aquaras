@@ -21,6 +21,7 @@ Imports:
     DT,
     ggplot2,
     magrittr,
+    openxlsx,
     purrr,
     reactable,
     readr,

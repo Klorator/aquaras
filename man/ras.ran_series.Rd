@@ -12,7 +12,7 @@ ras.ran_series(master_list, group_size)
 \item{group_size}{Integer of how many observations to attempt to place in each group}
 }
 \value{
-A list of character vectors with each random group
+A list of character vectors with each random group (data frame?)
 }
 \description{
 Creates a series of groups with randomly sampled observations. Observations
@@ -32,8 +32,7 @@ Compound_list = c(
 "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
 "Comp_21", "Comp_22", "Comp_23", "Comp_24")
 
-series_A = ras.ran_series(master_list = Compound_list,
-                          group_size = 6)
+series_A = ras.ran_series(master_list = Compound_list, group_size = 6)
 series_A
 
 # Example with 5 uneven groups
@@ -45,8 +44,7 @@ Compound_list = c(
 "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
 "Comp_21", "Comp_22", "Comp_23", "Comp_24", "Comp_25")
 
-series_B = ras.ran_series(Compound_list,
-                          group_size = 6)
+series_B = ras.ran_series(Compound_list, group_size = 6)
 
 series_B
 

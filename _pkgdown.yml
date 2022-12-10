@@ -8,6 +8,13 @@ template:
 navbar:
   bg: primary
 reference:
+- title: User level functions
+  desc: |
+    Highest level funtions intended for the user.
+  contents:
+  - ras.RunlistGenerator
+  - ras.SplitOutput
+  - ras.Randomizer
 - title: Runlist generator
   desc: |
     Functions used for building and generating a runlist.
@@ -35,6 +42,7 @@ reference:
   desc: |
     Distribute a list of observations/compounds randomly into groups.
   contents:
+  - ras.Randomizer
   - ras.ran_series
   - ras.ran_group
 - title: Example data

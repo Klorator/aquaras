@@ -44,6 +44,11 @@ ras.ran_group = function(masterList = master_list,
     seriesList[seriesList[ , 1] == ran1 , 2] =
       seriesList[seriesList[ , 1] == ran1 , 2] +1
   }
+
+
+
+
+
   # Package return info (return variable)
   infoPackage = list(group_name = groupName,
                      series_list = seriesList,
@@ -63,7 +68,7 @@ ras.ran_group = function(masterList = master_list,
 #' @param master_list A character vector with observations/compound names
 #' @param group_size Integer of how many observations to attempt to place in each group
 #'
-#' @return A list of character vectors with each random group
+#' @return A list of character vectors with each random group (data frame?)
 #' @export
 #'
 #' @examples
@@ -76,8 +81,7 @@ ras.ran_group = function(masterList = master_list,
 #' "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
 #' "Comp_21", "Comp_22", "Comp_23", "Comp_24")
 #'
-#' series_A = ras.ran_series(master_list = Compound_list,
-#'                           group_size = 6)
+#' series_A = ras.ran_series(master_list = Compound_list, group_size = 6)
 #' series_A
 #'
 #' # Example with 5 uneven groups
@@ -89,8 +93,7 @@ ras.ran_group = function(masterList = master_list,
 #' "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
 #' "Comp_21", "Comp_22", "Comp_23", "Comp_24", "Comp_25")
 #'
-#' series_B = ras.ran_series(Compound_list,
-#'                           group_size = 6)
+#' series_B = ras.ran_series(Compound_list, group_size = 6)
 #'
 #' series_B
 #'
@@ -120,5 +123,51 @@ ras.ran_series = function(master_list,
     # Store group in list (return variable)
     group_list = c(group_list, list(group_name))
   }
-  return(group_list)
+  group_df = as.data.frame(group_list)
+  groupNames = sprintf("Group_%02d", 1:series_size)
+  colnames(group_df) = groupNames
+  return(group_df)
+}
+
+
+#' Randomizer
+#'
+#' Uses [ras.ran_series()] to create a series of groups with randomly sampled observations.
+#' Observations are distributed such as that there are no repeated entries between groups/within
+#' a series. Number of groups in the series is calculated as `length(master_list)`
+#' divided by `group_size`, rounded up to nearest integer. If an observation can
+#' not be found (for example because the groups can not be filled evenly) an error
+#' message is printed to the console and `N/A` inserted instead.
+#' If `write = TRUE` will write the series to a comma delimited .csv file (excel?).
+#'
+#' @param compound_list A character vector with observations/compound names
+#' @param group_size Integer of how many observations to attempt to place in each group
+#' @param series Number of series to make
+#' @param write Default `FALSE`. If set to `TRUE` will write series to a .xlsx file
+#' @param fileName Default `NULL`. Name of file. Automatically appended with `.xlsx`
+#'
+#' @return List of data frames
+#' @export
+#'
+#' @examples
+ras.Randomizer = function(compound_list,
+                          group_size,
+                          series = 1,
+                          write = FALSE,
+                          fileName = NULL) {
+  random_series_list = list()
+  for( i in seq_len(series) ) {
+    group_df = ras.ran_series(master_list = compound_list,
+                              group_size = group_size)
+    entryName = paste0("Series_", i)
+    random_series_list = c(random_series_list, entryName = list(group_df))
+  }
+  if( write == TRUE ) {
+    fileName = ifelse(is.null(fileName),
+                      paste0("Randomized series (aquaras) ", Sys.time(), ".xlsx"),
+                      paste0(fileName, ".xlsx"))
+    openxlsx::write.xlsx(random_series_list,
+                         file = fileName)
+  }
+  return(random_series_list)
 }

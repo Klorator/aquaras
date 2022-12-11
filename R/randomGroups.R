@@ -44,11 +44,6 @@ ras.ran_group = function(masterList = master_list,
     seriesList[seriesList[ , 1] == ran1 , 2] =
       seriesList[seriesList[ , 1] == ran1 , 2] +1
   }
-
-
-
-
-
   # Package return info (return variable)
   infoPackage = list(group_name = groupName,
                      series_list = seriesList,
@@ -94,7 +89,6 @@ ras.ran_group = function(masterList = master_list,
 #' "Comp_21", "Comp_22", "Comp_23", "Comp_24", "Comp_25")
 #'
 #' series_B = ras.ran_series(Compound_list, group_size = 6)
-#'
 #' series_B
 #'
 ras.ran_series = function(master_list,

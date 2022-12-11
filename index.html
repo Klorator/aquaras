@@ -80,7 +80,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of aquaras is to make it easier to create runlists for use with MassLynx (Waters LC/MS software) and facilitate some of the data processing steps with the MassLynx complete summary output file.</p>
+<p>I created aquaras to solve some specific tasks and have added/will add more functionality as the need arises. I would never have been able to make things work without all the amazing people who create and maintain the packages I’ve used. Thank you!</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -90,8 +90,12 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Klorator/aquaras"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="workflow-summary">Workflow summary<a class="anchor" aria-label="anchor" href="#workflow-summary"></a>
+<h2 id="runlists-for-masslynx">Runlists for MassLynx<a class="anchor" aria-label="anchor" href="#runlists-for-masslynx"></a>
 </h2>
+<p>Create runlists for use with MassLynx (Waters LC/MS software) and facilitate some of the data processing steps with the MassLynx complete summary output file.</p>
+<div class="section level3">
+<h3 id="workflow-summary">Workflow summary<a class="anchor" aria-label="anchor" href="#workflow-summary"></a>
+</h3>
 <ul>
 <li>Call <code><a href="reference/ras.RunlistGenerator.html">ras.RunlistGenerator()</a></code>
 </li>
@@ -108,10 +112,11 @@
 <li>Design new experiments (rinse and repeat)</li>
 </ul>
 </div>
+</div>
 <div class="section level2">
 <h2 id="random-group-generator">Random group generator<a class="anchor" aria-label="anchor" href="#random-group-generator"></a>
 </h2>
-<p>Created the function <code><a href="reference/ras.ran_series.html">ras.ran_series()</a></code> to distribute a list of observations/compounds into groups randomly.</p>
+<p>Created the function <code><a href="reference/ras.Randomizer.html">ras.Randomizer()</a></code> to distribute a list of observations/compounds into groups randomly. Can create multiple series and write to excel file (not default).</p>
 </div>
 <div class="section level2">
 <h2 id="planned-features">Planned features<a class="anchor" aria-label="anchor" href="#planned-features"></a>

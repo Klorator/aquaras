@@ -75,10 +75,10 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://klorator.github.io/aquaras/">aquaras</a></span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/ras.ran_series.html">ras.ran_series()</a></code> creates a series of groups with
-randomly sampled observations. Observations are distributed such as that
-there are no repeated entries between groups/within a series.</p>
-<p>Number of groups in the series is calculated as
+<p><code>ras.Randomizer</code> creates multiple series of groups each
+with randomly sampled observations. Observations are distributed such as
+that there are no repeated entries between groups/within a series.</p>
+<p>Number of groups in a series is calculated as
 <code>length(master_list)</code> divided by <code>group_size</code>,
 rounded up to nearest integer. If an observation can not be found (for
 example because the groups can not be filled evenly) an error message is
@@ -93,18 +93,29 @@ printed to the console and <code>N/A</code> inserted instead.</p>
 <span>  <span class="st">"Comp_16"</span>, <span class="st">"Comp_17"</span>, <span class="st">"Comp_18"</span>, <span class="st">"Comp_19"</span>, <span class="st">"Comp_20"</span>,</span>
 <span>  <span class="st">"Comp_21"</span>, <span class="st">"Comp_22"</span>, <span class="st">"Comp_23"</span>, <span class="st">"Comp_24"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">series_A</span> <span class="op">=</span> <span class="fu"><a href="../reference/ras.ran_series.html">ras.ran_series</a></span><span class="op">(</span>master_list <span class="op">=</span> <span class="va">Compound_list</span>,</span>
-<span>                          group_size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">series_A</span> <span class="op">=</span> <span class="fu"><a href="../reference/ras.Randomizer.html">ras.Randomizer</a></span><span class="op">(</span>compound_list <span class="op">=</span> <span class="va">Compound_list</span>,</span>
+<span>                          group_size <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>                          series <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"+++++ Series A +++++"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "+++++ Series A +++++"</span></span>
 <span><span class="va">series_A</span></span>
+<span><span class="co">#&gt; $Series_01</span></span>
 <span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04</span></span>
-<span><span class="co">#&gt; 1   Comp_7  Comp_18  Comp_16   Comp_6</span></span>
-<span><span class="co">#&gt; 2   Comp_3  Comp_15   Comp_1  Comp_11</span></span>
-<span><span class="co">#&gt; 3  Comp_23  Comp_12   Comp_4   Comp_5</span></span>
-<span><span class="co">#&gt; 4  Comp_20  Comp_21  Comp_14   Comp_9</span></span>
-<span><span class="co">#&gt; 5  Comp_10  Comp_17  Comp_22   Comp_8</span></span>
-<span><span class="co">#&gt; 6  Comp_24  Comp_19   Comp_2  Comp_13</span></span>
+<span><span class="co">#&gt; 1   Comp_9   Comp_1  Comp_14  Comp_12</span></span>
+<span><span class="co">#&gt; 2  Comp_13  Comp_16  Comp_11   Comp_3</span></span>
+<span><span class="co">#&gt; 3   Comp_8  Comp_22   Comp_7  Comp_15</span></span>
+<span><span class="co">#&gt; 4   Comp_4   Comp_6  Comp_19   Comp_5</span></span>
+<span><span class="co">#&gt; 5  Comp_17  Comp_18  Comp_10  Comp_23</span></span>
+<span><span class="co">#&gt; 6   Comp_2  Comp_20  Comp_21  Comp_24</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $Series_02</span></span>
+<span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04</span></span>
+<span><span class="co">#&gt; 1   Comp_1   Comp_7   Comp_5  Comp_20</span></span>
+<span><span class="co">#&gt; 2  Comp_16   Comp_4  Comp_22  Comp_10</span></span>
+<span><span class="co">#&gt; 3   Comp_6  Comp_24  Comp_18  Comp_23</span></span>
+<span><span class="co">#&gt; 4   Comp_9  Comp_13   Comp_2  Comp_14</span></span>
+<span><span class="co">#&gt; 5  Comp_17  Comp_11   Comp_8   Comp_3</span></span>
+<span><span class="co">#&gt; 6  Comp_19  Comp_12  Comp_21  Comp_15</span></span>
 <span></span>
 <span><span class="co"># Example with 5 uneven groups</span></span>
 <span><span class="co"># Compound list</span></span>
@@ -115,18 +126,37 @@ printed to the console and <code>N/A</code> inserted instead.</p>
 <span>  <span class="st">"Comp_16"</span>, <span class="st">"Comp_17"</span>, <span class="st">"Comp_18"</span>, <span class="st">"Comp_19"</span>, <span class="st">"Comp_20"</span>,</span>
 <span>  <span class="st">"Comp_21"</span>, <span class="st">"Comp_22"</span>, <span class="st">"Comp_23"</span>, <span class="st">"Comp_24"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">series_B</span> <span class="op">=</span> <span class="fu"><a href="../reference/ras.ran_series.html">ras.ran_series</a></span><span class="op">(</span><span class="va">Compound_list</span>,</span>
-<span>                          group_size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">series_B</span> <span class="op">=</span> <span class="fu"><a href="../reference/ras.Randomizer.html">ras.Randomizer</a></span><span class="op">(</span><span class="va">Compound_list</span>,</span>
+<span>                          group_size <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                          series <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span></span>
 <span><span class="co">#&gt; [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">"+++++ Series B +++++"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "+++++ Series B +++++"</span></span>
 <span><span class="va">series_B</span></span>
+<span><span class="co">#&gt; $Series_01</span></span>
 <span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04 Group_05</span></span>
-<span><span class="co">#&gt; 1  Comp_13  Comp_21   Comp_5  Comp_22   Comp_6</span></span>
-<span><span class="co">#&gt; 2  Comp_20   Comp_1   Comp_4  Comp_24   Comp_7</span></span>
-<span><span class="co">#&gt; 3  Comp_15  Comp_10  Comp_19  Comp_14  Comp_11</span></span>
-<span><span class="co">#&gt; 4  Comp_18   Comp_8  Comp_12  Comp_17   Comp_9</span></span>
-<span><span class="co">#&gt; 5  Comp_16  Comp_23   Comp_3   Comp_2      N/A</span></span></code></pre></div>
+<span><span class="co">#&gt; 1   Comp_4  Comp_11  Comp_15   Comp_2   Comp_5</span></span>
+<span><span class="co">#&gt; 2  Comp_18   Comp_9  Comp_17  Comp_16  Comp_23</span></span>
+<span><span class="co">#&gt; 3  Comp_10   Comp_7  Comp_21  Comp_12   Comp_6</span></span>
+<span><span class="co">#&gt; 4  Comp_14   Comp_3  Comp_22   Comp_8  Comp_24</span></span>
+<span><span class="co">#&gt; 5  Comp_13  Comp_19  Comp_20   Comp_1      N/A</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $Series_02</span></span>
+<span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04 Group_05</span></span>
+<span><span class="co">#&gt; 1  Comp_23  Comp_11  Comp_17  Comp_13   Comp_7</span></span>
+<span><span class="co">#&gt; 2   Comp_2   Comp_6  Comp_21   Comp_1   Comp_9</span></span>
+<span><span class="co">#&gt; 3   Comp_4  Comp_12   Comp_3   Comp_8  Comp_18</span></span>
+<span><span class="co">#&gt; 4  Comp_10   Comp_5  Comp_24  Comp_15  Comp_22</span></span>
+<span><span class="co">#&gt; 5  Comp_14  Comp_16  Comp_20  Comp_19      N/A</span></span>
+<span></span>
+<span><span class="co"># Example of writing to .xlsx file</span></span>
+<span>  <span class="co"># Don't run</span></span>
+<span><span class="co"># Series_P = ras.Randomizer(Compound_list,</span></span>
+<span><span class="co">#                           group_size = 5,</span></span>
+<span><span class="co">#                           series = 2,</span></span>
+<span><span class="co">#                           write = TRUE,</span></span>
+<span><span class="co">#                           fileName = "Series_P Example for ras.Randomizer")</span></span></code></pre></div>
   </main>
 </div>
 

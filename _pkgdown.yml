@@ -10,7 +10,7 @@ navbar:
 reference:
 - title: User level functions
   desc: |
-    Highest level funtions intended for the user.
+    High level funtions intended for the user.
   contents:
   - ras.RunlistGenerator
   - ras.SplitOutput

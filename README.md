@@ -8,9 +8,10 @@
 [![R-CMD-check](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of aquaras is to make it easier to create runlists for use with
-MassLynx (Waters LC/MS software) and facilitate some of the data
-processing steps with the MassLynx complete summary output file.
+I created aquaras to solve some specific tasks and have added/will add
+more functionality as the need arises. I would never have been able to
+make things work without all the amazing people who create and maintain
+the packages I’ve used. Thank you!
 
 ## Installation
 
@@ -22,7 +23,13 @@ You can install the development version of aquaras from
 devtools::install_github("Klorator/aquaras")
 ```
 
-## Workflow summary
+## Runlists for MassLynx
+
+Create runlists for use with MassLynx (Waters LC/MS software) and
+facilitate some of the data processing steps with the MassLynx complete
+summary output file.
+
+### Workflow summary
 
 - Call `ras.RunlistGenerator()`
 - Input all the runlist info under “Well input”
@@ -38,8 +45,9 @@ devtools::install_github("Klorator/aquaras")
 
 ## Random group generator
 
-Created the function `ras.ran_series()` to distribute a list of
-observations/compounds into groups randomly.
+Created the function `ras.Randomizer()` to distribute a list of
+observations/compounds into groups randomly. Can create multiple series
+and write to excel file (not default).
 
 ## Planned features
 

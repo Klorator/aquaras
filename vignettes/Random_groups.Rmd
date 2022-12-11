@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 library(aquaras)
 ```
 
-`ras.ran_series()` creates a series of groups with randomly sampled observations. Observations are distributed such as that there are no repeated entries between groups/within a series.
+`ras.Randomizer` creates multiple series of groups each with randomly sampled observations. Observations are distributed such as that there are no repeated entries between groups/within a series.
 
-Number of groups in the series is calculated as `length(master_list)` divided by `group_size`, rounded up to nearest integer. If an observation can not be found (for example because the groups can not be filled evenly) an error message is printed to the console and `N/A` inserted instead.
+Number of groups in a series is calculated as `length(master_list)` divided by `group_size`, rounded up to nearest integer. If an observation can not be found (for example because the groups can not be filled evenly) an error message is printed to the console and `N/A` inserted instead.
 
 ```{r}
 # Example with 4 even groups
@@ -32,8 +32,9 @@ Compound_list = c(
   "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
   "Comp_21", "Comp_22", "Comp_23", "Comp_24")
 
-series_A = ras.ran_series(master_list = Compound_list,
-                          group_size = 6)
+series_A = ras.Randomizer(compound_list = Compound_list,
+                          group_size = 6,
+                          series = 2)
 print("+++++ Series A +++++")
 series_A
 
@@ -46,9 +47,18 @@ Compound_list = c(
   "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
   "Comp_21", "Comp_22", "Comp_23", "Comp_24")
 
-series_B = ras.ran_series(Compound_list,
-                          group_size = 5)
+series_B = ras.Randomizer(Compound_list,
+                          group_size = 5,
+                          series = 2)
 print("+++++ Series B +++++")
 series_B
+
+# Example of writing to .xlsx file
+  # Don't run
+# Series_P = ras.Randomizer(Compound_list,
+#                           group_size = 5,
+#                           series = 2,
+#                           write = TRUE,
+#                           fileName = "Series_P Example for ras.Randomizer")
 ```
 

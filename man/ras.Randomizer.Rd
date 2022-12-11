@@ -35,3 +35,43 @@ not be found (for example because the groups can not be filled evenly) an error
 message is printed to the console and \code{N/A} inserted instead.
 If \code{write = TRUE} will write the series to a comma delimited .csv file (excel?).
 }
+\examples{
+# Example with 4 even groups
+# Compound list
+Compound_list = c(
+  "Comp_1", "Comp_2", "Comp_3", "Comp_4", "Comp_5",
+  "Comp_6", "Comp_7", "Comp_8", "Comp_9", "Comp_10",
+  "Comp_11", "Comp_12", "Comp_13", "Comp_14", "Comp_15",
+  "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
+  "Comp_21", "Comp_22", "Comp_23", "Comp_24")
+
+series_A = ras.Randomizer(compound_list = Compound_list,
+                          group_size = 6,
+                          series = 2)
+print("+++++ Series A +++++")
+series_A
+
+# Example with 5 uneven groups
+# Compound list
+Compound_list = c(
+  "Comp_1", "Comp_2", "Comp_3", "Comp_4", "Comp_5",
+  "Comp_6", "Comp_7", "Comp_8", "Comp_9", "Comp_10",
+  "Comp_11", "Comp_12", "Comp_13", "Comp_14", "Comp_15",
+  "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
+  "Comp_21", "Comp_22", "Comp_23", "Comp_24")
+
+series_B = ras.Randomizer(Compound_list,
+                          group_size = 5,
+                          series = 2)
+print("+++++ Series B +++++")
+series_B
+
+  \dontrun{
+# Example of writing to .xlsx file
+ Series_P = ras.Randomizer(Compound_list,
+                           group_size = 5,
+                           series = 2,
+                           write = TRUE,
+                           fileName = "Series_P Example file of ras.Randomizer")
+  }
+}

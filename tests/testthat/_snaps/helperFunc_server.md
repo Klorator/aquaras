@@ -35,7 +35,6 @@
       # ... with 3 more variables: LC_Well_Type <chr>, Replicate <chr>,
       #   Sample_text <chr>, and abbreviated variable names 1: LC_Position,
       #   2: Signature, 3: Sample_name, 4: Compound, 5: Timepoint, 6: Well_Type
-      # i Use `colnames()` to see all variable names
 
 # ras.dateSignAll.update() snapshot
 
@@ -59,7 +58,6 @@
       #   Replicate <chr>, Sample_text <chr>, and abbreviated variable names
       #   1: LC_Position, 2: Signature, 3: Sample_name, 4: Compound, 5: Timepoint,
       #   6: Well_Type
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 # ras.sanitizeInput() snapshot
 

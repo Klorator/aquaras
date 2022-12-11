@@ -22,7 +22,6 @@
       #   Sample_text <chr>, Draw_Max <dbl>, Draw_Count <dbl>, and abbreviated
       #   variable names 1: LC_Position, 2: Signature, 3: Sample_name, 4: Compound,
       #   5: Timepoint, 6: Well_Type
-      # i Use `colnames()` to see all variable names
 
 # ras.add.type() snapshot
 
@@ -62,7 +61,6 @@
       #   Sample_text <chr>, Draw_Max <dbl>, Draw_Count <dbl>, and abbreviated
       #   variable names 1: LC_Position, 2: Signature, 3: Sample_name, 4: Compound,
       #   5: Timepoint, 6: Well_Type
-      # i Use `colnames()` to see all variable names
 
 # ras.add.compound() snapshot (1 blank, default)
 
@@ -97,7 +95,6 @@
       #   Sample_text <chr>, Draw_Max <dbl>, Draw_Count <dbl>, and abbreviated
       #   variable names 1: LC_Position, 2: Signature, 3: Sample_name, 4: Compound,
       #   5: Timepoint, 6: Well_Type
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 # ras.add.compound() snapshot (3 blanks)
 
@@ -132,7 +129,6 @@
       #   Sample_text <chr>, Draw_Max <dbl>, Draw_Count <dbl>, and abbreviated
       #   variable names 1: LC_Position, 2: Signature, 3: Sample_name, 4: Compound,
       #   5: Timepoint, 6: Well_Type
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 # ras.create.Runlist() snapshot (default)
 
@@ -157,7 +153,6 @@
       #   Replicate <chr>, Sample_text <chr>, Draw_Max <dbl>, Draw_Count <dbl>, and
       #   abbreviated variable names 1: LC_Position, 2: Signature, 3: Sample_name,
       #   4: Compound, 5: Timepoint, 6: Well_Type
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 # ras.create.Runlist() snapshot
 
@@ -183,5 +178,4 @@
       #   Replicate <chr>, Sample_text <chr>, Draw_Max <dbl>, Draw_Count <dbl>, and
       #   abbreviated variable names 1: LC_Position, 2: Signature, 3: Sample_name,
       #   4: Compound, 5: Timepoint, 6: Well_Type
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 

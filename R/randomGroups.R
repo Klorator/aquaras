@@ -150,6 +150,44 @@ ras.ran_series = function(master_list,
 #' @export
 #'
 #' @examples
+#' # Example with 4 even groups
+#' # Compound list
+#' Compound_list = c(
+#'   "Comp_1", "Comp_2", "Comp_3", "Comp_4", "Comp_5",
+#'   "Comp_6", "Comp_7", "Comp_8", "Comp_9", "Comp_10",
+#'   "Comp_11", "Comp_12", "Comp_13", "Comp_14", "Comp_15",
+#'   "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
+#'   "Comp_21", "Comp_22", "Comp_23", "Comp_24")
+#'
+#' series_A = ras.Randomizer(compound_list = Compound_list,
+#'                           group_size = 6,
+#'                           series = 2)
+#' print("+++++ Series A +++++")
+#' series_A
+#'
+#' # Example with 5 uneven groups
+#' # Compound list
+#' Compound_list = c(
+#'   "Comp_1", "Comp_2", "Comp_3", "Comp_4", "Comp_5",
+#'   "Comp_6", "Comp_7", "Comp_8", "Comp_9", "Comp_10",
+#'   "Comp_11", "Comp_12", "Comp_13", "Comp_14", "Comp_15",
+#'   "Comp_16", "Comp_17", "Comp_18", "Comp_19", "Comp_20",
+#'   "Comp_21", "Comp_22", "Comp_23", "Comp_24")
+#'
+#' series_B = ras.Randomizer(Compound_list,
+#'                           group_size = 5,
+#'                           series = 2)
+#' print("+++++ Series B +++++")
+#' series_B
+#'
+#'   \dontrun{
+#' # Example of writing to .xlsx file
+#'  Series_P = ras.Randomizer(Compound_list,
+#'                            group_size = 5,
+#'                            series = 2,
+#'                            write = TRUE,
+#'                            fileName = "Series_P Example file of ras.Randomizer")
+#'   }
 ras.Randomizer = function(compound_list,
                           group_size,
                           series = 1,
@@ -159,9 +197,10 @@ ras.Randomizer = function(compound_list,
   for( i in seq_len(series) ) {
     group_df = ras.ran_series(master_list = compound_list,
                               group_size = group_size)
-    entryName = paste0("Series_", i)
-    random_series_list = c(random_series_list, entryName = list(group_df))
+    random_series_list = c(random_series_list, list(group_df))
   }
+  seriesNames = sprintf("Series_%02d", 1:series)
+  names(random_series_list) = seriesNames
   if( write == TRUE ) {
     fileName = ifelse(is.null(fileName),
                       paste0("Randomized series (aquaras) ", Sys.time(), ".xlsx"),

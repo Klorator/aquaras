@@ -338,7 +338,6 @@
       #   Vial <chr>, Acq.Date <chr>, Acq.Time <chr>, ID <chr>, and abbreviated
       #   variable names 1: `Sample Text`, 2: `Std. Conc`, 3: `IS Area`, 4: Response,
       #   5: `Primary Flags`
-      # i Use `colnames()` to see all variable names
       
       $`Compound 2 Loperamide\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 25 x 20
@@ -359,7 +358,6 @@
       #   Vial <chr>, Acq.Date <chr>, Acq.Time <chr>, ID <chr>, and abbreviated
       #   variable names 1: `Sample Text`, 2: `Std. Conc`, 3: `IS Area`, 4: Response,
       #   5: `Primary Flags`
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
       
       $`Compound 3 Paracetamol\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 10 x 20
@@ -380,7 +378,6 @@
       #   Vial <chr>, Acq.Date <chr>, Acq.Time <chr>, ID <chr>, and abbreviated
       #   variable names 1: `Sample Text`, 2: `Std. Conc`, 3: `IS Area`, 4: Response,
       #   5: `Primary Flags`
-      # i Use `colnames()` to see all variable names
       
 
 # ras.cleanDF() snapshot looks as intended
@@ -521,7 +518,6 @@
       #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
       #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
       #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
-      # i Use `colnames()` to see all variable names
       
       $`Compound 2 Loperamide\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 15 x 26
@@ -548,7 +544,6 @@
       #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
       #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
       #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
-      # i Use `colnames()` to see all variable names
       
       $`Compound 3 Paracetamol\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 5 x 26
@@ -565,7 +560,6 @@
       #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
       #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
       #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
-      # i Use `colnames()` to see all variable names
       
 
 # ras.SplitOutput() snapshot looks as intended
@@ -703,7 +697,6 @@
       #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
       #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
       #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
-      # i Use `colnames()` to see all variable names
       
       $`Compound 2 Loperamide\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 15 x 26
@@ -730,7 +723,6 @@
       #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
       #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
       #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
-      # i Use `colnames()` to see all variable names
       
       $`Compound 3 Paracetamol\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t`
       # A tibble: 5 x 26
@@ -747,6 +739,5 @@
       #   `Conc. Dev. Allowed` <chr>, `Pk Width` <chr>, Vial <chr>, Acq.Date <chr>,
       #   Acq.Time <chr>, ID <chr>, and abbreviated variable names 1: `Internal row`,
       #   2: Compound, 3: Timepoint, 4: Well_Type, 5: Replicate
-      # i Use `colnames()` to see all variable names
       
 

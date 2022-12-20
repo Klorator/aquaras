@@ -15,6 +15,7 @@ reference:
   - ras.RunlistGenerator
   - ras.SplitOutput
   - ras.Randomizer
+  - ras.TPAer
 - title: Runlist generator
   desc: |
     Functions used for building and generating a runlist.
@@ -45,6 +46,15 @@ reference:
   - ras.Randomizer
   - ras.ran_series
   - ras.ran_group
+- title: TPA
+  desc: |
+    Restructure, plot, and export images for TPA values.
+  contents:
+  - ras.TPAer
+  - ras.TPA_sample_names
+  - ras.TPA_avg_StDev
+  - ras.TPA_reshape_filter
+  - ras.TPA_barplot_save
 - title: Example data
   desc: |
     Example data for documentation purposes.

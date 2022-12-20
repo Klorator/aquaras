@@ -1,7 +1,7 @@
 Type: Package
 Package: aquaras
 Title: Data processing related to MassLynx
-Version: 0.1.4
+Version: 0.1.5
 Author: Rasmus Hammar
 Maintainer: Rasmus Hammar <Rasmus.Hammar@gmx.com>
 Description: I created aquaras to solve some specific tasks and have

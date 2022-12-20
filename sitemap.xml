@@ -43,6 +43,21 @@
     <loc>https://klorator.github.io/aquaras/reference/ras.SplitOutput.html</loc>
   </url>
   <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.TPA_avg_StDev.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.TPA_barplot_save.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.TPA_reshape_filter.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.TPA_sample_names.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.TPAer.html</loc>
+  </url>
+  <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.add.blank.html</loc>
   </url>
   <url>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/TPA.R
 \name{ras.TPA_avg_StDev}
 \alias{ras.TPA_avg_StDev}
-\title{TPA – Average & StDev/Range}
+\title{TPA - Average & StDev/Range}
 \usage{
 ras.TPA_avg_StDev(df, sample_names)
 }

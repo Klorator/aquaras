@@ -2,7 +2,7 @@
 % Please edit documentation in R/TPA.R
 \name{ras.TPAer}
 \alias{ras.TPAer}
-\title{TPA – Do all the TPA stuff}
+\title{TPA - Do all the TPA stuff}
 \usage{
 ras.TPAer(
   df,

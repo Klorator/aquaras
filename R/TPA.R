@@ -1,4 +1,4 @@
-#' TPA – Sample names
+#' TPA - Sample names
 #'
 #' Extracts unique sample names and counts how many repeats it has.
 #'
@@ -22,7 +22,7 @@ ras.TPA_sample_names <- function(df) {
   return(sample_names)
 }
 
-#' TPA – Average & StDev/Range
+#' TPA - Average & StDev/Range
 #'
 #' Adds columns for average and standard deviation (or range if there are only two sample cols).
 #'
@@ -74,7 +74,7 @@ ras.TPA_avg_StDev <- function(df, sample_names) {
   return(df)
 }
 
-#' TPA – Reshape & filter
+#' TPA - Reshape & filter
 #'
 #' Pivots the data frame into a longer format creating the columns `sample` and `StDev_and_Range`
 #'
@@ -92,7 +92,7 @@ ras.TPA_reshape_filter <- function(df, gene_regex = "*") {
   # Pivot longer
   # Averages
   df_L <- tidyr::pivot_longer(df_L,
-                       all_of(grep("_avg|_StDev|_range", names(df_L))),
+                       tidyr::all_of(grep("_avg|_StDev|_range", names(df_L))),
                        names_to = c("sample", "type"),
                        names_pattern = "(.*)_(.*)",
                        values_to = "value")
@@ -107,7 +107,7 @@ ras.TPA_reshape_filter <- function(df, gene_regex = "*") {
   return(df_L)
 }
 
-#' TPA – Barplot & save
+#' TPA - Barplot & save
 #'
 #' Create barplots and (if save = TRUE) save them to file system.
 #'
@@ -131,7 +131,7 @@ ras.TPA_barplot_save <- function(df,
   for( i in seq_along(genes)) {
 
     # Barplot ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    p1 <- ggplot2::ggplot(filter(df, gene_names == genes[[i]])) +
+    p1 <- ggplot2::ggplot(dplyr::filter(df, gene_names == genes[[i]])) +
       ggplot2::aes(x = sample,
           y = avg,
           fill = sample) +
@@ -139,9 +139,9 @@ ras.TPA_barplot_save <- function(df,
       ggplot2::geom_errorbar(aes(ymax = avg + StDev_and_Range,
                         ymin = avg - StDev_and_Range)) +
       ggplot2::guides(fill = "none",
-             x = guide_axis(angle = 90)) +
+             x = ggplot2::guide_axis(angle = 90)) +
       ggplot2::labs(x = "Sample",
-           y = "Concentration [fmol/µg]",
+           y = "Concentration [fmol/\\u00b5g]",
            title = genes[[i]]) +
       ggplot2::theme_minimal()
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -159,7 +159,7 @@ ras.TPA_barplot_save <- function(df,
   return(NULL)
 }
 
-#' TPA – Do all the TPA stuff
+#' TPA - Do all the TPA stuff
 #'
 #' Clean, restructure, pivot longer, subset, plot, and export/save plots to file system.
 #'
@@ -180,8 +180,8 @@ ras.TPAer <- function(df,
                       folder_path = tcltk::tk_choose.dir(),
                       save = TRUE) {
   # Clean column names
-  df = clean_names(df)
-  df <- relocate(df, 1:4, 71:74, everything())
+  df = janitor::clean_names(df)
+  df <- dplyr::relocate(df, 1:4, 71:74, dplyr::everything())
   # Pull list of all samples -Avg & -StDev
   sample_cols <- names(df[-1:-8])
   # Get sample names
@@ -189,7 +189,7 @@ ras.TPAer <- function(df,
   # Calc. Avg & StDev & Range
   df <- ras.TPA_avg_StDev(df = df, sample_names = samples)
   # Subset column
-  df <- select(df, 1:8, grep("_avg|_StDev|_range", names(df)))
+  df <- dplyr::select(df, 1:8, grep("_avg|_StDev|_range", names(df)))
   # Reshape
   df <- ras.TPA_reshape_filter(df = df,
                                gene_regex = gene_regex)

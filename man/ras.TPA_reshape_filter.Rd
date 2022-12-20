@@ -2,7 +2,7 @@
 % Please edit documentation in R/TPA.R
 \name{ras.TPA_reshape_filter}
 \alias{ras.TPA_reshape_filter}
-\title{TPA – Reshape & filter}
+\title{TPA - Reshape & filter}
 \usage{
 ras.TPA_reshape_filter(df, gene_regex = "*")
 }

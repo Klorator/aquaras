@@ -2,7 +2,7 @@
 % Please edit documentation in R/TPA.R
 \name{ras.TPA_sample_names}
 \alias{ras.TPA_sample_names}
-\title{TPA – Sample names}
+\title{TPA - Sample names}
 \usage{
 ras.TPA_sample_names(df)
 }

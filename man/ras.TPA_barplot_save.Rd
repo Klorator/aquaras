@@ -2,7 +2,7 @@
 % Please edit documentation in R/TPA.R
 \name{ras.TPA_barplot_save}
 \alias{ras.TPA_barplot_save}
-\title{TPA – Barplot & save}
+\title{TPA - Barplot & save}
 \usage{
 ras.TPA_barplot_save(
   df,

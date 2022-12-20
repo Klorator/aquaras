@@ -45,7 +45,6 @@ Compound_list = c(
 "Comp_21", "Comp_22", "Comp_23", "Comp_24", "Comp_25")
 
 series_B = ras.ran_series(Compound_list, group_size = 6)
-
 series_B
 
 }

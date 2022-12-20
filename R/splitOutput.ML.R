@@ -206,7 +206,9 @@ ras.writeFiles = function(listDF, sourceFile) {
 #'                          write = FALSE)
 #' listDF
 #'
-ras.SplitOutput = function(sourceFile = file.choose(), clean = TRUE, write = TRUE) {
+ras.SplitOutput = function(sourceFile = tcltk::tk_choose.files(),
+                           clean = TRUE,
+                           write = TRUE) {
   # Load file
   dataLines = ras.loadFile(sourceFile = sourceFile)
   # Split dataLines into data frames

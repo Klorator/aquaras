@@ -4,7 +4,11 @@
 \alias{ras.SplitOutput}
 \title{Split MassLynx output file}
 \usage{
-ras.SplitOutput(sourceFile = file.choose(), clean = TRUE, write = TRUE)
+ras.SplitOutput(
+  sourceFile = tcltk::tk_choose.files(),
+  clean = TRUE,
+  write = TRUE
+)
 }
 \arguments{
 \item{sourceFile}{A file path}

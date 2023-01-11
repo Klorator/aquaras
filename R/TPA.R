@@ -92,7 +92,7 @@ ras.TPA_reshape_filter <- function(df, gene_regex = "*") {
   # Pivot longer
   # Averages
   df_L <- tidyr::pivot_longer(df_L,
-                       tidyr::all_of(grep("_avg|_StDev|_range", names(df_L))),
+                       tidyselect::all_of(grep("_avg|_StDev|_range", names(df_L))),
                        names_to = c("sample", "type"),
                        names_pattern = "(.*)_(.*)",
                        values_to = "value")
@@ -117,7 +117,7 @@ ras.TPA_reshape_filter <- function(df, gene_regex = "*") {
 #' @param directory Path to destination folder
 #' @param save While `TRUE` (default) writes files to system
 #'
-#' @return `NULL`
+#' @return List of all plots generated
 #' @export
 #'
 #' @examples
@@ -127,6 +127,7 @@ ras.TPA_barplot_save <- function(df,
                                  extension = "png",
                                  directory = tcltk::tk_choose.dir(),
                                  save = TRUE) {
+  plot_list <- list()
   # Plotting & saving
   for( i in seq_along(genes)) {
 
@@ -155,8 +156,11 @@ ras.TPA_barplot_save <- function(df,
              path = directory,
              bg = "white")
     }
+
+    # Store plots in list for return
+    plot_list[[i]] <- p1
   }
-  return(NULL)
+  return(plot_list)
 }
 
 #' TPA - Do all the TPA stuff
@@ -169,7 +173,7 @@ ras.TPA_barplot_save <- function(df,
 #' @param folder_path Path to destination folder
 #' @param save While `TRUE` (default) writes files to system
 #'
-#' @return Data frame
+#' @return List containing (1) Data frame and (2) List of generated plots
 #' @export
 #'
 #' @examples
@@ -181,15 +185,22 @@ ras.TPAer <- function(df,
                       save = TRUE) {
   # Clean column names
   df = janitor::clean_names(df)
-  df <- dplyr::relocate(df, 1:4, 71:74, dplyr::everything())
-  # Pull list of all samples -Avg & -StDev
-  sample_cols <- names(df[-1:-8])
+  # Relocate everything that's not a sample col to beginning +++++++++++++++++++
+  # df <- dplyr::relocate(df, 1:4, 71:74, tidyselect::everything())
+  df <- dplyr::relocate(df,
+                        tidyselect::everything(),
+                        tidyselect::all_of(grep("_.*_.*$", names(df)))) #-------
+  # # Pull list of all samples -Avg & -StDev
+  # sample_cols <- names(df[-1:-8])
   # Get sample names
   samples <- ras.TPA_sample_names(df = df)
   # Calc. Avg & StDev & Range
-  df <- ras.TPA_avg_StDev(df = df, sample_names = samples)
+  df <- ras.TPA_avg_StDev(df = df,
+                          sample_names = samples)
   # Subset column
-  df <- dplyr::select(df, 1:8, grep("_avg|_StDev|_range", names(df)))
+  df <- dplyr::select(df,
+                      tidyselect::any_of(grep("^(_.*_.*$)", names(df))),
+                      grep("_avg|_StDev|_range", names(df)))
   # Reshape
   df <- ras.TPA_reshape_filter(df = df,
                                gene_regex = gene_regex)
@@ -198,10 +209,12 @@ ras.TPAer <- function(df,
     unique() %>%
     unlist()
   # Plot & save images
-  ras.TPA_barplot_save(df = df,
+  plots_list <- ras.TPA_barplot_save(df = df,
                        genes = genes,
                        extension = file_type,
                        directory = folder_path,
                        save = save)
-  return(df)
+  returnList <- list(df,
+                     plots_list)
+  return(returnList)
 }

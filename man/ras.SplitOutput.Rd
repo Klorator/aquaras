@@ -47,7 +47,7 @@ in the same directory as the source file. Use write = FALSE to disable this.
   \dontrun{
 ras.SplitOutput() # First thing the function does is ask the user for a file.
 ras.SplitOutput(clean = FALSE) # If the summary output file was not based on the provided template.
-}
+
 
 # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
 listDF = ras.SplitOutput(sourceFile = system.file("extdata",
@@ -56,6 +56,7 @@ listDF = ras.SplitOutput(sourceFile = system.file("extdata",
                                                   mustWork = TRUE),
                          write = FALSE)
 listDF
+}
 
 }
 \seealso{

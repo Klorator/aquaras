@@ -33,7 +33,8 @@ Imports:
     stringr,
     tcltk,
     tibble,
-    tidyr
+    tidyr,
+    tidyselect
 Suggests: 
     covr,
     knitr,

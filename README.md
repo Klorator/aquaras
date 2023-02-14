@@ -49,6 +49,14 @@ Created the function `ras.Randomizer()` to distribute a list of
 observations/compounds into groups randomly. Can create multiple series
 and write to excel file (not default).
 
+## TPA tools
+
+Created the function `ras.TPA_calcFromIntensity()` which calculates TPA
+from the intensity columns. It uses the raw output file from MaxQuant.
+
+A few more functions, mainly `ras.TPAer` for calculating averages and
+standard deviation of TPA columns.
+
 ## Planned features
 
 ##### Plotting of graphs

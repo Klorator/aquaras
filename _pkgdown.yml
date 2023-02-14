@@ -50,6 +50,7 @@ reference:
   desc: |
     Restructure, plot, and export images for TPA values.
   contents:
+  - ras.TPA_calcFromIntensity
   - ras.TPAer
   - ras.TPA_sample_names
   - ras.TPA_avg_StDev

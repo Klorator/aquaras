@@ -13,11 +13,14 @@
 #' @export
 #'
 #' @examples
+#'   \dontrun{
 #' dataLines = ras.loadFile(sourceFile = system.file("extdata",
 #'                                                   "Example_MLOutput.txt",
 #'                                                   package = "aquaras",
 #'                                                   mustWork = TRUE))
 #' head(dataLines)
+#' }
+#'
 ras.loadFile = function(sourceFile) {
   dataLines =
     readr::read_lines(sourceFile, skip_empty_rows = T) %>% # Load file
@@ -38,6 +41,7 @@ ras.loadFile = function(sourceFile) {
 #' @export
 #'
 #' @examples
+#'   \dontrun{
 #' # Setup
 #' dataLines = ras.loadFile(sourceFile = system.file("extdata",
 #'                                                   "Example_MLOutput.txt",
@@ -46,6 +50,8 @@ ras.loadFile = function(sourceFile) {
 #' ### Ignore the "New names:" output.
 #' listDF = ras.splitDataLines(dataLines)
 #' listDF
+#' }
+#'
 ras.splitDataLines = function(dataLines) {
   # Create variables -----------------------------------------------------------
   fileSep = "\t"        # Delimiter in file
@@ -109,6 +115,7 @@ ras.splitDataLines = function(dataLines) {
 #' @export
 #'
 #' @examples
+#'   \dontrun{
 #' # Setup
 #' dataLines = ras.loadFile(sourceFile = system.file("extdata",
 #'                                                   "Example_MLOutput.txt",
@@ -119,6 +126,8 @@ ras.splitDataLines = function(dataLines) {
 #'
 #' listDF.clean = ras.cleanDF(listDF)
 #' listDF.clean
+#' }
+#'
 ras.cleanDF = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
@@ -196,7 +205,7 @@ ras.writeFiles = function(listDF, sourceFile) {
 #'   \dontrun{
 #' ras.SplitOutput() # First thing the function does is ask the user for a file.
 #' ras.SplitOutput(clean = FALSE) # If the summary output file was not based on the provided template.
-#' }
+#'
 #'
 #' # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
 #' listDF = ras.SplitOutput(sourceFile = system.file("extdata",
@@ -205,6 +214,7 @@ ras.writeFiles = function(listDF, sourceFile) {
 #'                                                   mustWork = TRUE),
 #'                          write = FALSE)
 #' listDF
+#' }
 #'
 ras.SplitOutput = function(sourceFile = tcltk::tk_choose.files(),
                            clean = TRUE,

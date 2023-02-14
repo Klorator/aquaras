@@ -24,7 +24,7 @@ ras.TPAer(
 \item{save}{While \code{TRUE} (default) writes files to system}
 }
 \value{
-Data frame
+List containing (1) Data frame and (2) List of generated plots
 }
 \description{
 Clean, restructure, pivot longer, subset, plot, and export/save plots to file system.

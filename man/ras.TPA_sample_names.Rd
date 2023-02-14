@@ -10,7 +10,7 @@ ras.TPA_sample_names(df)
 \item{df}{Data frame with samples in columns}
 }
 \value{
-Data frame with two columns, (1) unique samples and (2) how many of each
+Data frame with three columns, (1) unique samples, (2) how many replicates, and (3) the sample group
 }
 \description{
 Extracts unique sample names and counts how many repeats it has.

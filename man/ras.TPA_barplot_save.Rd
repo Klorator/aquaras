@@ -24,7 +24,7 @@ ras.TPA_barplot_save(
 \item{save}{While \code{TRUE} (default) writes files to system}
 }
 \value{
-\code{NULL}
+List of all plots generated
 }
 \description{
 Create barplots and (if save = TRUE) save them to file system.

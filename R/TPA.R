@@ -23,9 +23,7 @@
 #' }
 #'
 ras.TPA_calcFromIntensity <- function(df_raw,
-                                      metaData_RegEx = "protein_names|gene_names|
-                                      majority_protein|razor_unique_peptides|
-                                      reverse|potential_contaminant|mol_weight",
+                                      metaData_RegEx = "protein_names|gene_names|majority_protein|razor_unique_peptides$|reverse|potential_contaminant|mol_weight",
                                       dropIntensity = TRUE) {
   # Clean column names
   df_cleanNames <- janitor::clean_names(df_raw)

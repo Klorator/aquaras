@@ -7,7 +7,7 @@
 ras.TPA_calcFromIntensity(
   df_raw,
   metaData_RegEx =
-    "protein_names|gene_names|\\n                                      majority_protein|razor_unique_peptides|\\n                                      reverse|potential_contaminant|mol_weight",
+    "protein_names|gene_names|majority_protein|razor_unique_peptides$|reverse|potential_contaminant|mol_weight",
   dropIntensity = TRUE
 )
 }

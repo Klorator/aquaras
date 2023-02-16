@@ -65,14 +65,11 @@ ras.splitDataLines = function(dataLines) {
   for(i in 1:length(dataLines)) {                            # Iterate over data lines
     if( stringr::str_detect(dataLines[[i]], "^Compound") == TRUE ) {  # Check if line is Compound name
       if( checkNewDF == TRUE ) {                             # Check if df needs to be compiled
-        tempDF = tempDF_rows %>%                             # Compile df
-          purrr::map_dfr(function(x) {
-            x = unlist(x)
-            x = purrr::set_names(x, tempDF_header[[1]])
-            x
-          } ) %>%
-          tibble::as_tibble()
-        listDF[[tempDF_name]] = tempDF           # Save df in list
+        tempDF <- data.frame(Reduce(rbind, tempDF_rows))  # Turn into data frame
+        tempDF <- setNames(tempDF, tempDF_header[[1]])    # Set column names
+        tempDF <- data.frame(tempDF, row.names = 1)       # Set numbering index column as row names
+        tempDF <- tibble::as_tibble(tempDF)               # Convert to tibble
+        listDF[[tempDF_name]] = tempDF                    # Save df in list
       }
       checkNewDF = TRUE                            # New df started
       tempDF_name = gsub(": ", "", dataLines[[i]]) # Save compound name & remove ": "
@@ -85,19 +82,16 @@ ras.splitDataLines = function(dataLines) {
       next                                              # Skip to next iteration/line
     }
     if( stringr::str_detect(dataLines[[i]], "^END") == TRUE ) {  # Check if line is end of file
-      tempDF = tempDF_rows %>%                          # Compile df
-        purrr::map_dfr(function(x) {
-          x = unlist(x)
-          x = purrr::set_names(x, tempDF_header[[1]])
-          x
-        } ) %>%
-        tibble::as_tibble()
+      tempDF <- data.frame(Reduce(rbind, tempDF_rows))  # Turn into data frame
+      tempDF <- setNames(tempDF, tempDF_header[[1]])    # Set column names
+      tempDF <- data.frame(tempDF, row.names = 1)       # Set numbering index column as row names
+      tempDF <- tibble::as_tibble(tempDF)               # Convert to tibble
       listDF[[tempDF_name]] = tempDF                    # Save df in list
       tempDF_rows = list()                              # Empty tempDF_rows
       break                                             # End for loop
     }
     new_row = stringr::str_split(dataLines[[i]], fileSep)        # Split line by delimiter
-    tempDF_rows[[length(tempDF_rows)+1]] = new_row      # Add new row to list
+    tempDF_rows[[length(tempDF_rows)+1]] = unlist(new_row)      # Add new row to list
   }                                                     # Repeat for loop
   return(listDF) # Return list of data frames
 }
@@ -131,14 +125,15 @@ ras.splitDataLines = function(dataLines) {
 ras.cleanDF = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
-      dplyr::filter(`Sample Text` != "blank") %>% # Drop "blank"
-      tidyr::separate(col = Name,
+      janitor::clean_names() %>%
+      dplyr::filter(sample_text != "Blank") %>% # Drop "blank"
+      tidyr::separate(col = name,
                       into = c("Date",
                                "Signature",
                                "Index",
                                "Internal row"),
                       sep = "_") %>%
-      tidyr::separate(col = `Sample Text`,
+      tidyr::separate(col = sample_text,
                       into = c("Compound",
                                "Timepoint",       # Split "Sample text" into columns
                                "Well_Type",
@@ -217,7 +212,7 @@ ras.writeFiles = function(listDF, sourceFile) {
 #' }
 #'
 ras.SplitOutput = function(sourceFile = tcltk::tk_choose.files(),
-                           clean = TRUE,
+                           clean = FALSE,
                            write = TRUE) {
   # Load file
   dataLines = ras.loadFile(sourceFile = sourceFile)

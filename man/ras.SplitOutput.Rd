@@ -6,7 +6,7 @@
 \usage{
 ras.SplitOutput(
   sourceFile = tcltk::tk_choose.files(),
-  clean = TRUE,
+  clean = FALSE,
   write = TRUE
 )
 }

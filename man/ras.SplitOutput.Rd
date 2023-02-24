@@ -5,22 +5,22 @@
 \title{Split MassLynx output file}
 \usage{
 ras.SplitOutput(
-  sourceFile = tcltk::tk_choose.files(),
+  sourceFiles = tcltk::tk_choose.files(),
   clean = FALSE,
   write = TRUE
 )
 }
 \arguments{
-\item{sourceFile}{A file path}
+\item{sourceFiles}{A character vector with one or more file paths}
 
-\item{clean}{Defaults to TRUE for data cleaning}
+\item{clean}{Defaults to FALSE for data cleaning}
 
 \item{write}{Defaults to TRUE for writing to file system}
 }
 \value{
 Writes a tsv file per compound to the same directory as the source file.
 
-Also returns the list of data frames
+Also returns the nested list of data frames for each file
 }
 \description{
 Splits the MassLynx complete summary output file into individual data frames

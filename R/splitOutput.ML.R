@@ -159,14 +159,15 @@ ras.cleanDF = function(listDF) {
 #' ras.writeFiles(listDF, sourceFile)
 #' }
 ras.writeFiles = function(listDF, sourceFile) {
-  old_directory = getwd()          # Save current working directory
-  sourceFile %>%
-    dirname() %>%                  # Get directory of source file
-    setwd()                        # Set file directory as working directory
-  sourceFile_name = sourceFile %>% basename() # Name of source file
-  sourceFile_name = gsub("\\..{1, }$", " - ", sourceFile_name) # Replace file extension
+  old_directory = getwd()                 # Save current working directory
+  sourceDirectory <- dirname(sourceFile)  # Get directory of source file
+  sourceFile_name = basename(sourceFile)  # Name of source file
+  fileName_base = gsub("\\..{1, }$", "", sourceFile_name) # Remove file extension
+  newDirectory <- paste0(sourceDirectory, "/", fileName_base) # New directory path
+  dir.create(newDirectory)                # Create a new directory
+  setwd(newDirectory)                     # Set new directory as working directory
   for(i in 1:length(listDF)) {
-    newFileName = paste0(sourceFile_name, names(listDF[i]), ".txt") # Concatenate new file name
+    newFileName = paste0(fileName_base, " - ", names(listDF[i]), ".txt") # Concatenate new file name
     listDF[[i]] %>% readr::write_tsv(file = newFileName)    # Write to file
   }
   setwd(old_directory)                                      # Go back to old working directory
@@ -188,12 +189,12 @@ ras.writeFiles = function(listDF, sourceFile) {
 #'
 #' @family SplitOutput
 #'
-#' @param sourceFile A file path
-#' @param clean Defaults to TRUE for data cleaning
+#' @param sourceFiles A character vector with one or more file paths
+#' @param clean Defaults to FALSE for data cleaning
 #' @param write Defaults to TRUE for writing to file system
 #'
 #' @return Writes a tsv file per compound to the same directory as the source file.
-#' @return Also returns the list of data frames
+#' @return Also returns the nested list of data frames for each file
 #' @export
 #'
 #' @examples
@@ -211,16 +212,22 @@ ras.writeFiles = function(listDF, sourceFile) {
 #' listDF
 #' }
 #'
-ras.SplitOutput = function(sourceFile = tcltk::tk_choose.files(),
+ras.SplitOutput = function(sourceFiles = tcltk::tk_choose.files(),
                            clean = FALSE,
                            write = TRUE) {
+  listFile <- list()
+  for (SF in sourceFiles) {
   # Load file
-  dataLines = ras.loadFile(sourceFile = sourceFile)
+  dataLines = ras.loadFile(sourceFile = SF)
   # Split dataLines into data frames
   listDF = ras.splitDataLines(dataLines)
   # Clean data frames
   if ( clean == TRUE ) {listDF = ras.cleanDF(listDF)}
   # Write each data frame to a separate .txt file
-  if ( write == TRUE ) {ras.writeFiles(listDF, sourceFile)}
-  return(listDF)
+  if ( write == TRUE ) {ras.writeFiles(listDF, SF)}
+  # Store listDF in listFile using original file name
+  listDF_fileName <- SF %>% basename()
+  listFile[[listDF_fileName]] <- listDF
+  }
+  return(listFile)
 } # DONE! :)

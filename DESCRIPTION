@@ -8,8 +8,8 @@ Description: I created aquaras to solve some specific tasks and have
     added/will add more functionality as the need arises. I would never
     have been able to make things work without all the amazing people who
     create and maintain the packages I've used. Thank you! - Pre-LC/MS
-    run: Provides tools for working with runlists to use with MassLynx
-    (Waters LC/MS software). - Post-LC/MS run: Split the MassLynx complete
+    run -- Provides tools for working with runlists to use with MassLynx
+    (Waters LC/MS software). - Post-LC/MS run -- Split the MassLynx complete
     summary output file into individual data frames and write them to
     files. Unless clean = FALSE, this removes blanks and splits the "Name"
     and "Sample Name" columns according to the pre-LC/MS template. -

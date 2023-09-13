@@ -10,7 +10,7 @@
 #'
 #' @returns A list of all lines in source file with "END" appended as the last line
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -38,7 +38,7 @@ ras.loadFile = function(sourceFile) {
 #' @param dataLines List of vectors from [readr::read_lines()] in [ras.loadFile()]
 #'
 #' @return List of data frames
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -62,6 +62,7 @@ ras.splitDataLines = function(dataLines) {
   listDF = list()       # List to store compiled df:s in
   checkNewDF = FALSE    # Create Boolean check for 1st df
   # Split file by data frame ---------------------------------------------------
+    ## ---- Replace loops with apply functions (https://www.youtube.com/watch?v=lsgA6AH5dnM) -------
   for(i in 1:length(dataLines)) {                            # Iterate over data lines
     if( stringr::str_detect(dataLines[[i]], "^Compound") == TRUE ) {  # Check if line is Compound name
       if( checkNewDF == TRUE ) {                             # Check if df needs to be compiled
@@ -96,7 +97,7 @@ ras.splitDataLines = function(dataLines) {
   return(listDF) # Return list of data frames
 }
 
-#' Clean list of data frames
+#' Clean list of data frames (depreciated?)
 #'
 #' Cleans each data frame by removing blanks and NAs. Also separates Name and
 #' Sample Text into its composite columns.
@@ -106,7 +107,7 @@ ras.splitDataLines = function(dataLines) {
 #' @param listDF List of data frames to clean
 #'
 #' @return List of data frames
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -152,7 +153,7 @@ ras.cleanDF = function(listDF) {
 #' @param listDF List of data frames to write to files
 #' @param sourceFile Source file for locating what directory to write to
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -228,6 +229,66 @@ ras.SplitOutput = function(sourceFiles = tcltk::tk_choose.files(),
   # Store listDF in listFile using original file name
   listDF_fileName <- SF %>% basename()
   listFile[[listDF_fileName]] <- listDF
+  }
+  return(listFile)
+}
+#' Stack dataframes
+#'
+#' Mutate the individual dataframes with a "Compound" column and
+#' rowbind them with reduce.
+#'
+#' @param listDF
+#'
+#' @return
+#' @noRd
+ras.stack_dataframes <- function(listDF) {
+  compound_names <- names(listDF)
+  compound_names <- stringr::str_extract(compound_names, "(?<=^Compound[:blank:][:digit:]{1,5}[:blank:]).+$")
+  compound_names <- stringr::str_replace_all(compound_names, "[:blank:]", "_")
+  for (i in seq_along(listDF)) {
+    listDF[[i]] <- dplyr::mutate(listDF[[i]],
+                                 Compound = compound_names[[i]])
+  }
+  DF <- purr::reduce(listDF, bind_rows)
+  return(DF)
+}
+#' Stack MassLynx output file
+#'
+#' Stacks the MassLynx complete summary output file into a single dataframe.
+#' Adds a column with what compound was used.
+#' Behaves like [ras.SplitOutput()].
+#' ## write = TRUE
+#' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Data frames written to tsv files
+#'  in the same directory as the source file. Use write = FALSE to disable this.
+#'
+#' @family SplitOutput
+#'
+#' @param sourceFiles A character vector with one or more file paths
+#' @param write Defaults to TRUE for writing to file system
+#'
+#' @return Writes a tsv file per compound to the same directory as the source file.
+#' @return Also returns the nested list of data frames for each file
+#' @export
+#'
+#' @examples
+#'   \dontrun{
+#'   # See ras.SplitOutput() for now
+#'   }
+ras.StackOutput <- function(sourceFiles = tcltk::tk_choose.files(),
+                            write = TRUE) {
+  listFile <- list()
+  for (SF in sourceFiles) {
+    # Load file
+    dataLines <- ras.loadFile(sourceFile = SF)
+    # Split dataLines into data frames
+    listDF <- ras.splitDataLines(dataLines)
+    # Stack dataframes with bindrows
+    DF <- ras.stack_dataframes(listDF)
+    # Write each data frame to a separate .txt file
+    if ( write == TRUE ) {ras.writeFiles(DF, SF)}
+    # Store listDF in listFile using original file name
+    DF_fileName <- SF %>% basename()
+    listFile[[DF_fileName]] <- DF
   }
   return(listFile)
 } # DONE! :)

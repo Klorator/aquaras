@@ -71,7 +71,7 @@ ras.TPA_calcFromIntensity <- function(df_raw,
 #'
 #' @param df Data frame with samples in columns
 #'
-#' @return Data frame with three columns, (1) unique samples, (2) how many replicates, and (3) the sample group
+#' @return List with two data frames, (sample_names) & (sample_groups). Each with two columns, (1) unique samples & (2) how many replicates.
 #' @export
 #'
 #' @examples
@@ -108,109 +108,123 @@ ras.TPA_sample_names <- function(df) {
   return(samples_L)
 }
 
+#' TPA - Determine and calculate StDev or Range
+#'
+#' Internal function.
+#'
+#' Checks number of values in a row and calculates SD, range, or inputs NA.
+#'
+#' If `na.rm = TRUE` it drops NA values from the row first (doesn't affect the final data frame).
+#'
+#' @param df Data frame passed from [ras.TPA_avg_StDev_calc()]
+#' @param na.rm If TRUE, drops NA values before determining calculation
+#'
+#' @return A vector to be inserted as a column in the original data frame
+#' @export
+#'
+#' @examples
+ras.TPA_StDev_range_DeterminationForRows <- function(df, na.rm = FALSE) {
+  if( na.rm == TRUE ) { df <- na.omit(df) }
+  num_col <- length(df)
+  # If there are more than 2 samples (StDev)
+  if( num_col > 2 ) {
+    # Calc. StDev by row for sample columns (assign to new col name)
+    StDev_Range <- stats::sd(df)
+  }
+  # If there are only 2 samples (range)
+  if( num_col == 2 ) {
+    # Calc. range (diff/2)
+    StDev_Range <- (sqrt((df[1] - df[2])^2))/2
+  }
+  # If fewer than 2 samples, return NA
+  if( num_col < 2 ) {
+    StDev_Range <- NA
+  }
+  return(StDev_Range)
+}
+
 #' TPA - Average & StDev/Range
 #'
 #' Adds columns for average and standard deviation (or range if there are only two sample cols).
 #'
 #' @param df Data frame to add columns to
 #' @param sample_names List of samples from `ras.TPA_sample_names`
+#' @param na.rm If TRUE, NA values are dropped before determining calculation
 #'
 #' @return Same data frame with new columns
 #' @export
 #'
 #' @examples
 #' ### Very specific function; no example yet
-ras.TPA_avg_StDev_calc <- function(df, sample_names) {
+ras.TPA_avg_StDev_calc <- function(df, sample_names, na.rm = FALSE) {
   ### Calculate for sample names ###
-  cols_used <- colnames(df[grep("_\\d+[A-Za-z0-9]+_\\d+$", names(df))])
-  # For-loop construct adding averages
-  for( i in seq_len(nrow(sample_names)) ) {
-    print(paste0("+++ ", i, " +++")) # debug ++++++++++
-
-    # Current sample vars
-    cur_sam = sample_names[[i,1]]
-    new_Avg_col = paste0(cur_sam, "_avg")
-    # Create average column
-    df[[new_Avg_col]] <- rowMeans(df[grep(cur_sam, names(df))])
-    # If there are only 2 samples (range)
-    if( sample_names[[i,2]] == 2 ) {
-      # Full col names for current sample
-      cur_range_col <- colnames(df[grep(cur_sam, cols_used)])
-      cur_range_col <- cur_range_col[-length(cur_range_col)]
-      # Calc. range (diff/2)
-      range_col <- paste0(cur_sam, "_range")
-      df[[range_col]] <- (sqrt((df[[cur_range_col[1]]] - df[[cur_range_col[2]]])^2))/2
-    }
-    # If there are more than 2 samples (StDev)
-    if( sample_names[[i,2]] > 2 ) {
-      # Full col names for the current sample
-      cur_StDev_col <- colnames(df[grep(cur_sam, cols_used)])
-      cur_StDev_col <- cur_StDev_col[-length(cur_StDev_col)]
-      # Create temp df (x col required for creation)
-      df_StDev <- data.frame(x = 1:nrow(df))
-      # Loop to calc. distance to mean squared for each col
-      for( j in seq_along(cur_StDev_col)) {
-        square_col <- paste0("squared_", cur_StDev_col[j])
-        df_StDev[[square_col]] <- (df[grep(cur_StDev_col[j],cols_used)] - df[[new_Avg_col]])^2
-      }
-      # Remove x col
-      df_StDev <- df_StDev[,-1]
-      # New col name for StDev
-      new_StDev_col = paste0(cur_sam, "_StDev")
-      # Calc. StDev
-      df[[new_StDev_col]] <- sqrt(rowSums(df_StDev)/length(df_StDev))
-    }
+  # For-loop construct iterating over sample names
+  for( i in seq_len(nrow(sample_names[1])) ) {
+    cur_sam <- sample_names[[i,1]]
+    cur_sam_RegEx <- paste0("_", cur_sam, "_")
+    # Current sample columns
+    cur_cols <- df[grep(cur_sam_RegEx, names(df))]
+    # Create new average column name and assign value
+    new_Avg_col = paste0("_", cur_sam, "_avg")
+    df[[new_Avg_col]] <- rowMeans(cur_cols, na.rm = na.rm)
+    # Create new StDev.Range column name and empty column
+    new_StDev.Range_col <- paste0("_", cur_sam, "_StDev.Range")
+    df[[new_StDev.Range_col]] <- apply(cur_cols, 1,
+                                       ras.TPA_StDev_range_DeterminationForRows, na.rm = na.rm)
   }
-
-
   return(df)
 }
 
-ras.TPA_avg_StDev <- function(df, sample_L) {
-  # Unpack the bundled sample list
-  list2env(sample_L, envir = environment())
-
-  r_df <- ras.TPA_avg_StDev_calc(df, sample_names) # Works
-
-  g_df <- ras.TPA_avg_StDev_calc(df, sample_groups) # Doesn't work at row 8, last row
-  # Error in rowMeans(df[grep(cur_sam, names(df))]) : 'x' must be numeric
-
-
-
-  return()
-}
-
-#' TPA - Reshape & filter
+#' TPA - Barplot helper function
 #'
-#' Pivots the data frame into a longer format creating the columns `sample` and `StDev_and_Range`
+#' Helper function that does the actual plotting and saving.
 #'
-#' @param df Data frame from `ras.TPA_avg_StDev`
-#' @param gene_regex Regular expression for what genes to filter for
+#' @param row_v Named character vector row from apply
+#' @param cur_sam Current sample
+#' @param gene_col_RegEx RegEx for selecting the gene name column/value
+#' @param save If `TRUE`, saves plot to directory
+#' @param extension What extension to use for both file ending and [ggsave()] `device` argument
+#' @param directory Directory path to write to
 #'
-#' @return Data frame with sample values in long format
+#' @return One ggplot object
 #' @export
 #'
 #' @examples
-#' ### Very specific function; no example yet
-ras.TPA_reshape_filter <- function(df, gene_regex = "*") {
-  # Subset rows/genes
-  df_L <- df[grep(gene_regex, df$gene_names),]
-  # Pivot longer
-  # Averages
-  df_L <- tidyr::pivot_longer(df_L,
-                       tidyselect::all_of(grep("_avg|_StDev|_range", names(df_L))),
-                       names_to = c("sample", "type"),
-                       names_pattern = "(.*)_(.*)",
-                       values_to = "value")
-  # Split the type & value cols -> avg & StDev
-  df_L <- tidyr::pivot_wider(df_L,
-                      names_from = type,
-                      values_from = value)
-  # Add range as compound col & drop old ones
-  df_L <- dplyr::mutate(df_L,
-                 StDev_and_Range = dplyr::if_else(is.na(StDev), range, StDev),
-                 .keep = "unused")
-  return(df_L)
+ras.TPA_barplot_helper <- function(row_v, helper_args) {
+  list2env(helper_args, envir = environment())
+  # Split out information for plots
+  row_v <- as.data.frame(setNames(as.list(as.vector(row_v)), names(row_v)))
+  row_v[is.na(row_v)] <- 0
+  row_v[grep("NaN", row_v)] <- 0
+  cur_gene <-        row_v[grep(gene_col_RegEx, names(row_v))]
+  cur_avg <-         as.numeric(row_v[grep("avg", names(row_v))])
+  cur_StDev.Range <- as.numeric(row_v[grep("StDev.Range", names(row_v))])
+  values_RegEx <-    paste0("_", cur_sam, "_[^(?:avg)(?:StDev)]")
+  cur_values <-      row_v[grep(values_RegEx , names(row_v))]
+  cur_values <-      tidyr::pivot_longer(cur_values, tidyselect::everything())
+  # Create barplot
+  bp <- ggplot2::ggplot() +
+    ggplot2::aes(x = cur_values$name,
+                 y = cur_values$value,
+                 fill = cur_values$name) +
+    ggplot2::geom_col() +
+    ggplot2::geom_errorbar(aes(ymax = (cur_avg + cur_StDev.Range),
+                               ymin = (cur_avg - cur_StDev.Range) )) +
+    ggplot2::guides(fill = "none") +
+    ggplot2::labs(x = "Sample",
+                  y = "Concentration [fmol/µg]",
+                  title = cur_gene[[1]]) +
+    ggplot2::theme_minimal()
+  # Write plot to directory
+  if( save ) {
+    file_name <- paste0(cur_gene[[1]], "_", cur_sam, ".", extension)
+    ggplot2::ggsave(filename = file_name,
+                    plot = bp,
+                    device = extension,
+                    path = directory,
+                    bg = "white")
+  }
+  return(bp)
 }
 
 #' TPA - Barplot & save
@@ -219,65 +233,66 @@ ras.TPA_reshape_filter <- function(df, gene_regex = "*") {
 #'
 #' @param df Data frame reshaped by `ras.TPA_reshape_filter`
 #' @param genes Character vector of what genes to plot
-#' @param extension File extension/type for exported images
+#' @param save While `TRUE` writes files to system
+#' @param extension File extension/type for exported images and [ggsave()] `device` argument
 #' @param directory Path to destination folder
-#' @param save While `TRUE` (default) writes files to system
 #'
-#' @return List of all plots generated
+#' @return Nested list of all plots generated
 #' @export
 #'
 #' @examples
 #' ### Very specific function; no example yet
 ras.TPA_barplot_save <- function(df,
-                                 genes,
+                                 gene_col_RegEx = "[Gg]ene",
+                                 sample_names = NULL,
+                                 save = FALSE,
                                  extension = "png",
-                                 directory = tcltk::tk_choose.dir(),
-                                 save = TRUE) {
+                                 directory = NA) {
+  # If no directory supplied, choose one interactively
+  if ( (save)&(is.na(directory)) ) { directory <- tcltk::tk_choose.dir() }
+  # Initiate empty list to store plots in
   plot_list <- list()
-  # Plotting & saving
-  for( i in seq_along(genes)) {
-
-    # Barplot ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    p1 <- ggplot2::ggplot(dplyr::filter(df, gene_names == genes[[i]])) +
-      ggplot2::aes(x = sample,
-          y = avg,
-          fill = sample) +
-      ggplot2::geom_col() +
-      ggplot2::geom_errorbar(aes(ymax = avg + StDev_and_Range,
-                        ymin = avg - StDev_and_Range)) +
-      ggplot2::guides(fill = "none",
-             x = ggplot2::guide_axis(angle = 90)) +
-      ggplot2::labs(x = "Sample",
-           y = "Concentration [fmol/\\u00b5g]",
-           title = genes[[i]]) +
-      ggplot2::theme_minimal()
-    # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    # Save plot to folder
-    if( save == TRUE ) {
-      file_name <- paste0(genes[[i]], ".", extension)
-      ggplot2::ggsave(filename = file_name,
-             plot = p1,
-             device = extension,
-             path = directory,
-             bg = "white")
-    }
-
-    # Store plots in list for return
-    plot_list[[i]] <- p1
+  # If no vector of sample names supplied, grab all available
+  if ( is.null(sample_names) ) {
+    sample_L <- ras.TPA_sample_names(df = df)
+    list2env(samples_L, envir = environment())
+    sample_names <- sample_names[1]
+  }
+  # Grab vector with Gene names
+  genes <- df[grep(gene_col_RegEx, names(df))]
+  # Collect arguments for ras.TPA_barplot_helper()
+  helper_args <- list(gene_col_RegEx = gene_col_RegEx,
+                      sample_names = sample_names,
+                      save = save,
+                      extension = extension,
+                      directory = directory)
+  # Loop over sample names and use apply to generate plot
+  for ( i in seq_len(nrow(sample_names)) ) {
+    # Current sample name & columns
+    cur_sam = as.character(sample_names[i,])
+    helper_args[["cur_sam"]] <- cur_sam
+    cur_sam_RegEx <- paste0("_", cur_sam, "_")
+    cur_cols <- df[c(grep(gene_col_RegEx, names(df)),
+                     grep(cur_sam_RegEx, names(df)))]
+    # Apply to make barplot per row
+    plot_list[[cur_sam]] <- apply(cur_cols, 1,
+                                  FUN = ras.TPA_barplot_helper,
+                                  helper_args)
+    names(plot_list[[cur_sam]]) <- genes
   }
   return(plot_list)
 }
 
 #' TPA - Do all the TPA stuff
 #'
-#' Clean, restructure, pivot longer, subset, plot, and export/save plots to file system.
+#' Clean, restructure, calculate, plot, and export/save plots to file system.
 #'
 #' @param df Data frame with values
-#' @param gene_regex Regular expression for which genes to plot
+#' @param na.rm If `TRUE`, NA values are dropped before determining calculation
+#' @param save If `TRUE`, writes files to system
 #' @param file_type File extension/type for exported images
 #' @param folder_path Path to destination folder
-#' @param save While `TRUE` (default) writes files to system
+#'
 #'
 #' @return List containing (1) Data frame and (2) List of generated plots
 #' @export
@@ -285,10 +300,10 @@ ras.TPA_barplot_save <- function(df,
 #' @examples
 #' ### Very specific function; no example yet
 ras.TPAer <- function(df,
-                      gene_regex = "*",
+                      na.rm = FALSE
+                      save = FALSE,
                       file_type = "png",
-                      folder_path = tcltk::tk_choose.dir(),
-                      save = TRUE) {
+                      folder_path = tcltk::tk_choose.dir()) {
   # Import the raw data
   # df_raw <- readxl::read_excel("D:/Dokument/Desktop backup/Bekkah/colon_2nd_run/202212_Colon_second_run_TPA.xlsx", sheet = "TPA_clean")
 
@@ -298,28 +313,18 @@ ras.TPAer <- function(df,
   # Relocate everything that's not a sample col to beginning
   df <- dplyr::relocate(df,
                         !tidyselect::any_of(grep("_\\d+[A-Za-z0-9]+_\\d+$", names(df))),
-                        tidyselect::everything())
+                         tidyselect::everything())
   # Get sample names
   sample_L <- aquaras::ras.TPA_sample_names(df = df)
-
+  list2env(samples_L, envir = environment())
   # Calc. Avg & StDev & Range
-              ## Add _avg & _StDev for sample_group, maybe split the function ##
-  df <- ras.TPA_avg_StDev(df = df,
-                          sample_L = samples)
-
-  ## In parts
-  r_df <- ras.TPA_avg_StDev_replicate(df, sample_names)
-
-  g_df <- ras.TPA_avg_StDev_group(df, sample_groups)
-
-
+  df <- ras.TPA_avg_StDev_calc(df = df,
+                               sample_names = sample_names,
+                               na.rm = na.rm)
   # Subset column
-  df <- dplyr::select(df,
-                      tidyselect::any_of(grep("_\\d+[A-Za-z0-9]+_\\d+$", names(df))),
-                      grep("_avg|_StDev|_range", names(df)))
-  # Reshape
-  df <- ras.TPA_reshape_filter(df = df,
-                               gene_regex = gene_regex)
+  # df <- dplyr::select(df,
+  #                     tidyselect::any_of(grep("_\\d+[A-Za-z0-9]+_\\d+$", names(df))),
+  #                     grep("_avg|_StDev.Range", names(df)))
   # Vars for plotting and saving files
   genes <- df["gene_names"] %>% # (genes == vector of gene names to plot)
     unique() %>%

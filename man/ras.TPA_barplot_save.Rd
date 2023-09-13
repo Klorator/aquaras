@@ -6,25 +6,26 @@
 \usage{
 ras.TPA_barplot_save(
   df,
-  genes,
+  gene_col_RegEx = "[Gg]ene",
+  sample_names = NULL,
+  save = FALSE,
   extension = "png",
-  directory = tcltk::tk_choose.dir(),
-  save = TRUE
+  directory = NA
 )
 }
 \arguments{
 \item{df}{Data frame reshaped by \code{ras.TPA_reshape_filter}}
 
-\item{genes}{Character vector of what genes to plot}
+\item{save}{While \code{TRUE} writes files to system}
 
-\item{extension}{File extension/type for exported images}
+\item{extension}{File extension/type for exported images and \code{\link[=ggsave]{ggsave()}} \code{device} argument}
 
 \item{directory}{Path to destination folder}
 
-\item{save}{While \code{TRUE} (default) writes files to system}
+\item{genes}{Character vector of what genes to plot}
 }
 \value{
-List of all plots generated
+Nested list of all plots generated
 }
 \description{
 Create barplots and (if save = TRUE) save them to file system.

@@ -61,9 +61,6 @@ listDF
 }
 \seealso{
 Other SplitOutput: 
-\code{\link{ras.cleanDF}()},
-\code{\link{ras.loadFile}()},
-\code{\link{ras.splitDataLines}()},
-\code{\link{ras.writeFiles}()}
+\code{\link{ras.StackOutput}()}
 }
 \concept{SplitOutput}

@@ -300,7 +300,7 @@ ras.TPA_barplot_save <- function(df,
 #' @examples
 #' ### Very specific function; no example yet
 ras.TPAer <- function(df,
-                      na.rm = FALSE
+                      na.rm = FALSE,
                       save = FALSE,
                       file_type = "png",
                       folder_path = tcltk::tk_choose.dir()) {

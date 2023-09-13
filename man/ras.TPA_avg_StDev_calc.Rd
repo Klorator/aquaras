@@ -4,12 +4,14 @@
 \alias{ras.TPA_avg_StDev_calc}
 \title{TPA - Average & StDev/Range}
 \usage{
-ras.TPA_avg_StDev_calc(df, sample_names)
+ras.TPA_avg_StDev_calc(df, sample_names, na.rm = FALSE)
 }
 \arguments{
 \item{df}{Data frame to add columns to}
 
 \item{sample_names}{List of samples from \code{ras.TPA_sample_names}}
+
+\item{na.rm}{If TRUE, NA values are dropped before determining calculation}
 }
 \value{
 Same data frame with new columns

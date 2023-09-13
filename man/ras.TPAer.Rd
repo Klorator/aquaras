@@ -6,28 +6,28 @@
 \usage{
 ras.TPAer(
   df,
-  gene_regex = "*",
+  na.rm = FALSE,
+  save = FALSE,
   file_type = "png",
-  folder_path = tcltk::tk_choose.dir(),
-  save = TRUE
+  folder_path = tcltk::tk_choose.dir()
 )
 }
 \arguments{
 \item{df}{Data frame with values}
 
-\item{gene_regex}{Regular expression for which genes to plot}
+\item{na.rm}{If \code{TRUE}, NA values are dropped before determining calculation}
+
+\item{save}{If \code{TRUE}, writes files to system}
 
 \item{file_type}{File extension/type for exported images}
 
 \item{folder_path}{Path to destination folder}
-
-\item{save}{While \code{TRUE} (default) writes files to system}
 }
 \value{
 List containing (1) Data frame and (2) List of generated plots
 }
 \description{
-Clean, restructure, pivot longer, subset, plot, and export/save plots to file system.
+Clean, restructure, calculate, plot, and export/save plots to file system.
 }
 \examples{
 ### Very specific function; no example yet

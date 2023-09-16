@@ -279,3 +279,17 @@ ras.Fic_timepoint <- function(df,
   timepoints_list <- list(df_cell, df_medium)
   return(timepoints_list)
 }
+#' Collect a list of variables in the same dataframe
+#'
+#' Selects columns `Sample_ID` & `*_avg`, then does a full join.
+#'
+#' @param df_list A list of dataframes to join
+#'
+#' @return A dataframe with `Sample_ID` & all the values
+#' @noRd
+ras.Fic_collect_variables <- function(df_list) {
+  fun1 <- function(x) x <- x[c("Sample_ID",grep("_avg$",names(x)))]
+  df_list <- df_list %>% lapply(fun1)
+  df_calc <- purrr::reduce(df_list, dplyr::full_join)
+  return(df_calc)
+}

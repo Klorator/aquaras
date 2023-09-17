@@ -69,7 +69,8 @@ ras.Fic_extract_simple <- function(df, values = "Conc.", type = "HBSS") {
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`,
 #'  `Dilution_Conc.avg`, & `dilution`
 #' @noRd
-ras.Fic_dilution <- function(df, values = "Conc.",
+ras.Fic_dilution <- function(df,
+                             values = "Conc.",
                              type = "[:digit:]x",
                              type_extract = "[:digit:]+(?=x)") {
   # Drop other columns and filter for dilution factor
@@ -288,8 +289,105 @@ ras.Fic_timepoint <- function(df,
 #' @return A dataframe with `Sample_ID` & all the values
 #' @noRd
 ras.Fic_collect_variables <- function(df_list) {
-  fun1 <- function(x) x <- x[c("Sample_ID",grep("_avg$",names(x)))]
+  fun1 <- function(x) x <- x[c("Sample_ID",grep("_avg$|dilution",names(x)))]
   df_list <- df_list %>% lapply(fun1)
   df_calc <- purrr::reduce(df_list, dplyr::full_join)
+  return(df_calc)
+}
+# Calculations -----------------------------------------------------------------
+#' Calculate F u,homogenous
+#'
+#'  Equation: f u,hom = Peak area(buffer sample) /
+#'  ( Peak area(cell homogenate sample)*sample dilution factor )
+#'
+#' @param df_calc Dataframe with values
+#' @param Buffer Name of column for buffer values
+#' @param Homogenous Name of column for homogenous values
+#' @param Dilution_factor Name of column for dilution factor
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_Fu.hom <- function(df_calc,
+                           Buffer = "Buffer_Con._avg",
+                           Homogenous = "Hom_Conc._avg",
+                           Dilution_factor = "dilution") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(fuhom = ({{Buffer}})/
+                    ({{Homogenous}} * {{Dilution_factor}}) )
+  return(df_calc)
+}
+#' Calculate D protein (dilution factor of protein)
+#'
+#' Equation: D = 1000 /
+#' ("Protein conc.(mg/ml)" * 6.5) )
+#'
+#' @param df_calc Dataframe with values
+#' @param Protein_col Name of column for protein values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_D.prot <- function(df_calc,
+                      Protein_col = "Protein_Conc._avg") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(D = 1000 / ({{Protein_col}} * 6.5) )
+  return(df_calc)
+}
+#' Calculate F u,cell
+#'
+#' Equation: fucell = 1 / (D.prot * (1/Fu.hom-1)+1)
+#'
+#' @param df_calc Dataframe with values
+#' @param D.prot Name of column for protein dilution values
+#' @param Fu.hom Name of column for F u,homogenous values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_Fu.cell <- function(df_calc,
+                            D.prot = "D",
+                            Fu.hom = "fuhom") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(fucell = 1 / ({{D.prot}} * (1/{{Fu.hom}}-1)+1) )
+  return(df_calc)
+}
+#' Calculate Stability
+#'
+#' Equation: Stability = Stab_Conc.avg / Czero_Conc.avg
+#'
+#' @param df_calc Dataframe with values
+#' @param Stab Name of column for stability values
+#' @param C.zero Name of column for C zero values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_stability <- function(df_calc,
+                              Stab = "Stab_Conc._avg",
+                              C.zero = "Czero_Conc._avg") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(Stability = {{Stab}} / {{C.zero}})
+  return(df_calc)
+}
+#' Calculate mass balance 10.2.5
+#'
+#' Calculate mass balance according to section 10.2.5 in the SOP.
+#' Equation:Mass_balance_10.2.5 = (Hom_Conc.avg * dilution
+#' + Buffer_Conc.avg * 1.75) / Stab_Conc.avg
+#'
+#' @param df_calc Dataframe with values
+#' @param Homogenous Name of column for homogenous values
+#' @param Dilution_factor Name of column for dilution factor
+#' @param Buffer Name of column for buffer values
+#' @param Stab Name of column for stability values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_mass_balance <- function(df_calc,
+                                 Homogenous = "Hom_Conc._avg",
+                                 Dilution_factor = "dilution",
+                                 Buffer = "Buffer_Con._avg",
+                                 Stab = "Stab_Conc._avg") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(Mass_balance_10.2.5 =
+                    ({{Homogenous}}*{{Dilution_factor}} +{{Buffer}}*1.75)
+                    / {{Stab}} )
   return(df_calc)
 }

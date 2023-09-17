@@ -391,3 +391,33 @@ ras.Fic_mass_balance <- function(df_calc,
                     / {{Stab}} )
   return(df_calc)
 }
+#' Calculate A cell
+#'
+#' Equation: Acell = Cell_Conc.avg(nM) * 200(micro l)
+#'
+#' @param df_calc Dataframe with values
+#' @param Cell Name of column for cell values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_A.cell <- function(df_calc,
+                           Cell = "Cell_Conc._avg") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(Acell = {{Cell}} * 200)
+  return(df_calc)
+}
+#' Calculate Cell volume
+#'
+#' Equation: Vcell = "Protein amount/well" * 6.5
+#'
+#' @param df_calc Dataframe with values
+#' @param Protein_volume  Name of column for protein volume values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_V.cell <- function(df_calc,
+                           Protein_volume = "V.Prot") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(Vcell = {{Protein_volume}} * 6.5)
+  return(df_calc)
+}

@@ -1,3 +1,4 @@
+# Data cleanup -----------------------------------------------------------------
 #' Cleaning for Fic calculation
 #'
 #' The Sample.Text needs to follow the pattern of Sample ID, Type of liquid,
@@ -26,6 +27,7 @@ ras.clean_for_Fic <- function(df) {
                                           cols_remove = F)
   return(df_clean)
 }
+# Extraction of values ---------------------------------------------------------
 #' Extract values: simple edition
 #'
 #' Get values that don't need further manipulation.
@@ -39,7 +41,9 @@ ras.clean_for_Fic <- function(df) {
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`, &
 #' `{{type}}_{{values}}_avg`
 #' @noRd
-ras.Fic_extract_simple <- function(df, values = "Conc.", type = "HBSS") {
+ras.Fic_extract_simple <- function(df,
+                                   values = "Conc.",
+                                   type = "HBSS") {
   # Drop other columns and filter for {{type}}
   df_extract <- df %>%
     dplyr::select(Sample_ID, LiquidType, {{values}})
@@ -47,10 +51,10 @@ ras.Fic_extract_simple <- function(df, values = "Conc.", type = "HBSS") {
     dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
     stats::na.omit({{values}})
   # Group by Sample_ID and average
+  new_col <- paste0({{type}},"_",{{values}},"_avg")
   df_extract <- df_extract %>%
     dplyr::group_by(Sample_ID) %>%
-    dplyr::mutate(paste0({{type}},"_",{{values}},"_avg") = mean({{values}}),
-                  .keep = "unused")
+    dplyr::mutate({{new_col}} := mean({{values}}), .keep = "unused")
   # Remove duplicates to keep only one average value
   df_extract <- df_extract %>%
     dplyr::arrange(Sample_ID) %>%
@@ -144,7 +148,7 @@ ras.Fic_extract_timepoints <- function(df,
     dplyr::filter(Sample_ID == {{type}})
   df_time <- df_time %>%
     dplyr::group_by(Sample_ID, Timepoint) %>%
-    dplyr::mutate({{col_avg}} = mean({{values}})) %>%
+    dplyr::mutate({{col_avg}} := mean({{values}})) %>%
     dplyr::filter(duplicated({{col_avg}} == FALSE))
   return(df_time)
 }
@@ -469,18 +473,73 @@ ras.Fic_mass_balance_10.3.4 <- function(df_calc,
 #'
 #' Equation: Fic = fucell * Kp
 #'
-#' @param df_calc
-#' @param Fu.cell
-#' @param Kp
+#' @param df_calc Dataframe with values
+#' @param Fu.cell Name of column for F u, cell values
+#' @param Kp Name of column for Kp values
 #'
-#' @return
-#' @export
-#'
-#' @examples
+#' @return Same dataframe with added column from equation
+#' @noRd
 ras.Fic_Fic <- function(df_calc,
                         Fu.cell = "fucell",
                         Kp = "Kp") {
   df_calc <- df_calc %>%
-    dplyr::mutate(Fic = fucell * Kp)
+    dplyr::mutate(Fic = {{Fu.cell}} * {{Kp}})
   return(df_calc)
+}
+# Workflow wrapper -------------------------------------------------------------
+ras.Fic_workflow <- function(source = c("Waters","Sciex"),
+                             ID = "Sample_ID",
+                             values = "Conc.",
+                             Buffer = "HBSS",
+                             Dilution_type = "[:digit:]x",
+                             Dilution_extract = "[:digit:]+(?=x)",
+                             stab = "Stab$",
+                             czero = "Czero$",
+                             Kp = "Kp$") {
+  # Load data
+  if (source[[1]] == "Waters") { df <- ras.StackOutput() }
+  if (source[[1]] == "Sciex") { df <- tcltk::tk_choose.files(multi = FALSE) }
+  # Clean data
+  df_clean <- df %>% ras.clean_for_Fic()
+  # Extract values
+  df_buffer <- df_clean %>%
+    ras.Fic_extract_simple(values = values,
+                           type = Buffer)
+  df_dilution <- df_clean %>%
+    ras.Fic_dilution(values = values,
+                     type = Dilution_type,
+                     type_extract = Dilution_extract)
+  buffer_col <- names(df_buffer[3])
+  df_dilution_buffer <- ras.diff.sample_buffer(df_dilution,
+                                               df_buffer,
+                                               ID.col = ID,
+                                               Buffer_Conc.col = buffer_col)
+
+  time_list <- df_clean %>%
+    ras.Fic_timepoint(values = values)
+  df_cell <- time_list[[1]]
+  df_medium <- time_list[[2]]
+
+  df_stab <- df_clean %>%
+    ras.Fic_extract_simple(values = values,
+                           type = stab)
+
+  df_czero <- df_clean %>%
+    ras.Fic_extract_simple(values = values,
+                           type = czero)
+
+  df_kp <- df_clean %>%
+    ras.Fic_extract_simple(values = values,
+                           type = Kp)
+  # Collect all variables in one dataframe
+  df_calc <- list(
+    df_dilution_buffer,
+    df_cell,
+    df_medium,
+    df_stab,
+    df_czero,
+    df_kp
+    ) %>% ras.Fic_collect_variables()
+  # Calculations
+
 }

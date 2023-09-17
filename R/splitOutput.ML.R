@@ -249,7 +249,7 @@ ras.stack_dataframes <- function(listDF) {
     listDF[[i]] <- dplyr::mutate(listDF[[i]],
                                  Compound = compound_names[[i]])
   }
-  DF <- purr::reduce(listDF, bind_rows)
+  DF <- purrr::reduce(listDF, bind_rows)
   return(DF)
 }
 #' Stack MassLynx output file

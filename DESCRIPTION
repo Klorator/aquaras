@@ -22,6 +22,7 @@ Imports:
     dplyr,
     DT,
     ggplot2,
+    glue,
     janitor,
     magrittr,
     openxlsx,

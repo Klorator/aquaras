@@ -10,7 +10,7 @@
 #' @return Same dataframe but filtered and with Sample.Text separated into columns
 #' @noRd
 #'
-ras.clean_for_Fic <- function(df) {
+ras.Fic_cleanup <- function(df) {
   df_clean <- dplyr::filter(df,
                             Type != "Blank",
                             !is.na(Sample.Text),
@@ -33,7 +33,7 @@ ras.clean_for_Fic <- function(df) {
 #' Get values that don't need further manipulation.
 #' This feels too specific.
 #'
-#' @param df A dataframe from [ras.clean_for_Fic()].
+#' @param df A dataframe from [ras.Fic_cleanup()].
 #' @param values Name of the column to use for values.
 #' @param type String to filter the column `LiquidType` by. Used to name
 #' the `*_Conc.avg` column.
@@ -65,7 +65,7 @@ ras.Fic_extract_simple <- function(df,
 #'
 #' Very specific
 #'
-#' @param df A dataframe from [ras.clean_for_Fic()].
+#' @param df A dataframe from [ras.Fic_cleanup()].
 #' @param values Name of the column to use for values
 #' @param type Pattern to filter the column `LiquidType` by
 #' @param type_extract Pattern to extract the dilution factor
@@ -131,7 +131,7 @@ ras.diff.sample_buffer <- function(df_dilution, df_buffer,
 }
 #' Extract values for `LiquidType`s with a `Timepoint`
 #'
-#' @param df A dataframe from [ras.clean_for_Fic()].
+#' @param df A dataframe from [ras.Fic_cleanup()].
 #' @param values Name of the column to use for values
 #' @param type String to filter the column `LiquidType` by. Used to name
 #' the `*_Conc.avg` column.
@@ -154,8 +154,8 @@ ras.Fic_extract_timepoints <- function(df,
 }
 #' Plot the timepoints
 #'
-#' @param df_time
-#' @param p_title
+#' @param df_time Dataframe from ras.Fic_extract_timepoints()
+#' @param p_title String for plot title
 #'
 #' @return A ggplot2 object
 #' @noRd
@@ -258,7 +258,7 @@ ras.Fic_select_timepoints.app <- function(plots) {
 }
 #' Extract values for Cell & Medium (values w/ timepoints)
 #'
-#' @param df Dataframe from [ras.clean_for_Fic()].
+#' @param df Dataframe from [ras.Fic_cleanup()].
 #' @param values Name of the column to use for values.
 #' @param types Vector with the types to select timepoints for. (Cell & Medium)
 #'
@@ -266,6 +266,9 @@ ras.Fic_select_timepoints.app <- function(plots) {
 #' @export
 #'
 #' @examples
+#'  \dontrun{
+#'  # No example yet
+#'  }
 ras.Fic_timepoint <- function(df,
                               values = "Conc.",
                               types = c("Cell", "Medium")) {
@@ -500,7 +503,7 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   if (source[[1]] == "Waters") { df <- ras.StackOutput() }
   if (source[[1]] == "Sciex") { df <- tcltk::tk_choose.files(multi = FALSE) }
   # Clean data
-  df_clean <- df %>% ras.clean_for_Fic()
+  df_clean <- df %>% ras.Fic_cleanup()
   # Extract values
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,

@@ -57,6 +57,10 @@ from the intensity columns. It uses the raw output file from MaxQuant.
 A few more functions, mainly `ras.TPAer` for calculating averages and
 standard deviation of TPA columns.
 
+## Fic workflow
+
+Look at ras.Fic_workflow() (still in progress)
+
 ## Planned features
 
 ##### Plotting of graphs

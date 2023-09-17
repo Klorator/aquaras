@@ -380,11 +380,11 @@ ras.Fic_stability <- function(df_calc,
 #'
 #' @return Same dataframe with added column from equation
 #' @noRd
-ras.Fic_mass_balance <- function(df_calc,
-                                 Homogenous = "Hom_Conc._avg",
-                                 Dilution_factor = "dilution",
-                                 Buffer = "Buffer_Con._avg",
-                                 Stab = "Stab_Conc._avg") {
+ras.Fic_mass_balance_10.2.5 <- function(df_calc,
+                                        Homogenous = "Hom_Conc._avg",
+                                        Dilution_factor = "dilution",
+                                        Buffer = "Buffer_Con._avg",
+                                        Stab = "Stab_Conc._avg") {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.2.5 =
                     ({{Homogenous}}*{{Dilution_factor}} +{{Buffer}}*1.75)
@@ -411,7 +411,7 @@ ras.Fic_A.cell <- function(df_calc,
 #' Equation: Vcell = "Protein amount/well" * 6.5
 #'
 #' @param df_calc Dataframe with values
-#' @param Protein_volume  Name of column for protein volume values
+#' @param Protein_volume Name of column for protein volume values
 #'
 #' @return Same dataframe with added column from equation
 #' @noRd
@@ -419,5 +419,68 @@ ras.Fic_V.cell <- function(df_calc,
                            Protein_volume = "V.Prot") {
   df_calc <- df_calc %>%
     dplyr::mutate(Vcell = {{Protein_volume}} * 6.5)
+  return(df_calc)
+}
+#' Calculate Kp
+#'
+#' Equation: Kp = (Acell/Vcell) / (Medium_Conc.avg * 10
+#'
+#' @param df_calc Dataframe with values
+#' @param A.cell Name of column for A cell values
+#' @param V.cell Name of column for V cell values
+#' @param Medium Name of column for medium values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_Kp <- function(df_calc,
+                       A.cell = "Acell",
+                       V.cell = "Vcell",
+                       Medium = "Medium_Conc._avg") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(Kp = ({{A.cell}}/{{V.cell}}) / ({{Medium}} * 10) )
+  return(df_calc)
+}
+#' Calculate mass balance 10.3.2
+#'
+#' Calculate mass balance according to section 10.3.2 in the SOP.
+#' Equation: Mass_balance_10.3.5 =
+#' ((Acell+Medium_Conc.avg*10*Vmedium)/(Vmedium))/Kp_Conc.avg
+#'
+#' @param df_calc Dataframe with values
+#' @param A.cell Name of column for A cell values
+#' @param Medium Name of column for medium values
+#' @param V.medium Name of column for V medium values
+#' @param C.zero.Kp Name of column for C zero Kp values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_mass_balance_10.3.4 <- function(df_calc,
+                                        A.cell = "Acell",
+                                        Medium = "Medium_Conc._avg",
+                                        V.medium = "Vmedium",
+                                        C.zero.Kp = "CzeroKp") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(Mass_balance_10.3.5 =
+                    (({{A.cell}}+{{Medium}}*10*{{V.medium}})/({{V.medium}}))
+                  /{{C.zero.Kp}} )
+  return(df_calc)
+}
+#' Calculate F ic
+#'
+#' Equation: Fic = fucell * Kp
+#'
+#' @param df_calc
+#' @param Fu.cell
+#' @param Kp
+#'
+#' @return
+#' @export
+#'
+#' @examples
+ras.Fic_Fic <- function(df_calc,
+                        Fu.cell = "fucell",
+                        Kp = "Kp") {
+  df_calc <- df_calc %>%
+    dplyr::mutate(Fic = fucell * Kp)
   return(df_calc)
 }

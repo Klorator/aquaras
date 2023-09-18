@@ -167,7 +167,7 @@ ras.writeFiles = function(listDF, sourceFile) {
   newDirectory <- paste0(sourceDirectory, "/", fileName_base) # New directory path
   dir.create(newDirectory)                # Create a new directory
   setwd(newDirectory)                     # Set new directory as working directory
-  for(i in 1:length(listDF)) {
+  for(i in seq_along(listDF)) {
     newFileName = paste0(fileName_base, " - ", names(listDF[i]), ".txt") # Concatenate new file name
     listDF[[i]] %>% readr::write_tsv(file = newFileName)    # Write to file
   }
@@ -249,8 +249,9 @@ ras.stack_dataframes <- function(listDF) {
     listDF[[i]] <- dplyr::mutate(listDF[[i]],
                                  Compound = compound_names[[i]])
   }
-  DF <- purrr::reduce(listDF, bind_rows)
-  return(DF)
+  DF <- purrr::reduce(listDF, dplyr::bind_rows)
+  listDF <- list(DF)
+  return(listDF)
 }
 #' Stack MassLynx output file
 #'
@@ -274,7 +275,8 @@ ras.stack_dataframes <- function(listDF) {
 #'   \dontrun{
 #'   # See ras.SplitOutput() for now
 #'   }
-ras.StackOutput <- function(sourceFiles = tcltk::tk_choose.files(),
+ras.StackOutput <- function(sourceFiles = tcltk::tk_choose.files(
+  caption = "Select MassLynx output file"),
                             write = TRUE) {
   listFile <- list()
   for (SF in sourceFiles) {
@@ -283,12 +285,12 @@ ras.StackOutput <- function(sourceFiles = tcltk::tk_choose.files(),
     # Split dataLines into data frames
     listDF <- ras.splitDataLines(dataLines)
     # Stack dataframes with bindrows
-    DF <- ras.stack_dataframes(listDF)
+    listDF <- ras.stack_dataframes(listDF)
     # Write each data frame to a separate .txt file
-    if ( write == TRUE ) {ras.writeFiles(DF, SF)}
+    if ( write == TRUE ) {ras.writeFiles(listDF, SF)}
     # Store listDF in listFile using original file name
     DF_fileName <- SF %>% basename()
-    listFile[[DF_fileName]] <- DF
+    listFile[[DF_fileName]] <- listDF[[1]]
   }
   return(listFile)
 } # DONE! :)

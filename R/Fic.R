@@ -14,8 +14,8 @@ ras.Fic_cleanup <- function(df) {
   df_clean <- dplyr::filter(df,
                             Type != "[Bb]lank",
                             !is.na(Sample.Text),
-                            !str_detect(Sample.Text, "[Bb]lank"),
-                            !str_detect(Sample.Text, "[:digit:]nM"))
+                            !stringr::str_detect(Sample.Text, "[Bb]lank"),
+                            !stringr::str_detect(Sample.Text, "[:digit:]nM"))
   # Split Sample.Text into multiple columns
   df_clean <- tidyr::separate_wider_delim(df_clean,
                                           Sample.Text, delim = "_",
@@ -44,8 +44,7 @@ ras.Fic_cleanup <- function(df) {
 #' @noRd
 ras.Fic_extract_simple <- function(df,
                                    values = "Conc.",
-                                   type = "HBSS",
-                                   new_name = "Column") {
+                                   type = "HBSS") {
   # Drop other columns and filter for {{type}}
   df_extract <- df %>%
     dplyr::select(Sample_ID, LiquidType, {{values}})
@@ -53,7 +52,7 @@ ras.Fic_extract_simple <- function(df,
     dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
     stats::na.omit({{values}})
   # Group by Sample_ID and average
-  new_col <- paste0({{new_name}},"_",{{values}},"_avg")
+  new_col <- paste0({{type}},"_",{{values}},"_avg")
   df_extract <- df_extract %>%
     dplyr::group_by(Sample_ID) %>%
     dplyr::mutate({{new_col}} := mean({{values}}), .keep = "unused")
@@ -528,22 +527,34 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                              prot_hom_type = "hom",
                              V.medium = 200) {
   # Load data
-  if (source[[1]] == "Waters") { df <- ras.StackOutput() }
-  if (source[[1]] == "Sciex") { df <- tcltk::tk_choose.files(multi = FALSE) }
-  df_protein <- tcltk::tk_choose.files(multi = FALSE)
+  if (source[[1]] == "Waters") {
+    list.df <- ras.StackOutput(sourceFiles =
+      tcltk::tk_choose.files(caption = "Select MassLynx output file",
+                             multi = FALSE))
+    df <- list.df[[1]]
+  }
+  if (source[[1]] == "Sciex") {
+    df <- tcltk::tk_choose.files(caption = "Select Sciex data",
+                                 multi = FALSE)
+  }
+  df_protein <- tcltk::tk_choose.files(caption = "Select Protein data",
+                                       multi = FALSE)
   # Clean data
   df_clean <- df %>% ras.Fic_cleanup()
   df_protein <- df_protein %>% ras.Fic_cleanup()
   # Extract values
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = Buffer,
-                           new_name = "Buffer")
+                           type = Buffer)
+  name_buffer <- names(df_buffer[3])
+
   df_DiluteHom <- df_clean %>%
     ras.Fic_DiluteHom(values = values,
                      type = Dilution_type,
                      type_extract = Dilution_extract)
-  name_buffer <- names(df_buffer[3])
+  name_DiluteHom <- names(df_DiluteHom[[3]])
+  name_dilution <- names(df_DiluteHom[[4]])
+
   df_DiluteHom_buffer <- ras.diff.sample_buffer(df_DiluteHom,
                                                df_buffer,
                                                ID.col = ID,
@@ -558,32 +569,27 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
 
   df_stab <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = stab,
-                           new_name = "Stab")
+                           type = stab)
   name_stab <- names(df_stab[3])
 
   df_czero <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = czero,
-                           new_name = "Czero")
+                           type = czero)
   name_czero <- names(df_czero[3])
 
   df_kp <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = Kp,
-                           new_name = "Kp")
+                           type = Kp)
   name_kp <- names(df_kp[3])
 
   df_protCell <- df_protein %>%
     ras.Fic_extract_simple(values = prot_cell_value,
-                           type = prot_cell_type,
-                           new_name = "ProtCell")
+                           type = prot_cell_type)
   name_protCell <- names(df_protCell[3])
 
   df_protHom <- df_protein %>%
     ras.Fic_extract_simple(values = prot_hom_value,
-                           type = prot_hom_type,
-                           new_name = "ProtHom")
+                           type = prot_hom_type)
   name_protHom <- names(df_protHom[3])
   # Collect all variables in one dataframe
   df_calc <- list(
@@ -599,8 +605,8 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   # Calculations
   df_calc <- df_calc %>%
     ras.Fic_Fu.hom(Buffer = name_buffer,
-                   Homogenate = "Homogenate_Conc._avg",
-                   Dilution_factor = "dilution")
+                   Homogenate = name_DiluteHom,
+                   Dilution_factor = name_dilution)
   df_calc <- df_calc %>%
     ras.Fic_D.prot(Protein_col = name_protHom)
   df_calc <- df_calc %>%
@@ -610,8 +616,8 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     ras.Fic_stability(Stab = name_stab,
                       C.zero = name_czero)
   df_calc <- df_calc %>%
-    ras.Fic_mass_balance_10.2.5(Homogenate = "Homogenate_Conc._avg",
-                                Dilution_factor = "dilution",
+    ras.Fic_mass_balance_10.2.5(Homogenate = name_DiluteHom,
+                                Dilution_factor = name_dilution,
                                 Buffer = name_buffer,
                                 Stab = name_stab)
   df_calc <- df_calc %>%
@@ -631,6 +637,8 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     ras.Fic_Fic(Fu.cell = "fucell",
                 Kp = "Kp")
   # Write df_calc to file
-
+  f <- paste0(Sys.Date()," Fic calculations.xlsx")
+  readr::write_excel_csv(df_calc,
+                         f)
   return(df_calc)
 }

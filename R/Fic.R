@@ -12,9 +12,9 @@
 #'
 ras.Fic_cleanup <- function(df) {
   df_clean <- dplyr::filter(df,
-                            Type != "Blank",
+                            Type != "[Bb]lank",
                             !is.na(Sample.Text),
-                            !str_detect(Sample.Text, "Blank"),
+                            !str_detect(Sample.Text, "[Bb]lank"),
                             !str_detect(Sample.Text, "[:digit:]nM"))
   # Split Sample.Text into multiple columns
   df_clean <- tidyr::separate_wider_delim(df_clean,
@@ -23,7 +23,7 @@ ras.Fic_cleanup <- function(df) {
                                                     "LiquidType",
                                                     "Timepoint",
                                                     "Replicate"),
-                                          too_few = "align_end",
+                                          too_few = "align_start",
                                           cols_remove = F)
   return(df_clean)
 }
@@ -37,13 +37,15 @@ ras.Fic_cleanup <- function(df) {
 #' @param values Name of the column to use for values.
 #' @param type String to filter the column `LiquidType` by. Used to name
 #' the `*_Conc.avg` column.
+#' @param new_name String to use as first part of new column
 #'
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`, &
 #' `{{type}}_{{values}}_avg`
 #' @noRd
 ras.Fic_extract_simple <- function(df,
                                    values = "Conc.",
-                                   type = "HBSS") {
+                                   type = "HBSS",
+                                   new_name = "Column") {
   # Drop other columns and filter for {{type}}
   df_extract <- df %>%
     dplyr::select(Sample_ID, LiquidType, {{values}})
@@ -51,7 +53,7 @@ ras.Fic_extract_simple <- function(df,
     dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
     stats::na.omit({{values}})
   # Group by Sample_ID and average
-  new_col <- paste0({{type}},"_",{{values}},"_avg")
+  new_col <- paste0({{new_name}},"_",{{values}},"_avg")
   df_extract <- df_extract %>%
     dplyr::group_by(Sample_ID) %>%
     dplyr::mutate({{new_col}} := mean({{values}}), .keep = "unused")
@@ -73,56 +75,56 @@ ras.Fic_extract_simple <- function(df,
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`,
 #'  `Dilution_Conc.avg`, & `dilution`
 #' @noRd
-ras.Fic_dilution <- function(df,
+ras.Fic_DiluteHom <- function(df,
                              values = "Conc.",
                              type = "[:digit:]x",
                              type_extract = "[:digit:]+(?=x)") {
   # Drop other columns and filter for dilution factor
-  df_dilution <- df %>%
+  df_DiluteHom <- df %>%
     dplyr::select(Sample_ID,
                   LiquidType,
                   {{values}})
-  df_dilution <- df_dilution %>%
+  df_DiluteHom <- df_DiluteHom %>%
     dplyr::filter(stringr::str_detect(LiquidType, {{type}}))
   # Group by Sample_ID & LiquidType and average
-  df_dilution <- df_dilution %>%
+  df_DiluteHom <- df_DiluteHom %>%
     dplyr::group_by(Sample_ID, LiquidType) %>%
-    dplyr::mutate(Dilution_Conc.avg = mean({{values}}))
+    dplyr::mutate(Homogenate_Conc._avg = mean({{values}}))
   # Remove duplicates to keep only one average value
-  df_dilution <- df_dilution %>%
+  df_DiluteHom <- df_DiluteHom %>%
     dplyr::arrange(Sample_ID, LiquidType) %>%
     dplyr::filter(duplicated(Sample_ID) == FALSE &
                     duplicated(LiquidType) == FALSE)
   # Make dilution factor numeric
-  df_dilution <- df_dilution %>%
+  df_DiluteHom <- df_DiluteHom %>%
     dplyr::mutate(dilution = as.numeric(stringr::str_extract(LiquidType, {{type_extract}}) ) )
-  return(df_dilution)
+  return(df_DiluteHom)
 }
 #' Calculate smallest difference between dilution & buffer
 #'
 #' Calculate and filter for the dilution factor with smallest difference to buffer.
 #' Very specific
 #'
-#' @param df_dilution Dataframe from [ras.Fic_dilution()]
+#' @param df_DiluteHom Dataframe from [ras.Fic_DiluteHom()]
 #' @param df_bufferDataframe from [ras.Fic_buffer()]
 #' @param ID.col String with name of ID column
 #' @param Buffer_Conc.col String with name of buffer column
 #'
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`,
-#'  `Dilution_Conc.avg`, `dilution`, & `Buffer_Conc.avg`
+#'  `Dilution_Conc.avg`, `dilution`, & `Buffer_Conc._avg`
 #' @noRd
-ras.diff.sample_buffer <- function(df_dilution, df_buffer,
+ras.diff.sample_buffer <- function(df_DiluteHom, df_buffer,
                                    ID.col = "Sample_ID",
-                                   Buffer_Conc.col = "Buffer_Conc.avg") {
-  unique.Sample_ID <- unique(df_dilution[[ID.col]])
+                                   Buffer_Conc.col = "Buffer_Conc._avg") {
+  unique.Sample_ID <- unique(df_DiluteHom[[ID.col]])
   df_new <- tibble::tibble()
   for ( i in seq_along(unique.Sample_ID) ) {
-    df_temp <- df_dilution %>% dplyr::filter(.data[[ID.col]] == unique.Sample_ID[[i]]) %>%
-      dplyr::mutate(Buffer_Conc.avg = df_buffer[df_buffer[ID.col] == unique.Sample_ID[[i]], Buffer_Conc.col][[1]])
+    df_temp <- df_DiluteHom %>% dplyr::filter(.data[[ID.col]] == unique.Sample_ID[[i]]) %>%
+      dplyr::mutate(Buffer_Conc._avg = df_buffer[df_buffer[ID.col] == unique.Sample_ID[[i]], Buffer_Conc.col][[1]])
     df_new <- dplyr::bind_rows(df_new, df_temp)
   }
   df_new <- df_new %>%
-    dplyr::mutate(diff.sample_buffer.sq = (Buffer_Conc.avg-Hom_Conc.avg)^2 ) %>%
+    dplyr::mutate(diff.sample_buffer.sq = (Buffer_Conc._avg-Hom_Conc.avg)^2 ) %>%
     dplyr::group_by(Sample_ID) %>%
     dplyr::slice(which.min(diff.sample_buffer.sq))
   df_new <- df_new %>%
@@ -302,25 +304,25 @@ ras.Fic_collect_variables <- function(df_list) {
   return(df_calc)
 }
 # Calculations -----------------------------------------------------------------
-#' Calculate F u,homogenous
+#' Calculate F u,Homogenate
 #'
 #'  Equation: f u,hom = Peak area(buffer sample) /
 #'  ( Peak area(cell homogenate sample)*sample dilution factor )
 #'
 #' @param df_calc Dataframe with values
 #' @param Buffer Name of column for buffer values
-#' @param Homogenous Name of column for homogenous values
+#' @param Homogenate Name of column for Homogenate values
 #' @param Dilution_factor Name of column for dilution factor
 #'
 #' @return Same dataframe with added column from equation
 #' @noRd
 ras.Fic_Fu.hom <- function(df_calc,
                            Buffer = "Buffer_Con._avg",
-                           Homogenous = "Hom_Conc._avg",
+                           Homogenate = "Hom_Conc._avg",
                            Dilution_factor = "dilution") {
   df_calc <- df_calc %>%
     dplyr::mutate(fuhom = ({{Buffer}})/
-                    ({{Homogenous}} * {{Dilution_factor}}) )
+                    ({{Homogenate}} * {{Dilution_factor}}) )
   return(df_calc)
 }
 #' Calculate D protein (dilution factor of protein)
@@ -345,7 +347,7 @@ ras.Fic_D.prot <- function(df_calc,
 #'
 #' @param df_calc Dataframe with values
 #' @param D.prot Name of column for protein dilution values
-#' @param Fu.hom Name of column for F u,homogenous values
+#' @param Fu.hom Name of column for F u,Homogenate values
 #'
 #' @return Same dataframe with added column from equation
 #' @noRd
@@ -377,10 +379,10 @@ ras.Fic_stability <- function(df_calc,
 #'
 #' Calculate mass balance according to section 10.2.5 in the SOP.
 #' Equation:Mass_balance_10.2.5 = (Hom_Conc.avg * dilution
-#' + Buffer_Conc.avg * 1.75) / Stab_Conc.avg
+#' + Buffer_Conc._avg * 1.75) / Stab_Conc.avg
 #'
 #' @param df_calc Dataframe with values
-#' @param Homogenous Name of column for homogenous values
+#' @param Homogenate Name of column for Homogenate values
 #' @param Dilution_factor Name of column for dilution factor
 #' @param Buffer Name of column for buffer values
 #' @param Stab Name of column for stability values
@@ -388,13 +390,13 @@ ras.Fic_stability <- function(df_calc,
 #' @return Same dataframe with added column from equation
 #' @noRd
 ras.Fic_mass_balance_10.2.5 <- function(df_calc,
-                                        Homogenous = "Hom_Conc._avg",
+                                        Homogenate = "Hom_Conc._avg",
                                         Dilution_factor = "dilution",
                                         Buffer = "Buffer_Con._avg",
                                         Stab = "Stab_Conc._avg") {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.2.5 =
-                    ({{Homogenous}}*{{Dilution_factor}} +{{Buffer}}*1.75)
+                    ({{Homogenate}}*{{Dilution_factor}} +{{Buffer}}*1.75)
                     / {{Stab}} )
   return(df_calc)
 }
@@ -464,7 +466,7 @@ ras.Fic_Kp <- function(df_calc,
 ras.Fic_mass_balance_10.3.4 <- function(df_calc,
                                         A.cell = "Acell",
                                         Medium = "Medium_Conc._avg",
-                                        V.medium = "Vmedium",
+                                        V.medium = 200,
                                         C.zero.Kp = "CzeroKp") {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.3.5 =
@@ -498,51 +500,116 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                              Dilution_extract = "[:digit:]+(?=x)",
                              stab = "Stab$",
                              czero = "Czero$",
-                             Kp = "Kp$") {
+                             Kp = "Kp$",
+                             prot_cell_value = "mg_Protein",
+                             prot_cell_type = "Cells",
+                             prot_hom_value = "Protein_conc._mg/mL",
+                             prot_hom_type = "hom",
+                             V.medium = 200) {
   # Load data
   if (source[[1]] == "Waters") { df <- ras.StackOutput() }
   if (source[[1]] == "Sciex") { df <- tcltk::tk_choose.files(multi = FALSE) }
+  df_protein <- tcltk::tk_choose.files(multi = FALSE)
   # Clean data
   df_clean <- df %>% ras.Fic_cleanup()
+  df_protein <- df_protein %>% ras.Fic_cleanup()
   # Extract values
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = Buffer)
-  df_dilution <- df_clean %>%
-    ras.Fic_dilution(values = values,
+                           type = Buffer,
+                           new_name = "Buffer")
+  df_DiluteHom <- df_clean %>%
+    ras.Fic_DiluteHom(values = values,
                      type = Dilution_type,
                      type_extract = Dilution_extract)
-  buffer_col <- names(df_buffer[3])
-  df_dilution_buffer <- ras.diff.sample_buffer(df_dilution,
+  name_buffer <- names(df_buffer[3])
+  df_DiluteHom_buffer <- ras.diff.sample_buffer(df_DiluteHom,
                                                df_buffer,
                                                ID.col = ID,
-                                               Buffer_Conc.col = buffer_col)
+                                               Buffer_Conc.col = name_buffer)
 
   time_list <- df_clean %>%
     ras.Fic_timepoint(values = values)
   df_cell <- time_list[[1]]
   df_medium <- time_list[[2]]
+  name_cell <- names(df_cell[3])
+  name_medium <- names(df_medium[[3]])
 
   df_stab <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = stab)
+                           type = stab,
+                           new_name = "Stab")
+  name_stab <- names(df_stab[3])
 
   df_czero <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = czero)
+                           type = czero,
+                           new_name = "Czero")
+  name_czero <- names(df_czero[3])
 
   df_kp <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = Kp)
+                           type = Kp,
+                           new_name = "Kp")
+  name_kp <- names(df_kp[3])
+
+  df_protCell <- df_protein %>%
+    ras.Fic_extract_simple(values = prot_cell_value,
+                           type = prot_cell_type,
+                           new_name = "ProtCell")
+  name_protCell <- names(df_protCell[3])
+
+  df_protHom <- df_protein %>%
+    ras.Fic_extract_simple(values = prot_hom_value,
+                           type = prot_hom_type,
+                           new_name = "ProtHom")
+  name_protHom <- names(df_protHom[3])
   # Collect all variables in one dataframe
   df_calc <- list(
-    df_dilution_buffer,
+    df_DiluteHom_buffer,
     df_cell,
     df_medium,
     df_stab,
     df_czero,
-    df_kp
+    df_kp,
+    df_protCell,
+    df_protHom
     ) %>% ras.Fic_collect_variables()
   # Calculations
+  df_calc <- df_calc %>%
+    ras.Fic_Fu.hom(Buffer = name_buffer,
+                   Homogenate = "Homogenate_Conc._avg",
+                   Dilution_factor = "dilution")
+  df_calc <- df_calc %>%
+    ras.Fic_D.prot(Protein_col = name_protHom)
+  df_calc <- df_calc %>%
+    ras.Fic_Fu.cell(D.prot = "D",
+                    Fu.hom = "fuhom")
+  df_calc <- df_calc %>%
+    ras.Fic_stability(Stab = name_stab,
+                      C.zero = name_czero)
+  df_calc <- df_calc %>%
+    ras.Fic_mass_balance_10.2.5(Homogenate = "Homogenate_Conc._avg",
+                                Dilution_factor = "dilution",
+                                Buffer = name_buffer,
+                                Stab = name_stab)
+  df_calc <- df_calc %>%
+    ras.Fic_A.cell(Cell = name_cell)
+  df_calc <- df_calc %>%
+    ras.Fic_V.cell(Protein_volume = name_protCell)
+  df_calc <- df_calc %>%
+    ras.Fic_Kp(A.cell = "Acell",
+               V.cell = "Vcell",
+               Medium = name_medium)
+  df_calc <- df_calc %>%
+    ras.Fic_mass_balance_10.3.4(A.cell = "Acell",
+                                Medium = name_medium,
+                                V.medium = V.medium,
+                                C.zero.Kp = name_kp)
+  df_calc <- df_calc %>%
+    ras.Fic_Fic(Fu.cell = "fucell",
+                Kp = "Kp")
+  # Write df_calc to file
 
+  return(df_calc)
 }

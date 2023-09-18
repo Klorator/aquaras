@@ -492,6 +492,27 @@ ras.Fic_Fic <- function(df_calc,
   return(df_calc)
 }
 # Workflow wrapper -------------------------------------------------------------
+#' Fic end-to-end workflow
+#'
+#' @param source
+#' @param ID
+#' @param values
+#' @param Buffer
+#' @param Dilution_type
+#' @param Dilution_extract
+#' @param stab
+#' @param czero
+#' @param Kp
+#' @param prot_cell_value
+#' @param prot_cell_type
+#' @param prot_hom_value
+#' @param prot_hom_type
+#' @param V.medium
+#'
+#' @return
+#' @export
+#'
+#' @examples
 ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                              ID = "Sample_ID",
                              values = "Conc.",

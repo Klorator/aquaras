@@ -557,13 +557,13 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   if (source[[1]] == "Sciex") {
     path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
                                  multi = FALSE)
-    delim.df <- EML::detect_delim(path = path.df)
+    delim.df <- detect_delim(path = path.df) # EML::detect_delim()
     df <- readr::read_delim(path.df,
                             delim = delim.df)
   }
   path.prot <- tcltk::tk_choose.files(caption = "Select Protein data",
                                        multi = FALSE)
-  delim.prot <- EML::detect_delim(path = path.prot)
+  delim.prot <-detect_delim(path = path.prot) # EML::detect_delim()
   df_protein <- readr::read_delim(path.prot,
                                   delim = delim.prot)
   # Clean data

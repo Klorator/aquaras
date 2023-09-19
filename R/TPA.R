@@ -12,7 +12,7 @@
 #' @param dropIntensity If to drop intensity (default = TRUE)
 #'
 #' @return Data frame with meta data and TPA values
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -72,7 +72,7 @@ ras.TPA_calcFromIntensity <- function(df_raw,
 #' @param df Data frame with samples in columns
 #'
 #' @return List with two data frames, (sample_names) & (sample_groups). Each with two columns, (1) unique samples & (2) how many replicates.
-#' @export
+#' @noRd
 #'
 #' @examples
 #' ### Very specific function; no example yet
@@ -120,9 +120,10 @@ ras.TPA_sample_names <- function(df) {
 #' @param na.rm If TRUE, drops NA values before determining calculation
 #'
 #' @return A vector to be inserted as a column in the original data frame
-#' @export
+#' @noRd
 #'
 #' @examples
+#'   # No example
 ras.TPA_StDev_range_DeterminationForRows <- function(df, na.rm = FALSE) {
   if( na.rm == TRUE ) { df <- na.omit(df) }
   num_col <- length(df)
@@ -152,7 +153,7 @@ ras.TPA_StDev_range_DeterminationForRows <- function(df, na.rm = FALSE) {
 #' @param na.rm If TRUE, NA values are dropped before determining calculation
 #'
 #' @return Same data frame with new columns
-#' @export
+#' @noRd
 #'
 #' @examples
 #' ### Very specific function; no example yet
@@ -187,9 +188,10 @@ ras.TPA_avg_StDev_calc <- function(df, sample_names, na.rm = FALSE) {
 #' @param directory Directory path to write to
 #'
 #' @return One ggplot object
-#' @export
+#' @noRd
 #'
 #' @examples
+#'   # No example
 ras.TPA_barplot_helper <- function(row_v, helper_args) {
   list2env(helper_args, envir = environment())
   # Split out information for plots
@@ -238,7 +240,7 @@ ras.TPA_barplot_helper <- function(row_v, helper_args) {
 #' @param directory Path to destination folder
 #'
 #' @return Nested list of all plots generated
-#' @export
+#' @noRd
 #'
 #' @examples
 #' ### Very specific function; no example yet

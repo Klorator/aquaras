@@ -511,25 +511,28 @@ ras.Fic_Fic <- function(df_calc,
 # Workflow wrapper -------------------------------------------------------------
 #' Fic end-to-end workflow
 #'
-#' @param source
-#' @param ID
-#' @param values
-#' @param Buffer
-#' @param Dilution_type
-#' @param Dilution_extract
-#' @param stab
-#' @param czero
-#' @param Kp
-#' @param prot_cell_value
-#' @param prot_cell_type
-#' @param prot_hom_value
-#' @param prot_hom_type
-#' @param V.medium
+#' @param source What source the data file comes from
+#' @param ID Column name for ID column after splitting
+#' @param values Column name for values in data
+#' @param Buffer RegEx to filter by for buffer values
+#' @param Dilution_type RegEx to filter by for dilution factor values
+#' @param Dilution_extract RegEx for extracting the dilution factor
+#' @param stab RegEx to filter by for stability values
+#' @param czero RegEx to filter by for C zero values values
+#' @param Kp RegEx to filter by for kp values
+#' @param prot_cell_value Column name for values
+#' @param prot_cell_type RegEx to filter by
+#' @param prot_hom_value RegEx to filter by
+#' @param prot_hom_type RegEx to filter by
+#' @param V.medium RegEx to filter by
 #'
-#' @return
+#' @return Dataframe with all variables, used & calculated
 #' @export
 #'
 #' @examples
+#'   \dontrun{
+#'   # No example yet
+#'   }
 ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                              ID = "Sample_ID",
                              values = "Conc.",
@@ -554,11 +557,15 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   if (source[[1]] == "Sciex") {
     path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
                                  multi = FALSE)
-    delim <-
-    df <- readr::rea
+    delim.df <- EML::detect_delim(path = path.df)
+    df <- readr::read_delim(path.df,
+                            delim = delim.df)
   }
-  df_protein <- tcltk::tk_choose.files(caption = "Select Protein data",
+  path.prot <- tcltk::tk_choose.files(caption = "Select Protein data",
                                        multi = FALSE)
+  delim.prot <- EML::detect_delim(path = path.prot)
+  df_protein <- readr::read_delim(path.prot,
+                                  delim = delim.prot)
   # Clean data
   df_clean <- df %>% ras.Fic_cleanup()
   df_protein <- df_protein %>% ras.Fic_cleanup(.type = NULL)

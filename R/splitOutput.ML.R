@@ -237,9 +237,9 @@ ras.SplitOutput = function(sourceFiles = tcltk::tk_choose.files(),
 #' Mutate the individual dataframes with a "Compound" column and
 #' rowbind them with reduce.
 #'
-#' @param listDF
+#' @param listDF List of dataframes to stack
 #'
-#' @return
+#' @return List of stacked dataframes
 #' @noRd
 ras.stack_dataframes <- function(listDF) {
   compound_names <- names(listDF)

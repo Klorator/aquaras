@@ -4,7 +4,10 @@
 \alias{ras.StackOutput}
 \title{Stack MassLynx output file}
 \usage{
-ras.StackOutput(sourceFiles = tcltk::tk_choose.files(), write = TRUE)
+ras.StackOutput(
+  sourceFiles = tcltk::tk_choose.files(caption = "Select MassLynx output file"),
+  write = TRUE
+)
 }
 \arguments{
 \item{sourceFiles}{A character vector with one or more file paths}

@@ -6,26 +6,44 @@
 #' "NA_HBSS_NA_1".
 #'
 #' @param df A dataframe from the MassLynx complete summary output or similar
+#' @param .type Column name, filters away Blank
+#' @param .sample.text Column name, filters away NA, Blank,
+#' and digits ending in nM
+#' @param .split Column name, separates by `_` into `Sample_ID`, `LiquidType`,
+#' `Timepoint`, and `Replicate.` Left aligned.
 #'
-#' @return Same dataframe but filtered and with Sample.Text separated into columns
+#' @return Same dataframe but filtered and with Sample.Text
+#' separated into columns
 #' @noRd
 #'
-ras.Fic_cleanup <- function(df) {
-  df_clean <- dplyr::filter(df,
-                            Type != "[Bb]lank",
-                            !is.na(Sample.Text),
-                            !stringr::str_detect(Sample.Text, "[Bb]lank"),
-                            !stringr::str_detect(Sample.Text, "[:digit:]nM"))
+ras.Fic_cleanup <- function(df,
+                            .type = "Type",
+                            .sample.text = "Sample.Text",
+                            .split = "Sample.Text") {
+  if (!is.null(.type)) {
+    df <- df %>%
+      dplyr::filter({{.type}} != "[Bb]lank")
+  }
+  if (!is.null(.sample.text)) {
+    df <- df %>%
+      dplyr::filter(
+              !is.na({{.sample.text}}),
+              !stringr::str_detect({{.sample.text}}, "[Bb]lank"),
+              !stringr::str_detect({{.sample.text}}, "[:digit:]nM"))
+  }
   # Split Sample.Text into multiple columns
-  df_clean <- tidyr::separate_wider_delim(df_clean,
-                                          Sample.Text, delim = "_",
-                                          names = c("Sample_ID",
-                                                    "LiquidType",
-                                                    "Timepoint",
-                                                    "Replicate"),
-                                          too_few = "align_start",
-                                          cols_remove = F)
-  return(df_clean)
+  if (!is.null(.split)) {
+    df <- df %>%
+      tidyr::separate_wider_delim(
+        {{.split}}, delim = "_",
+        names = c("Sample_ID",
+                  "LiquidType",
+                  "Timepoint",
+                  "Replicate"),
+        too_few = "align_start",
+        cols_remove = F)
+  }
+  return(df)
 }
 # Extraction of values ---------------------------------------------------------
 #' Extract values: simple edition
@@ -534,14 +552,16 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     df <- list.df[[1]]
   }
   if (source[[1]] == "Sciex") {
-    df <- tcltk::tk_choose.files(caption = "Select Sciex data",
+    path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
                                  multi = FALSE)
+    delim <-
+    df <- readr::rea
   }
   df_protein <- tcltk::tk_choose.files(caption = "Select Protein data",
                                        multi = FALSE)
   # Clean data
   df_clean <- df %>% ras.Fic_cleanup()
-  df_protein <- df_protein %>% ras.Fic_cleanup()
+  df_protein <- df_protein %>% ras.Fic_cleanup(.type = NULL)
   # Extract values
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,

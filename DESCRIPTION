@@ -21,7 +21,6 @@ Depends:
 Imports: 
     dplyr,
     DT,
-    EML,
     ggplot2,
     glue,
     janitor,

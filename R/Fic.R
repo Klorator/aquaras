@@ -22,7 +22,7 @@ ras.Fic_cleanup <- function(df,
                             .split = "Sample.Text") {
   if (!is.null(.type)) {
     df <- df %>%
-      dplyr::filter({{.type}} != "[Bb]lank")
+      dplyr::filter(!stringr::str_detect(df[[.type]], "[Bb]lank"))
   }
   if (!is.null(.sample.text)) {
     df <- df %>%
@@ -43,6 +43,7 @@ ras.Fic_cleanup <- function(df,
         too_few = "align_start",
         cols_remove = F)
   }
+  print("Re-evaluate column types")
     df <- df %>%
       readr::type_convert()
   return(df)
@@ -75,14 +76,7 @@ ras.Fic_extract_simple <- function(df,
   new_col <- paste0({{type}},"_",{{values}},"_avg")
   df_extract <- df_extract %>%
     dplyr::group_by(Sample_ID) %>%
-    dplyr::mutate({{new_col}} := mean(df_extract[[values]]))
-  # Remove duplicates to keep only one average value
-  df_extract <- df_extract %>%
-    dplyr::arrange(Sample_ID) %>%
-    dplyr::filter(duplicated(Sample_ID) == FALSE)
-
-  df_extract <- df_extract %>%
-    dplyr::select(-tidyselect::any_of({{values}}))
+    dplyr::summarise({{new_col}} := mean(.data[[values]]))
 
   return(df_extract)
 }
@@ -112,20 +106,13 @@ ras.Fic_DiluteHom <- function(df,
   # Group by Sample_ID & LiquidType and average
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::group_by(Sample_ID, LiquidType) %>%
-    dplyr::mutate(Homogenate_Conc._avg = mean(df_DiluteHom[[values]]))
-  # Remove duplicates to keep only one average value
-  df_DiluteHom <- df_DiluteHom %>%
-    dplyr::arrange(Sample_ID, LiquidType) %>%
-    dplyr::filter(duplicated(Sample_ID) == FALSE &
-                    duplicated(LiquidType) == FALSE)
+    dplyr::summarise(Homogenate_Conc._avg = mean(.data[[values]]))
   # Make dilution factor numeric
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::mutate(dilution = stringr::str_extract(LiquidType, {{type_extract}}) )
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::mutate(dilution = as.numeric(dilution) )
 
-  df_DiluteHom <- df_DiluteHom %>%
-    dplyr::select(-tidyselect::any_of({{values}}))
   return(df_DiluteHom)
 }
 #' Calculate smallest difference between dilution & buffer
@@ -157,12 +144,6 @@ ras.diff.sample_buffer <- function(df_DiluteHom,
       dplyr::mutate(Buffer_Conc._avg = df_buffer[df_buffer[ID.col] == unique.Sample_ID[[i]], Buffer_Conc.col][[1]])
     df_new <- dplyr::bind_rows(df_new, df_temp)
   }
-
-  # print("########## diff ############")
-  # print(df_new[c(1,3,5)])
-  # print(df_new["Buffer_Conc._avg"])
-  # print(df_new[[Homogenate_Conc.col]])
-
   df_new <- df_new %>%
     # dplyr::mutate(diff.sample_buffer.sq = 0) %>%
     dplyr::mutate(diff.sample_buffer.sq = df_new["Buffer_Conc._avg"] - df_new[[Homogenate_Conc.col]] ) %>%
@@ -187,14 +168,17 @@ ras.diff.sample_buffer <- function(df_DiluteHom,
 ras.Fic_extract_timepoints <- function(df,
                                        values = "Conc.",
                                        type = "Cell") {
-  col_avg <- paste0({{type}},"_",{{values}},"_avg")
+  new_col <- paste0({{type}},"_",{{values}},"_avg")
+
   df_time <- df %>%
     dplyr::select(Sample_ID, LiquidType, Timepoint, {{values}}) %>%
-    dplyr::filter(Sample_ID == {{type}})
+    dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
+    stats::na.omit({{values}})
+
   df_time <- df_time %>%
     dplyr::group_by(Sample_ID, Timepoint) %>%
-    dplyr::mutate({{col_avg}} := mean( df_time[[values]] )) %>%
-    dplyr::filter(duplicated({{col_avg}} == FALSE))
+    dplyr::summarise({{new_col}} := mean(.data[[values]]))
+
   return(df_time)
 }
 #' Plot the timepoints
@@ -205,15 +189,17 @@ ras.Fic_extract_timepoints <- function(df,
 #' @return A ggplot2 object
 #' @noRd
 ras.Fic_plot_timepoints <- function(df_time,
+                                    values.avg = "Cell_Conc._avg",
                                     p_title = " ") {
   p <- ggplot2::ggplot(df_time) +
     ggplot2::aes(x = Timepoint,
-                 y = .data[[5]],
+                 y = .data[[values.avg]],
                  group = Sample_ID,
                  color = Sample_ID) +
     ggplot2::theme_minimal() +
     ggplot2::geom_line(linewidth = 1,
                        show.legend = TRUE) +
+    ggplot2::scale_x_continuous(breaks = unique(df_time$Timepoint) ) +
     ggplot2::labs(x = "Timepoint",
                   y = "Mean value",
                   title = {{p_title}}) +
@@ -230,11 +216,18 @@ ras.Fic_plot_timepoints <- function(df_time,
 #' @return List of selected values same length as the list of plots
 #' @noRd
 ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) {
-  # plot.cell_series <- plots[[1]]
-  # plot.medium_series <- plots[[2]]
 
-  ui.time <- shiny::fluidPage(
-    shiny::fluidRow( # Frozen header row
+  # Make variables available for shiny & cleanup .GlobalEnv afterwards
+  .GlobalEnv$.p.cell <- p.cell
+  .GlobalEnv$.p.medium <- p.medium
+  .GlobalEnv$.df.cell <- df.cell
+  .GlobalEnv$.df.medium <- df.medium
+  on.exit(rm(.p.cell, .df.cell,
+             .p.medium, .df.medium,
+             envir = .GlobalEnv))
+  # Shiny UI
+  ui <- shiny::fluidPage(
+    shiny::fixedRow( # Frozen header row
       shiny::actionButton("submit", "Submit", class = "btn-success btn-lg"),
       shiny::actionButton("close", "Close", class = "btn-danger")
     ),
@@ -257,11 +250,8 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
     shiny::fluidRow(shiny::tableOutput("check.table.c")),
     shiny::fluidRow(shiny::tableOutput("check.table.m"))
   )
-  server.time <- function(input, output, session) {
-    # Plots
-    # plot.cell_series <- plots[[1]]
-    # plot.medium_series <- plots[[2]]
-
+  # Shiny server
+  server <- function(input, output, session) {
     output$plot.Cell <- shiny::renderPlot(graphics::plot(p.cell), res = 96)
     output$plot.Medium <- shiny::renderPlot(graphics::plot(p.medium), res = 96)
     # Create sidebar UI elements
@@ -291,22 +281,22 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
         as.numeric(input[[paste0("Medium_", id.m[[i]])]])
       })
       # Create dataframes
-      df_Cell.shiny <<- dplyr::tibble(Sample_ID = id.c, Time.Cell = values.Cell)
-      df_Medium.shiny <<- dplyr::tibble(Sample_ID = id.m, Time.Medium = values.Medium)
+      df_Cell.shiny <- dplyr::tibble(Sample_ID = id.c, Time.Cell = values.Cell)
+      df_Medium.shiny <- dplyr::tibble(Sample_ID = id.m, Time.Medium = values.Medium)
       # Display values for dev
       output$check.table.c <- shiny::renderTable(df_Cell.shiny)
       output$check.table.m <- shiny::renderTable(df_Medium.shiny)
+      # Send dataframes up to parent environment
+      df_Cell.shiny <<- df_Cell.shiny
+      df_Medium.shiny <<- df_Medium.shiny
     })
     shiny::observeEvent( input$close, shiny::stopApp() )
   }
-
-  # print("#############")
-  # print(df_Cell.shiny)
-
-  shiny::shinyApp(ui.time, server.time)
-  # time_list <- list(df_Cell.shiny,
-  #                   df_Medium.shiny)
-  # return(time_list)
+  app <- shiny::shinyApp(ui, server)
+  shiny::runApp(app)
+  # Variables to send up
+  df_Cell.shiny <<- df_Cell.shiny
+  df_Medium.shiny <<- df_Medium.shiny
 }
 #' Extract values for Cell & Medium (values w/ timepoints)
 #'
@@ -327,14 +317,20 @@ ras.Fic_timepoint <- function(df,
   df_cell <- ras.Fic_extract_timepoints(df, values, types[[1]])
   df_medium <- ras.Fic_extract_timepoints(df, values, types[[2]])
 
-  p.cell <- ras.Fic_plot_timepoints(df_cell,p_title = "Cell")
-  p.medium <- ras.Fic_plot_timepoints(df_medium,p_title = "Medium")
-  p.list <- list(p.cell, p.medium)
+  p.cell <- ras.Fic_plot_timepoints(df_cell,
+                                    p_title = "Cell")
+  p.medium <- ras.Fic_plot_timepoints(df_medium,
+                                      p_title = "Medium")
 
   ras.Fic_select_timepoints.app(p.cell,
                                 p.medium,
                                 df_cell,
                                 df_medium)
+  # Variables received from timepoints app
+    ## df_Cell.shiny
+    ## df_Medium.shiny
+
+  print("+++++++++++++++++++++++++++++")
 
   df_cell <- df_cell %>% dplyr::filter(Timepoint == {{correct_times[[1]]}})
   df_medium <- df_medium %>% dplyr::filter(Timepoint == {{correct_times[[2]]}})

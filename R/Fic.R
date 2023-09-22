@@ -102,7 +102,8 @@ ras.Fic_DiluteHom <- function(df,
                   LiquidType,
                   {{values}})
   df_DiluteHom <- df_DiluteHom %>%
-    dplyr::filter(stringr::str_detect(LiquidType, {{type}}))
+    dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
+    stats::na.omit({{values}})
   # Group by Sample_ID & LiquidType and average
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::group_by(Sample_ID, LiquidType) %>%
@@ -141,12 +142,12 @@ ras.diff.sample_buffer <- function(df_DiluteHom,
   for ( i in seq_along(unique.Sample_ID) ) {
     df_temp <- df_DiluteHom %>%
       dplyr::filter(.data[[ID.col]] == unique.Sample_ID[[i]]) %>%
-      dplyr::mutate(Buffer_Conc._avg = df_buffer[df_buffer[ID.col] == unique.Sample_ID[[i]], Buffer_Conc.col][[1]])
+      dplyr::mutate({{Buffer_Conc.col}} := df_buffer[df_buffer[ID.col] == unique.Sample_ID[[i]], Buffer_Conc.col][[1]])
     df_new <- dplyr::bind_rows(df_new, df_temp)
   }
   df_new <- df_new %>%
     # dplyr::mutate(diff.sample_buffer.sq = 0) %>%
-    dplyr::mutate(diff.sample_buffer.sq = df_new["Buffer_Conc._avg"] - df_new[[Homogenate_Conc.col]] ) %>%
+    dplyr::mutate(diff.sample_buffer.sq = df_new[Buffer_Conc.col] - df_new[[Homogenate_Conc.col]] ) %>%
     dplyr::mutate(diff.sample_buffer.sq = diff.sample_buffer.sq^2)
   df_new <- df_new %>%
     dplyr::group_by(Sample_ID) %>%
@@ -318,8 +319,10 @@ ras.Fic_timepoint <- function(df,
   df_medium <- ras.Fic_extract_timepoints(df, values, types[[2]])
 
   p.cell <- ras.Fic_plot_timepoints(df_cell,
+                                    values.avg = names(df_cell[3]),
                                     p_title = "Cell")
   p.medium <- ras.Fic_plot_timepoints(df_medium,
+                                      values.avg = names(df_medium[3]),
                                       p_title = "Medium")
 
   ras.Fic_select_timepoints.app(p.cell,
@@ -330,12 +333,19 @@ ras.Fic_timepoint <- function(df,
     ## df_Cell.shiny
     ## df_Medium.shiny
 
-  print("+++++++++++++++++++++++++++++")
-
-  df_cell <- df_cell %>% dplyr::filter(Timepoint == {{correct_times[[1]]}})
-  df_medium <- df_medium %>% dplyr::filter(Timepoint == {{correct_times[[2]]}})
-
+  df_cell <- dplyr::inner_join(df_cell,
+                               df_Cell.shiny,
+                               c(Sample_ID = "Sample_ID",
+                                 Timepoint = "Time.Cell"))
+  df_medium <- dplyr::inner_join(df_medium,
+                                 df_Medium.shiny,
+                                 c(Sample_ID = "Sample_ID",
+                                   Timepoint = "Time.Medium"))
   timepoints_list <- list(df_cell, df_medium)
+
+  on.exit(rm(df_Cell.shiny, df_Medium.shiny,
+             envir = .GlobalEnv))
+
   return(timepoints_list)
 }
 #' Collect a list of variables in the same dataframe
@@ -347,7 +357,7 @@ ras.Fic_timepoint <- function(df,
 #' @return A dataframe with `Sample_ID` & all the values
 #' @noRd
 ras.Fic_collect_variables <- function(df_list) {
-  fun1 <- function(x) x <- x[c("Sample_ID",grep("_avg$|dilution",names(x)))]
+  fun1 <- function(x) x <- x[grep("Sample_ID|_avg$|dilution",names(x))]
   df_list <- df_list %>% lapply(fun1)
   df_calc <- purrr::reduce(df_list, dplyr::full_join)
   return(df_calc)
@@ -370,8 +380,8 @@ ras.Fic_Fu.hom <- function(df_calc,
                            Homogenate = "Hom_Conc._avg",
                            Dilution_factor = "dilution") {
   df_calc <- df_calc %>%
-    dplyr::mutate(fuhom = ({{Buffer}})/
-                    ({{Homogenate}} * {{Dilution_factor}}) )
+    dplyr::mutate(fuhom = (.data[[Buffer]])/
+                    (.data[[Homogenate]] * .data[[Dilution_factor]]) )
   return(df_calc)
 }
 #' Calculate D protein (dilution factor of protein)
@@ -387,7 +397,7 @@ ras.Fic_Fu.hom <- function(df_calc,
 ras.Fic_D.prot <- function(df_calc,
                       Protein_col = "Protein_Conc._avg") {
   df_calc <- df_calc %>%
-    dplyr::mutate(D = 1000 / ({{Protein_col}} * 6.5) )
+    dplyr::mutate(D = 1000 / (.data[[Protein_col]] * 6.5) )
   return(df_calc)
 }
 #' Calculate F u,cell
@@ -404,7 +414,7 @@ ras.Fic_Fu.cell <- function(df_calc,
                             D.prot = "D",
                             Fu.hom = "fuhom") {
   df_calc <- df_calc %>%
-    dplyr::mutate(fucell = 1 / ({{D.prot}} * (1/{{Fu.hom}}-1)+1) )
+    dplyr::mutate(fucell = 1 / (.data[[D.prot]] * (1/.data[[Fu.hom]]-1)+1) )
   return(df_calc)
 }
 #' Calculate Stability
@@ -421,7 +431,7 @@ ras.Fic_stability <- function(df_calc,
                               Stab = "Stab_Conc._avg",
                               C.zero = "Czero_Conc._avg") {
   df_calc <- df_calc %>%
-    dplyr::mutate(Stability = {{Stab}} / {{C.zero}})
+    dplyr::mutate(Stability = .data[[Stab]] / .data[[C.zero]])
   return(df_calc)
 }
 #' Calculate mass balance 10.2.5
@@ -445,8 +455,8 @@ ras.Fic_mass_balance_10.2.5 <- function(df_calc,
                                         Stab = "Stab_Conc._avg") {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.2.5 =
-                    ({{Homogenate}}*{{Dilution_factor}} +{{Buffer}}*1.75)
-                    / {{Stab}} )
+                    (.data[[Homogenate]]*.data[[Dilution_factor]] +.data[[Buffer]]*1.75)
+                    / .data[[Stab]] )
   return(df_calc)
 }
 #' Calculate A cell
@@ -461,7 +471,7 @@ ras.Fic_mass_balance_10.2.5 <- function(df_calc,
 ras.Fic_A.cell <- function(df_calc,
                            Cell = "Cell_Conc._avg") {
   df_calc <- df_calc %>%
-    dplyr::mutate(Acell = {{Cell}} * 200)
+    dplyr::mutate(Acell = .data[[Cell]] * 200)
   return(df_calc)
 }
 #' Calculate Cell volume
@@ -476,7 +486,7 @@ ras.Fic_A.cell <- function(df_calc,
 ras.Fic_V.cell <- function(df_calc,
                            Protein_volume = "V.Prot") {
   df_calc <- df_calc %>%
-    dplyr::mutate(Vcell = {{Protein_volume}} * 6.5)
+    dplyr::mutate(Vcell = .data[[Protein_volume]] * 6.5)
   return(df_calc)
 }
 #' Calculate Kp
@@ -495,7 +505,7 @@ ras.Fic_Kp <- function(df_calc,
                        V.cell = "Vcell",
                        Medium = "Medium_Conc._avg") {
   df_calc <- df_calc %>%
-    dplyr::mutate(Kp = ({{A.cell}}/{{V.cell}}) / ({{Medium}} * 10) )
+    dplyr::mutate(Kp = (.data[[A.cell]]/.data[[V.cell]]) / (.data[[Medium]] * 10) )
   return(df_calc)
 }
 #' Calculate mass balance 10.3.2
@@ -519,8 +529,8 @@ ras.Fic_mass_balance_10.3.4 <- function(df_calc,
                                         C.zero.Kp = "CzeroKp") {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.3.5 =
-                    (({{A.cell}}+{{Medium}}*10*{{V.medium}})/({{V.medium}}))
-                  /{{C.zero.Kp}} )
+                    ((.data[[A.cell]]+.data[[Medium]]*10*{{V.medium}})/({{V.medium}}))
+                  /.data[[C.zero.Kp]] )
   return(df_calc)
 }
 #' Calculate F ic
@@ -537,7 +547,7 @@ ras.Fic_Fic <- function(df_calc,
                         Fu.cell = "fucell",
                         Kp = "Kp") {
   df_calc <- df_calc %>%
-    dplyr::mutate(Fic = {{Fu.cell}} * {{Kp}})
+    dplyr::mutate(Fic = .data[[Fu.cell]] * .data[[Kp]])
   return(df_calc)
 }
 # Workflow wrapper -------------------------------------------------------------
@@ -604,7 +614,7 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,
                            type = Buffer)
-  name_buffer <- names(df_buffer[3])
+  name_buffer <- names(df_buffer[2])
 
   df_DiluteHom <- df_clean %>%
     ras.Fic_DiluteHom(values = values,
@@ -617,42 +627,40 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                                                df_buffer,
                                                ID.col = ID,
                                                Buffer_Conc.col = name_buffer,
-                                               Homogenate_Conc.col = name_DiluteHom)
+                                               Homogenate_Conc.col = {{name_DiluteHom}})
 
   time_list <- df_clean %>%
     ras.Fic_timepoint(values = values)
-
-  print("+++++++++ after timepoint ++++++++++++")
-
   df_cell <- time_list[[1]]
   df_medium <- time_list[[2]]
+
   name_cell <- names(df_cell[3])
-  name_medium <- names(df_medium[[3]])
+  name_medium <- names(df_medium[3])
 
   df_stab <- df_clean %>%
     ras.Fic_extract_simple(values = values,
                            type = stab)
-  name_stab <- names(df_stab[3])
+  name_stab <- names(df_stab[2])
 
   df_czero <- df_clean %>%
     ras.Fic_extract_simple(values = values,
                            type = czero)
-  name_czero <- names(df_czero[3])
+  name_czero <- names(df_czero[2])
 
   df_kp <- df_clean %>%
     ras.Fic_extract_simple(values = values,
                            type = Kp)
-  name_kp <- names(df_kp[3])
+  name_kp <- names(df_kp[2])
 
   df_protCell <- df_protein %>%
     ras.Fic_extract_simple(values = prot_cell_value,
                            type = prot_cell_type)
-  name_protCell <- names(df_protCell[3])
+  name_protCell <- names(df_protCell[2])
 
   df_protHom <- df_protein %>%
     ras.Fic_extract_simple(values = prot_hom_value,
                            type = prot_hom_type)
-  name_protHom <- names(df_protHom[3])
+  name_protHom <- names(df_protHom[2])
   # Collect all variables in one dataframe
   df_calc <- list(
     df_DiluteHom_buffer,
@@ -665,36 +673,37 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     df_protHom
     ) %>% ras.Fic_collect_variables()
   # Calculations
+
   df_calc <- df_calc %>%
-    ras.Fic_Fu.hom(Buffer = name_buffer,
-                   Homogenate = name_DiluteHom,
-                   Dilution_factor = name_dilution)
+    ras.Fic_Fu.hom(Buffer = {{name_buffer}},
+                   Homogenate = {{name_DiluteHom}},
+                   Dilution_factor = {{name_dilution}})
   df_calc <- df_calc %>%
-    ras.Fic_D.prot(Protein_col = name_protHom)
+    ras.Fic_D.prot(Protein_col = {{name_protHom}})
   df_calc <- df_calc %>%
     ras.Fic_Fu.cell(D.prot = "D",
                     Fu.hom = "fuhom")
   df_calc <- df_calc %>%
-    ras.Fic_stability(Stab = name_stab,
-                      C.zero = name_czero)
+    ras.Fic_stability(Stab = {{name_stab}},
+                      C.zero = {{name_czero}})
   df_calc <- df_calc %>%
-    ras.Fic_mass_balance_10.2.5(Homogenate = name_DiluteHom,
-                                Dilution_factor = name_dilution,
-                                Buffer = name_buffer,
-                                Stab = name_stab)
+    ras.Fic_mass_balance_10.2.5(Homogenate = {{name_DiluteHom}},
+                                Dilution_factor = {{name_dilution}},
+                                Buffer = {{name_buffer}},
+                                Stab = {{name_stab}})
   df_calc <- df_calc %>%
-    ras.Fic_A.cell(Cell = name_cell)
+    ras.Fic_A.cell(Cell = {{name_cell}})
   df_calc <- df_calc %>%
-    ras.Fic_V.cell(Protein_volume = name_protCell)
+    ras.Fic_V.cell(Protein_volume = {{name_protCell}})
   df_calc <- df_calc %>%
     ras.Fic_Kp(A.cell = "Acell",
                V.cell = "Vcell",
-               Medium = name_medium)
+               Medium = {{name_medium}})
   df_calc <- df_calc %>%
     ras.Fic_mass_balance_10.3.4(A.cell = "Acell",
-                                Medium = name_medium,
-                                V.medium = V.medium,
-                                C.zero.Kp = name_kp)
+                                Medium = {{name_medium}},
+                                V.medium = {{V.medium}},
+                                C.zero.Kp = {{name_kp}})
   df_calc <- df_calc %>%
     ras.Fic_Fic(Fu.cell = "fucell",
                 Kp = "Kp")

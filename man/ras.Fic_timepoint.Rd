@@ -7,7 +7,7 @@
 ras.Fic_timepoint(df, values = "Conc.", types = c("Cell", "Medium"))
 }
 \arguments{
-\item{df}{Dataframe from \code{\link[=ras.Fic_cleanup]{ras.Fic_cleanup()}}.}
+\item{df}{Dataframe from ras.Fic_cleanup().}
 
 \item{values}{Name of the column to use for values.}
 

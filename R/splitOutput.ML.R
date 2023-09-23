@@ -183,7 +183,7 @@ ras.writeFiles = function(listDF, sourceFile) {
 #'  output in the console that is not particularly interesting but lets you know
 #'   it's doing something.
 #' ## clean = TRUE
-#' These data frames are cleaned by [ras.cleanDF()] (unless clean = FALSE).
+#' These data frames are cleaned by ras.cleanDF() (unless clean = FALSE).
 #' ## write = TRUE
 #' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Data frames written to tsv files
 #'  in the same directory as the source file. Use write = FALSE to disable this.

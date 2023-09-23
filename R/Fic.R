@@ -319,7 +319,7 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
 }
 #' Extract values for Cell & Medium (values w/ timepoints)
 #'
-#' @param df Dataframe from [ras.Fic_cleanup()].
+#' @param df Dataframe from ras.Fic_cleanup().
 #' @param values Name of the column to use for values.
 #' @param types Vector with the types to select timepoints for. (Cell & Medium)
 #'

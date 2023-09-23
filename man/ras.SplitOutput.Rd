@@ -34,7 +34,7 @@ it's doing something.
 
 \subsection{clean = TRUE}{
 
-These data frames are cleaned by \code{\link[=ras.cleanDF]{ras.cleanDF()}} (unless clean = FALSE).
+These data frames are cleaned by ras.cleanDF() (unless clean = FALSE).
 }
 
 \subsection{write = TRUE}{

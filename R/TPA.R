@@ -47,7 +47,8 @@ ras.TPA_calcFromIntensity <- function(df_raw,
     # Sum of current intensity column for calculation
     currSumIntensity <- sum(df_TPA_pre[i])
     # Calculate TPA in new column
-    # Formula: Intensity/(Mx*1000*ΣIntensities)*10^9 : .data[[i]]/(molecular weight*1000*Σ Intensity column)*10^9
+    # Formula: Intensity/(Mx * 1000 * \u03A3 Intensities)*10^9 :
+      # .data[[i]]/(molecular weight * 1000 * \u03A3 Intensity column)*10^9
     df_TPA_newCol <- dplyr::mutate(df_TPA_pre,
       {{ newTPAColName }} := .data[[i]] / (df_TPA_pre$mol_weight_k_da * 1000 * currSumIntensity) * 10^9,
       .keep = "all")
@@ -149,7 +150,7 @@ ras.TPA_StDev_range_DeterminationForRows <- function(df, na.rm = FALSE) {
 #' Adds columns for average and standard deviation (or range if there are only two sample cols).
 #'
 #' @param df Data frame to add columns to
-#' @param sample_names List of samples from `ras.TPA_sample_names`
+#' @param sample_names List of samples from [ras.TPA_sample_names()]
 #' @param na.rm If TRUE, NA values are dropped before determining calculation
 #'
 #' @return Same data frame with new columns
@@ -214,7 +215,7 @@ ras.TPA_barplot_helper <- function(row_v, helper_args) {
                                ymin = (cur_avg - cur_StDev.Range) )) +
     ggplot2::guides(fill = "none") +
     ggplot2::labs(x = "Sample",
-                  y = "Concentration [fmol/µg]",
+                  y = "Concentration [fmol/\u00B5 g]",
                   title = cur_gene[[1]]) +
     ggplot2::theme_minimal()
   # Write plot to directory
@@ -234,7 +235,6 @@ ras.TPA_barplot_helper <- function(row_v, helper_args) {
 #' Create barplots and (if save = TRUE) save them to file system.
 #'
 #' @param df Data frame reshaped by `ras.TPA_reshape_filter`
-#' @param genes Character vector of what genes to plot
 #' @param save While `TRUE` writes files to system
 #' @param extension File extension/type for exported images and [ggsave()] `device` argument
 #' @param directory Path to destination folder
@@ -317,7 +317,7 @@ ras.TPAer <- function(df,
                         !tidyselect::any_of(grep("_\\d+[A-Za-z0-9]+_\\d+$", names(df))),
                          tidyselect::everything())
   # Get sample names
-  sample_L <- aquaras::ras.TPA_sample_names(df = df)
+  sample_L <- ras.TPA_sample_names(df = df)
   list2env(samples_L, envir = environment())
   # Calc. Avg & StDev & Range
   df <- ras.TPA_avg_StDev_calc(df = df,
@@ -333,7 +333,6 @@ ras.TPAer <- function(df,
     unlist()
   # Plot & save images
   plots_list <- ras.TPA_barplot_save(df = df,
-                       genes = genes,
                        extension = file_type,
                        directory = folder_path,
                        save = save)

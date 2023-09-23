@@ -17,22 +17,27 @@
 #' @noRd
 #'
 ras.Fic_cleanup <- function(df,
+                            .values = "Conc.",
                             .type = "Type",
                             .sample.text = "Sample.Text",
-                            .split = "Sample.Text") {
-  if (!is.null(.type)) {
+                            .split = "Sample.Text",
+                            .compound = "Compound") {
+  if (!is.null(.values)) { # Omit NAs from value column
+    df <- df %>%
+      dplyr::filter(!is.na(.data[[.values]]))
+  }
+  if (!is.null(.type)) { # Filter Type
     df <- df %>%
       dplyr::filter(!stringr::str_detect(df[[.type]], "[Bb]lank"))
   }
-  if (!is.null(.sample.text)) {
+  if (!is.null(.sample.text)) { # Filter Sample.Text
     df <- df %>%
       dplyr::filter(
               !is.na({{.sample.text}}),
               !stringr::str_detect({{.sample.text}}, "[Bb]lank"),
               !stringr::str_detect({{.sample.text}}, "[:digit:]nM"))
   }
-  # Split Sample.Text into multiple columns
-  if (!is.null(.split)) {
+  if (!is.null(.split)) { # Split Sample.Text into multiple columns
     df <- df %>%
       tidyr::separate_wider_delim(
         {{.split}}, delim = "_",
@@ -43,6 +48,12 @@ ras.Fic_cleanup <- function(df,
         too_few = "align_start",
         cols_remove = F)
   }
+  if (!is.null(.compound)) { # Combine compound with Sample_ID
+    df <- df %>%
+      dplyr::mutate(Sample_ID = stringr::str_c(df[[.compound]], Sample_ID,
+                                               sep = "_"))
+  }
+  # Re-evaluate column types
   print("Re-evaluate column types")
     df <- df %>%
       readr::type_convert()
@@ -129,7 +140,7 @@ ras.Fic_DiluteHom <- function(df,
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`,
 #'  `Dilution_Conc.avg`, `dilution`, & `Buffer_Conc._avg`
 #' @noRd
-ras.diff.sample_buffer <- function(df_DiluteHom,
+ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
                                    df_buffer,
                                    ID.col = "Sample_ID",
                                    Buffer_Conc.col = "Buffer_Conc._avg",
@@ -178,7 +189,8 @@ ras.Fic_extract_timepoints <- function(df,
 
   df_time <- df_time %>%
     dplyr::group_by(Sample_ID, Timepoint) %>%
-    dplyr::summarise({{new_col}} := mean(.data[[values]]))
+    dplyr::summarise({{new_col}} := mean(.data[[values]])) %>%
+    dplyr::ungroup()
 
   return(df_time)
 }
@@ -218,7 +230,7 @@ ras.Fic_plot_timepoints <- function(df_time,
 #' @noRd
 ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) {
 
-  # Make variables available for shiny & cleanup .GlobalEnv afterwards
+  # Make variables available for shiny & cleanup .GlobalEnv afterwards ----
   .GlobalEnv$.p.cell <- p.cell
   .GlobalEnv$.p.medium <- p.medium
   .GlobalEnv$.df.cell <- df.cell
@@ -226,8 +238,9 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
   on.exit(rm(.p.cell, .df.cell,
              .p.medium, .df.medium,
              envir = .GlobalEnv))
-  # Shiny UI
+  # Shiny UI ----
   ui <- shiny::fluidPage(
+    shinyjs::useShinyjs(),
     shiny::fixedRow( # Frozen header row
       shiny::actionButton("submit", "Submit", class = "btn-success btn-lg"),
       shiny::actionButton("close", "Close", class = "btn-danger")
@@ -253,15 +266,18 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
   )
   # Shiny server
   server <- function(input, output, session) {
+    # Setup: Plots
     output$plot.Cell <- shiny::renderPlot(graphics::plot(p.cell), res = 96)
     output$plot.Medium <- shiny::renderPlot(graphics::plot(p.medium), res = 96)
+    # Setup: disable close button
+    shinyjs::disable("close")
     # Create sidebar UI elements
     id.c <- unique(df.cell$Sample_ID)
     output$boxes_Cell <- shiny::renderUI({
       lapply(1:length(id.c), function(i) {
         shiny::numericInput(inputId = paste0("Cell_", id.c[[i]]),
                      label = paste0("Cell ", id.c[[i]]),
-                     value = 0)
+                     value = 60)
       })
     })
     id.m <- unique(df.medium$Sample_ID)
@@ -269,7 +285,7 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
       lapply(1:length(id.m), function(i) {
         shiny::numericInput(inputId = paste0("Medium_", id.m[[i]]),
                      label = paste0("Medium ", id.m[[i]]),
-                     value = 0)
+                     value = 60)
       })
     })
     # Store input values
@@ -284,18 +300,20 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
       # Create dataframes
       df_Cell.shiny <- dplyr::tibble(Sample_ID = id.c, Time.Cell = values.Cell)
       df_Medium.shiny <- dplyr::tibble(Sample_ID = id.m, Time.Medium = values.Medium)
-      # Display values for dev
+      # Display values
       output$check.table.c <- shiny::renderTable(df_Cell.shiny)
       output$check.table.m <- shiny::renderTable(df_Medium.shiny)
       # Send dataframes up to parent environment
       df_Cell.shiny <<- df_Cell.shiny
       df_Medium.shiny <<- df_Medium.shiny
+      # Enable close button
+      shinyjs::enable("close")
     })
     shiny::observeEvent( input$close, shiny::stopApp() )
   }
   app <- shiny::shinyApp(ui, server)
   shiny::runApp(app)
-  # Variables to send up
+  # Variables to send up ----
   df_Cell.shiny <<- df_Cell.shiny
   df_Medium.shiny <<- df_Medium.shiny
 }
@@ -347,6 +365,42 @@ ras.Fic_timepoint <- function(df,
              envir = .GlobalEnv))
 
   return(timepoints_list)
+}
+#' Expand a dataframe from "sample ID" to "compound_sample ID" format
+#'
+#' Takes a dataframe with one column of compound_sample and a dataframe that needs
+#' to be expanded. Split out the sample ID and mutate new column with the
+#' corresponding values.
+#'
+#' @param samples Dataframe with one column, sample names to expand to
+#' @param df Dataframe with samples and values to expand
+#' @param ID_col Column name for Sample_ID
+#'
+#' @return Dataframe with Sample_ID & values column, like from ras.Fic_extract_simple()
+#' @noRd
+ras.Fic_expand <- function(samples,
+                           df,
+                           ID_col = "Sample_ID") {
+  short_ID <- df[[1]]
+  values_prot <- names(df[2])
+  samples <- samples %>%
+    dplyr::mutate(ID = stringr::str_extract(samples[[1]], "(?<=_)[:alnum:]+$"))
+
+  df_new <- tibble::tibble()
+  for (i in seq_along(short_ID)) {
+    df_temp <- samples %>%
+      dplyr::filter(ID == short_ID[[i]]) %>%
+      dplyr::mutate({{values_prot}} := df[ df[ID_col] == short_ID[[i]], {{values_prot}}])
+    df_new <- dplyr::bind_rows(df_new, df_temp)
+  }
+  df_new <- as.list(df_new)
+  df_new <- do.call(cbind, df_new)
+  df_new <- as.data.frame(df_new)
+
+  df_new <- df_new %>%
+    dplyr::select(-ID)
+
+  return(df_new)
 }
 #' Collect a list of variables in the same dataframe
 #'
@@ -589,28 +643,31 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                              prot_hom_value = "Protein_conc._mg/mL",
                              prot_hom_type = "hom",
                              V.medium = 200) {
-  # Load data
+  # Load data ----
   if (source[[1]] == "Waters") {
     list.df <- ras.StackOutput(sourceFiles =
       tcltk::tk_choose.files(caption = "Select MassLynx output file",
                              multi = FALSE))
     df <- list.df[[1]]
+    .compound <- names(df[length(df)])
   }
   if (source[[1]] == "Sciex") {
     path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
                                  multi = FALSE)
     df <- readr::read_delim(path.df,
                             delim = "\t")
+    .compound <- NULL
   }
   path.prot <- tcltk::tk_choose.files(caption = "Select Protein data",
                                        multi = FALSE)
   df_protein <- readxl::read_excel(path = path.prot)
 
-  # Clean data
-  df_clean <- df %>% ras.Fic_cleanup()
-  df_protein <- df_protein %>% ras.Fic_cleanup(.type = NULL)
+  # Clean data ----
+  df_clean <- df %>% ras.Fic_cleanup(.compound = .compound)
+  df_protein <- df_protein %>% ras.Fic_cleanup(.values = NULL,
+                                               .type = NULL)
 
-  # Extract values
+  # Extract values ----
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,
                            type = Buffer)
@@ -623,11 +680,12 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   name_DiluteHom <- names(df_DiluteHom[3])
   name_dilution <- names(df_DiluteHom[4])
 
-  df_DiluteHom_buffer <- ras.diff.sample_buffer(df_DiluteHom,
-                                               df_buffer,
-                                               ID.col = ID,
-                                               Buffer_Conc.col = name_buffer,
-                                               Homogenate_Conc.col = {{name_DiluteHom}})
+  df_DiluteHom_buffer <- ras.Fic_diff_sample_buffer(
+                              df_DiluteHom,
+                              df_buffer,
+                              ID.col = ID,
+                              Buffer_Conc.col = {{name_buffer}},
+                              Homogenate_Conc.col = {{name_DiluteHom}})
 
   time_list <- df_clean %>%
     ras.Fic_timepoint(values = values)
@@ -661,7 +719,15 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     ras.Fic_extract_simple(values = prot_hom_value,
                            type = prot_hom_type)
   name_protHom <- names(df_protHom[2])
-  # Collect all variables in one dataframe
+
+  # Collect all variables in one dataframe ----
+  if (source[[1]] == "Waters") {
+    samples <- df_cell["Sample_ID"]
+    df_protCell <- ras.Fic_expand(samples = samples,
+                                  df = df_protCell)
+    df_protHom <- ras.Fic_expand(samples = samples,
+                                 df = df_protHom)
+  }
   df_calc <- list(
     df_DiluteHom_buffer,
     df_cell,
@@ -672,7 +738,7 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     df_protCell,
     df_protHom
     ) %>% ras.Fic_collect_variables()
-  # Calculations
+  # Calculations ----
 
   df_calc <- df_calc %>%
     ras.Fic_Fu.hom(Buffer = {{name_buffer}},
@@ -707,7 +773,7 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   df_calc <- df_calc %>%
     ras.Fic_Fic(Fu.cell = "fucell",
                 Kp = "Kp")
-  # Write df_calc to file
+  # Write df_calc to file ----
   f <- paste0(Sys.Date()," Fic calculations.xlsx")
   readr::write_excel_csv(df_calc,
                          f)

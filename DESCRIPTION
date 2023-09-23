@@ -30,6 +30,7 @@ Imports:
     reactable,
     readr,
     shiny,
+    shinyjs,
     shinythemes,
     stats,
     stringr,

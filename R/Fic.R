@@ -148,8 +148,6 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
   unique.Sample_ID <- unique(df_DiluteHom[[ID.col]])
   df_new <- tibble::tibble()
 
-  # print(df_buffer)
-
   for ( i in seq_along(unique.Sample_ID) ) {
     df_temp <- df_DiluteHom %>%
       dplyr::filter(.data[[ID.col]] == unique.Sample_ID[[i]]) %>%

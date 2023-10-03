@@ -741,8 +741,8 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     df_protCell,
     df_protHom
     ) %>% ras.Fic_collect_variables()
-  # Calculations ----
 
+  # Calculations ----
   df_calc <- df_calc %>%
     ras.Fic_Fu.hom(Buffer = {{name_buffer}},
                    Homogenate = {{name_DiluteHom}},
@@ -776,9 +776,11 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   df_calc <- df_calc %>%
     ras.Fic_Fic(Fu.cell = "fucell",
                 Kp = "Kp")
+
   # Write df_calc to file ----
   f <- paste0(Sys.Date()," Fic calculations.xlsx")
   readr::write_excel_csv(df_calc,
                          f)
+
   return(df_calc)
 }

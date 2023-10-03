@@ -635,9 +635,11 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                              Buffer = "HBSS",
                              Dilution_type = "[:digit:]x",
                              Dilution_extract = "[:digit:]+(?=x)",
-                             stab = "Stab$",
-                             czero = "Czero$",
-                             Kp = "Kp$",
+                             stab = "Stab",
+                             # czero = "Czero",
+                             # Kp = "CzeroKp",
+                             prot_czero_value = "mg_Protein",
+                             prot_czero_type = "Czero",
                              prot_cell_value = "mg_Protein",
                              prot_cell_type = "Cells",
                              prot_hom_value = "Protein_conc._mg/mL",
@@ -700,15 +702,18 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                            type = stab)
   name_stab <- names(df_stab[2])
 
-  df_czero <- df_clean %>%
-    ras.Fic_extract_simple(values = values,
-                           type = czero)
+  # df_czero <- df_clean %>%
+  #   ras.Fic_extract_simple(values = values,
+  #                          type = czero)
+  # name_czero <- names(df_czero[2])
+  # df_kp <- df_clean %>%
+  #   ras.Fic_extract_simple(values = values,
+  #                          type = Kp)
+  # name_kp <- names(df_kp[2])
+  df_czero <- df_protein %>%
+    ras.Fic_extract_simple(values = prot_czero_value,
+                           type = prot_czero_type)
   name_czero <- names(df_czero[2])
-
-  df_kp <- df_clean %>%
-    ras.Fic_extract_simple(values = values,
-                           type = Kp)
-  name_kp <- names(df_kp[2])
 
   df_protCell <- df_protein %>%
     ras.Fic_extract_simple(values = prot_cell_value,
@@ -734,7 +739,7 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     df_medium,
     df_stab,
     df_czero,
-    df_kp,
+    # df_kp,
     df_protCell,
     df_protHom
     ) %>% ras.Fic_collect_variables()
@@ -769,7 +774,7 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     ras.Fic_mass_balance_10.3.4(A.cell = "Acell",
                                 Medium = {{name_medium}},
                                 V.medium = {{V.medium}},
-                                C.zero.Kp = {{name_kp}})
+                                C.zero.Kp = {{name_czero}})
   df_calc <- df_calc %>%
     ras.Fic_Fic(Fu.cell = "fucell",
                 Kp = "Kp")

@@ -21,41 +21,20 @@ reference:
     Functions used for building and generating a runlist.
   contents:
   - ras.RunlistGenerator
-  - ras.create.Runlist
-  - ras.add.blank
-  - ras.add.type
-  - ras.add.compound
-  - ras.well.update
-  - ras.dateSignAll.update
-  - ras.sanitizeInput
-  - ras.darkModeDF_Options
-  - ras.server
 - title: Split output
   desc: |
     Functions used for processing the MassLynx output summary file.
   contents:
   - ras.SplitOutput
-  - ras.loadFile
-  - ras.splitDataLines
-  - ras.cleanDF
-  - ras.writeFiles
 - title: Random groups
   desc: |
     Distribute a list of observations/compounds randomly into groups.
   contents:
   - ras.Randomizer
-  - ras.ran_series
-  - ras.ran_group
 - title: TPA
   desc: |
     Restructure, plot, and export images for TPA values.
   contents:
-  - ras.TPA_calcFromIntensity
-  - ras.TPAer
-  - ras.TPA_sample_names
-  - ras.TPA_avg_StDev
-  - ras.TPA_reshape_filter
-  - ras.TPA_barplot_save
 - title: Example data
   desc: |
     Example data for documentation purposes.

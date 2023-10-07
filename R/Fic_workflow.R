@@ -52,8 +52,7 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   if (source[[1]] == "Sciex") {
     path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
                                       multi = FALSE)
-    df <- readr::read_delim(path.df,
-                            delim = "\t")
+    df <- readr::read_delim(path.df, delim = "\t")
     .compound <- NULL
   }
   path.prot <- tcltk::tk_choose.files(caption = "Select Protein data",
@@ -218,14 +217,6 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                                   stab = "Stab",
                                   czero = "Czero",
                                   D = 4.8
-                                  # Kp = "CzeroKp",
-                                  # prot_czero_value = "mg_Protein",
-                                  # prot_czero_type = "Czero",
-                                  # prot_cell_value = "mg_Protein",
-                                  # prot_cell_type = "Cells",
-                                  # prot_hom_value = "Protein_conc._mg/mL",
-                                  # prot_hom_type = "hom",
-                                  # V.medium = 200
                          ) {
   # Set output directory
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
@@ -244,9 +235,6 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                             delim = "\t")
     .compound <- NULL
   }
-  # path.prot <- tcltk::tk_choose.files(caption = "Select Protein data",
-  #                                     multi = FALSE)
-  # df_protein <- readxl::read_excel(path = path.prot)
 
   # Clean data ----
   df_clean <- df %>%
@@ -256,8 +244,6 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                     .split = ID,
                     .compound = .compound
                     )
-  # df_protein <- df_protein %>% ras.Fic_cleanup(.values = NULL,
-                                               # .type = NULL)
 
   # Extract values ----
   df_buffer <- df_clean %>%
@@ -275,17 +261,8 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
   df_DiluteHom_buffer <- ras.Fic_diff_sample_buffer(
     df_DiluteHom,
     df_buffer,
-    # ID.col = ID,
     Buffer_Conc.col = {{name_buffer}},
     Homogenate_Conc.col = {{name_DiluteHom}})
-
-  # time_list <- df_clean %>%
-  #   ras.Fic_timepoint(values = values)
-  # df_cell <- time_list[[1]]
-  # df_medium <- time_list[[2]]
-  #
-  # name_cell <- names(df_cell[3])
-  # name_medium <- names(df_medium[3])
 
   df_stab <- df_clean %>%
     ras.Fic_extract_simple(values = values,
@@ -296,42 +273,11 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
     ras.Fic_extract_simple(values = values,
                            type = czero)
   name_czero <- names(df_czero[2])
-  # df_kp <- df_clean %>%
-  #   ras.Fic_extract_simple(values = values,
-  #                          type = Kp)
-  # name_kp <- names(df_kp[2])
-  # df_czero <- df_protein %>%
-  #   ras.Fic_extract_simple(values = prot_czero_value,
-  #                          type = prot_czero_type)
-  # name_czero <- names(df_czero[2])
 
-  # df_protCell <- df_protein %>%
-  #   ras.Fic_extract_simple(values = prot_cell_value,
-  #                          type = prot_cell_type)
-  # name_protCell <- names(df_protCell[2])
-
-  # df_protHom <- df_protein %>%
-  #   ras.Fic_extract_simple(values = prot_hom_value,
-  #                          type = prot_hom_type)
-  # name_protHom <- names(df_protHom[2])
-
-  # Collect all variables in one dataframe ----
-  # if (source[[1]] == "Waters") {
-  #   samples <- df_cell["Sample_ID"]
-  #   df_protCell <- ras.Fic_expand(samples = samples,
-  #                                 df = df_protCell)
-  #   df_protHom <- ras.Fic_expand(samples = samples,
-  #                                df = df_protHom)
-  # }
   df_calc <- list(
     df_DiluteHom_buffer,
-    # df_cell,
-    # df_medium,
     df_stab,
     df_czero
-    # df_kp,
-    # df_protCell,
-    # df_protHom
   ) %>% ras.Fic_collect_variables()
 
   # Calculations ----
@@ -339,13 +285,11 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
     ras.Fic_Fu.hom(Buffer = {{name_buffer}},
                    Homogenate = {{name_DiluteHom}},
                    Dilution_factor = {{name_dilution}})
-  # df_calc <- df_calc %>%
-  #   ras.Fic_D.prot(Protein_col = {{name_protHom}})
+
   df_calc <- df_calc %>%
     ras.Fic_fu.feces(D = D,
                      Fu.hom = "fuhom")
-    # ras.Fic_Fu.cell(D.prot = "D", # Fu_feces w/ D = 4.8
-    #                 Fu.hom = "fuhom")
+
   df_calc <- df_calc %>%
     ras.Fic_stability(Stab = {{name_stab}},
                       C.zero = {{name_czero}})
@@ -354,22 +298,6 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                                      Dilution_factor = Dilution_factor,
                                      Buffer = {{name_buffer}},
                                      Stab = {{name_stab}})
-  # df_calc <- df_calc %>%
-  #   ras.Fic_A.cell(Cell = {{name_cell}})
-  # df_calc <- df_calc %>%
-  #   ras.Fic_V.cell(Protein_volume = {{name_protCell}})
-  # df_calc <- df_calc %>%
-  #   ras.Fic_Kp(A.cell = "Acell",
-  #              V.cell = "Vcell",
-  #              Medium = {{name_medium}})
-  # df_calc <- df_calc %>%
-    # ras.Fic_mass_balance_10.3.4(A.cell = "Acell",
-    #                             Medium = {{name_medium}},
-    #                             V.medium = {{V.medium}},
-    #                             C.zero.Kp = {{name_czero}})
-  # df_calc <- df_calc %>%
-  #   ras.Fic_Fic(Fu.cell = "fucell",
-  #               Kp = "Kp")
 
   # Write df_calc to file ----
   fn <- basename(path.df)

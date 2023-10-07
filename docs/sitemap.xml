@@ -55,7 +55,19 @@
     <loc>https://klorator.github.io/aquaras/reference/ras.Example_Runlist.html</loc>
   </url>
   <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.Fic_timepoint.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.Fic_workflow.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.Fu_feces_workflow.html</loc>
+  </url>
+  <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.loadFile.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.Randomizer.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.ran_group.html</loc>
@@ -73,10 +85,19 @@
     <loc>https://klorator.github.io/aquaras/reference/ras.server.html</loc>
   </url>
   <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.setup_dir_and_subfolders.html</loc>
+  </url>
+  <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.splitDataLines.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.SplitOutput.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.StackOutput.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.TPAer.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.well.update.html</loc>

@@ -39,11 +39,13 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                              prot_hom_value = "Protein_conc._mg/mL",
                              prot_hom_type = "hom",
                              V.medium = 200) {
+  # Set output directory
+  output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
   # Load data ----
   if (source[[1]] == "Waters") {
-    list.df <- ras.StackOutput(sourceFiles =
-                                 tcltk::tk_choose.files(caption = "Select MassLynx output file",
-                                                        multi = FALSE))
+    path.df <- tcltk::tk_choose.files(caption = "Select MassLynx output file",
+                                      multi = FALSE)
+    list.df <- ras.StackOutput(sourceFiles = path.df)
     df <- list.df[[1]]
     .compound <- names(df[length(df)])
   }
@@ -174,9 +176,11 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
                 Kp = "Kp")
 
   # Write df_calc to file ----
-  f <- paste0(Sys.Date()," Fic calculations.xlsx")
+  fn <- basename(path.df)
+  f <- paste0(Sys.Date(), " Fic calculations - ", fn, ".csv")
+  fp <- file.path(output_dir, f)
   readr::write_excel_csv(df_calc,
-                         f)
+                         fp)
 
   return(df_calc)
 }
@@ -227,9 +231,9 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
   # Load data ----
   if (source[[1]] == "Waters") {
-    list.df <- ras.StackOutput(sourceFiles = tcltk::tk_choose.files(
-                                        caption = "Select MassLynx output file",
-                                        multi = FALSE))
+    path.df <- tcltk::tk_choose.files(caption = "Select MassLynx output file",
+                                      multi = FALSE)
+    list.df <- ras.StackOutput(sourceFiles = path.df)
     df <- list.df[[1]]
     .compound <- names(df[length(df)])
   }
@@ -368,9 +372,10 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
   #               Kp = "Kp")
 
   # Write df_calc to file ----
-  f <- paste0(Sys.Date()," Fu feces calculations.xlsx")
+  fn <- basename(path.df)
+  f <- paste0(Sys.Date()," Fu feces calculations - ", fn, ".csv")
   fp <- file.path(output_dir, f)
-  readr::write_excel_csv(df_calc,
+  readr::write_excel_csv2(df_calc,
                          fp)
 
   return(df_calc)

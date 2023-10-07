@@ -37,7 +37,8 @@ ras.Fic_cleanup <- function(df,
       dplyr::filter(
               !is.na({{.sample.text}}),
               !stringr::str_detect({{.sample.text}}, "[Bb]lank"),
-              !stringr::str_detect({{.sample.text}}, "[:digit:]nM"))
+              !stringr::str_detect({{.sample.text}}, "[:digit:]nM"),
+              !stringr::str_ends({{.sample.text}}, "_STD"))
   }
   if (!is.null(.split)) { # Split Sample.Text into multiple columns
     df <- df %>%

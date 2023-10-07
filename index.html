@@ -9,8 +9,8 @@
     added/will add more functionality as the need arises. I would never
     have been able to make things work without all the amazing people who
     create and maintain the packages I've used. Thank you! - Pre-LC/MS
-    run: Provides tools for working with runlists to use with MassLynx
-    (Waters LC/MS software). - Post-LC/MS run: Split the MassLynx complete
+    run -- Provides tools for working with runlists to use with MassLynx
+    (Waters LC/MS software). - Post-LC/MS run -- Split the MassLynx complete
     summary output file into individual data frames and write them to
     files. Unless clean = FALSE, this removes blanks and splits the &quot;Name&quot;
     and &quot;Sample Name&quot; columns according to the pre-LC/MS template. -
@@ -25,8 +25,8 @@
     added/will add more functionality as the need arises. I would never
     have been able to make things work without all the amazing people who
     create and maintain the packages I've used. Thank you! - Pre-LC/MS
-    run: Provides tools for working with runlists to use with MassLynx
-    (Waters LC/MS software). - Post-LC/MS run: Split the MassLynx complete
+    run -- Provides tools for working with runlists to use with MassLynx
+    (Waters LC/MS software). - Post-LC/MS run -- Split the MassLynx complete
     summary output file into individual data frames and write them to
     files. Unless clean = FALSE, this removes blanks and splits the &quot;Name&quot;
     and &quot;Sample Name&quot; columns according to the pre-LC/MS template. -
@@ -40,11 +40,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
     <a class="navbar-brand me-2" href="index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.14</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -119,6 +119,19 @@
 <h2 id="random-group-generator">Random group generator<a class="anchor" aria-label="anchor" href="#random-group-generator"></a>
 </h2>
 <p>Created the function <code><a href="reference/ras.Randomizer.html">ras.Randomizer()</a></code> to distribute a list of observations/compounds into groups randomly. Can create multiple series and write to excel file (not default).</p>
+</div>
+<div class="section level2">
+<h2 id="tpa-tools">TPA tools<a class="anchor" aria-label="anchor" href="#tpa-tools"></a>
+</h2>
+<p>Created the function <code>ras.TPA_calcFromIntensity()</code> which calculates TPA from the intensity columns. It uses the raw output file from MaxQuant.</p>
+<p>A few more functions, mainly <code>ras.TPAer</code> for calculating averages and standard deviation of TPA columns.</p>
+</div>
+<div class="section level2">
+<h2 id="fic-workflow">Fic workflow<a class="anchor" aria-label="anchor" href="#fic-workflow"></a>
+</h2>
+<p>Look at ras.Fic_workflow() (barely functional)</p>
+<p><code>df_calculations &lt;- ras.Fic_workflow()</code></p>
+<p>See the help page for the arguments. You probably want to adapt some to your data.</p>
 </div>
 <div class="section level2">
 <h2 id="planned-features">Planned features<a class="anchor" aria-label="anchor" href="#planned-features"></a>

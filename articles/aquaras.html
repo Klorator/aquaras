@@ -22,11 +22,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.14</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,19 +144,19 @@ default settings.</p>
 <code class="sourceCode R"><span><span class="va">Final_Runlist</span> <span class="op">=</span> <span class="fu"><a href="../reference/ras.create.Runlist.html">ras.create.Runlist</a></span><span class="op">(</span><span class="va">ras.Example_Runlist</span><span class="op">)</span></span>
 <span><span class="va">Final_Runlist</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">12</span>, <span class="fl">14</span>, <span class="fl">16</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 6</span></span></span>
-<span><span class="co">#&gt;    Index LC_Position Sample_name          LC_Well_Type Sample_text       Draw_…¹</span></span>
+<span><span class="co">#&gt;    Index LC_Position Sample_name          LC_Well_Type Sample_text    Draw_Count</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    13 3:B,1       20220725_RH_Index.13 blank        blank                   1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>    13 3:B,1       20220725_RH_Index.13 blank        blank                   2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>    13 3:B,1       20220725_RH_Index.13 blank        blank                   3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    62 3:F,2       20220725_RH_Index.62 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    63 3:F,3       20220725_RH_Index.63 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    64 3:F,4       20220725_RH_Index.64 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    65 3:F,5       20220725_RH_Index.65 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    66 3:F,6       20220725_RH_Index.66 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    67 3:F,7       20220725_RH_Index.67 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    68 3:F,8       20220725_RH_Index.68 Analyte      Ibuprofen_0_bead_       1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 140 more rows, and abbreviated variable name ¹​Draw_Count</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>    62 3:F,2       20220725_RH_Index.62 Analyte      Ibuprofen_0_b…          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    63 3:F,3       20220725_RH_Index.63 Analyte      Ibuprofen_0_b…          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>    64 3:F,4       20220725_RH_Index.64 Analyte      Ibuprofen_0_b…          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>    65 3:F,5       20220725_RH_Index.65 Analyte      Ibuprofen_0_b…          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    66 3:F,6       20220725_RH_Index.66 Analyte      Ibuprofen_0_b…          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    67 3:F,7       20220725_RH_Index.67 Analyte      Ibuprofen_0_b…          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    68 3:F,8       20220725_RH_Index.68 Analyte      Ibuprofen_0_b…          1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 140 more rows</span></span></span></code></pre></div>
 <p>Ready for pasting columns into MassLynx!</p>
 </div>
 <div class="section level4">

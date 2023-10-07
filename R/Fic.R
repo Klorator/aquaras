@@ -29,6 +29,8 @@ ras.Fic_cleanup <- function(df,
   if (!is.null(.type)) { # Filter Type
     df <- df %>%
       dplyr::filter(!stringr::str_detect(df[[.type]], "[Bb]lank"))
+    df <- df %>%
+      dplyr::filter(!stringr::str_detect(df[[.type]], "Standard"))
   }
   if (!is.null(.sample.text)) { # Filter Sample.Text
     df <- df %>%
@@ -154,9 +156,9 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
       dplyr::mutate({{Buffer_Conc.col}} := df_buffer[df_buffer[ID.col] == unique.Sample_ID[[i]], Buffer_Conc.col][[1]])
     df_new <- dplyr::bind_rows(df_new, df_temp)
   }
+
   df_new <- df_new %>%
-    # dplyr::mutate(diff.sample_buffer.sq = 0) %>%
-    dplyr::mutate(diff.sample_buffer.sq = df_new[Buffer_Conc.col] - df_new[[Homogenate_Conc.col]] ) %>%
+    dplyr::mutate(diff.sample_buffer.sq = df_new[[Buffer_Conc.col]] - df_new[[Homogenate_Conc.col]] ) %>%
     dplyr::mutate(diff.sample_buffer.sq = diff.sample_buffer.sq^2)
   df_new <- df_new %>%
     dplyr::group_by(Sample_ID) %>%
@@ -602,185 +604,45 @@ ras.Fic_Fic <- function(df_calc,
     dplyr::mutate(Fic = .data[[Fu.cell]] * .data[[Kp]])
   return(df_calc)
 }
-# Workflow wrapper -------------------------------------------------------------
-#' Fic end-to-end workflow
+#' Calculate Fu, feces
 #'
-#' @param source What source the data file comes from
-#' @param ID Column name for ID column after splitting
-#' @param values Column name for values in data
-#' @param Buffer RegEx to filter by for buffer values
-#' @param Dilution_type RegEx to filter by for dilution factor values
-#' @param Dilution_extract RegEx for extracting the dilution factor
-#' @param stab RegEx to filter by for stability values
-#' @param czero RegEx to filter by for C zero values values
-#' @param Kp RegEx to filter by for kp values
-#' @param prot_cell_value Column name for values
-#' @param prot_cell_type RegEx to filter by
-#' @param prot_hom_value RegEx to filter by
-#' @param prot_hom_type RegEx to filter by
-#' @param V.medium RegEx to filter by
+#' Equation: Fufeces = 1 / (D.prot * (1/Fu.hom-1)+1)
 #'
-#' @return Dataframe with all variables, used & calculated
-#' @export
+#' @param df_calc Dataframe with values
+#' @param D Value for dilution factor
+#' @param Fu.hom Name of column for F u,Homogenate values
 #'
-#' @examples
-#'   \dontrun{
-#'   # No example yet
-#'   }
-ras.Fic_workflow <- function(source = c("Waters","Sciex"),
-                             ID = "Sample_ID",
-                             values = "Conc.",
-                             Buffer = "HBSS",
-                             Dilution_type = "[:digit:]x",
-                             Dilution_extract = "[:digit:]+(?=x)",
-                             stab = "Stab",
-                             # czero = "Czero",
-                             # Kp = "CzeroKp",
-                             prot_czero_value = "mg_Protein",
-                             prot_czero_type = "Czero",
-                             prot_cell_value = "mg_Protein",
-                             prot_cell_type = "Cells",
-                             prot_hom_value = "Protein_conc._mg/mL",
-                             prot_hom_type = "hom",
-                             V.medium = 200) {
-  # Load data ----
-  if (source[[1]] == "Waters") {
-    list.df <- ras.StackOutput(sourceFiles =
-      tcltk::tk_choose.files(caption = "Select MassLynx output file",
-                             multi = FALSE))
-    df <- list.df[[1]]
-    .compound <- names(df[length(df)])
-  }
-  if (source[[1]] == "Sciex") {
-    path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
-                                 multi = FALSE)
-    df <- readr::read_delim(path.df,
-                            delim = "\t")
-    .compound <- NULL
-  }
-  path.prot <- tcltk::tk_choose.files(caption = "Select Protein data",
-                                       multi = FALSE)
-  df_protein <- readxl::read_excel(path = path.prot)
-
-  # Clean data ----
-  df_clean <- df %>% ras.Fic_cleanup(.compound = .compound)
-  df_protein <- df_protein %>% ras.Fic_cleanup(.values = NULL,
-                                               .type = NULL)
-
-  # Extract values ----
-  df_buffer <- df_clean %>%
-    ras.Fic_extract_simple(values = values,
-                           type = Buffer)
-  name_buffer <- names(df_buffer[2])
-
-  df_DiluteHom <- df_clean %>%
-    ras.Fic_DiluteHom(values = values,
-                     type = Dilution_type,
-                     type_extract = Dilution_extract)
-  name_DiluteHom <- names(df_DiluteHom[3])
-  name_dilution <- names(df_DiluteHom[4])
-
-  df_DiluteHom_buffer <- ras.Fic_diff_sample_buffer(
-                              df_DiluteHom,
-                              df_buffer,
-                              ID.col = ID,
-                              Buffer_Conc.col = {{name_buffer}},
-                              Homogenate_Conc.col = {{name_DiluteHom}})
-
-  time_list <- df_clean %>%
-    ras.Fic_timepoint(values = values)
-  df_cell <- time_list[[1]]
-  df_medium <- time_list[[2]]
-
-  name_cell <- names(df_cell[3])
-  name_medium <- names(df_medium[3])
-
-  df_stab <- df_clean %>%
-    ras.Fic_extract_simple(values = values,
-                           type = stab)
-  name_stab <- names(df_stab[2])
-
-  # df_czero <- df_clean %>%
-  #   ras.Fic_extract_simple(values = values,
-  #                          type = czero)
-  # name_czero <- names(df_czero[2])
-  # df_kp <- df_clean %>%
-  #   ras.Fic_extract_simple(values = values,
-  #                          type = Kp)
-  # name_kp <- names(df_kp[2])
-  df_czero <- df_protein %>%
-    ras.Fic_extract_simple(values = prot_czero_value,
-                           type = prot_czero_type)
-  name_czero <- names(df_czero[2])
-
-  df_protCell <- df_protein %>%
-    ras.Fic_extract_simple(values = prot_cell_value,
-                           type = prot_cell_type)
-  name_protCell <- names(df_protCell[2])
-
-  df_protHom <- df_protein %>%
-    ras.Fic_extract_simple(values = prot_hom_value,
-                           type = prot_hom_type)
-  name_protHom <- names(df_protHom[2])
-
-  # Collect all variables in one dataframe ----
-  if (source[[1]] == "Waters") {
-    samples <- df_cell["Sample_ID"]
-    df_protCell <- ras.Fic_expand(samples = samples,
-                                  df = df_protCell)
-    df_protHom <- ras.Fic_expand(samples = samples,
-                                 df = df_protHom)
-  }
-  df_calc <- list(
-    df_DiluteHom_buffer,
-    df_cell,
-    df_medium,
-    df_stab,
-    df_czero,
-    # df_kp,
-    df_protCell,
-    df_protHom
-    ) %>% ras.Fic_collect_variables()
-
-  # Calculations ----
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fic_fu.feces <- function(df_calc,
+                             D = 4.8,
+                             Fu.hom = "fuhom") {
   df_calc <- df_calc %>%
-    ras.Fic_Fu.hom(Buffer = {{name_buffer}},
-                   Homogenate = {{name_DiluteHom}},
-                   Dilution_factor = {{name_dilution}})
+    dplyr::mutate(fufeces = 1 / (D * (1/.data[[Fu.hom]]-1)+1) )
+  return(df_calc)
+}
+#' Calculate mass balance 10.2.5 (Fu feces)
+#'
+#' Calculate mass balance according to section 10.2.5 in the SOP.
+#' Equation:Mass_balance_10.2.5 = (Hom_Conc.avg * dilution
+#' + Buffer_Conc._avg * 1.75) / Stab_Conc.avg
+#'
+#' @param df_calc Dataframe with values
+#' @param Homogenate Name of column for Homogenate values
+#' @param Dilution_factor Dilution factor value
+#' @param Buffer Name of column for buffer values
+#' @param Stab Name of column for stability values
+#'
+#' @return Same dataframe with added column from equation
+#' @noRd
+ras.Fu_feces_mass_balance_10.2.5 <- function(df_calc,
+                                        Homogenate = "Hom_Conc._avg",
+                                        Dilution_factor = 4.8,
+                                        Buffer = "Buffer_Con._avg",
+                                        Stab = "Stab_Conc._avg") {
   df_calc <- df_calc %>%
-    ras.Fic_D.prot(Protein_col = {{name_protHom}})
-  df_calc <- df_calc %>%
-    ras.Fic_Fu.cell(D.prot = "D",
-                    Fu.hom = "fuhom")
-  df_calc <- df_calc %>%
-    ras.Fic_stability(Stab = {{name_stab}},
-                      C.zero = {{name_czero}})
-  df_calc <- df_calc %>%
-    ras.Fic_mass_balance_10.2.5(Homogenate = {{name_DiluteHom}},
-                                Dilution_factor = {{name_dilution}},
-                                Buffer = {{name_buffer}},
-                                Stab = {{name_stab}})
-  df_calc <- df_calc %>%
-    ras.Fic_A.cell(Cell = {{name_cell}})
-  df_calc <- df_calc %>%
-    ras.Fic_V.cell(Protein_volume = {{name_protCell}})
-  df_calc <- df_calc %>%
-    ras.Fic_Kp(A.cell = "Acell",
-               V.cell = "Vcell",
-               Medium = {{name_medium}})
-  df_calc <- df_calc %>%
-    ras.Fic_mass_balance_10.3.4(A.cell = "Acell",
-                                Medium = {{name_medium}},
-                                V.medium = {{V.medium}},
-                                C.zero.Kp = {{name_czero}})
-  df_calc <- df_calc %>%
-    ras.Fic_Fic(Fu.cell = "fucell",
-                Kp = "Kp")
-
-  # Write df_calc to file ----
-  f <- paste0(Sys.Date()," Fic calculations.xlsx")
-  readr::write_excel_csv(df_calc,
-                         f)
-
+    dplyr::mutate(Mass_balance_10.2.5 =
+                    (.data[[Homogenate]]*Dilution_factor +.data[[Buffer]]*1.75)
+                  / .data[[Stab]] )
   return(df_calc)
 }

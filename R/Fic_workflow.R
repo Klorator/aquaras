@@ -8,8 +8,10 @@
 #' @param Dilution_type RegEx to filter by for dilution factor values
 #' @param Dilution_extract RegEx for extracting the dilution factor
 #' @param stab RegEx to filter by for stability values
-#' @param czero RegEx to filter by for C zero values values
+#' @param czero RegEx to filter by for C zero values
 #' @param Kp RegEx to filter by for kp values
+#'  prot_czero_value Column name, czero from protein dataframe
+#'  prot_czero_type RegEx to filter by for C zero values
 #' @param prot_cell_value Column name for values
 #' @param prot_cell_type RegEx to filter by
 #' @param prot_hom_value RegEx to filter by

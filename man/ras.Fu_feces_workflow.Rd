@@ -15,7 +15,8 @@ ras.Fu_feces_workflow(
   Dilution_factor = 4.8,
   stab = "Stab",
   czero = "Czero",
-  D = 4.8
+  D = 4.8,
+  .compound = NULL
 )
 }
 \arguments{
@@ -40,6 +41,9 @@ ras.Fu_feces_workflow(
 \item{czero}{RegEx to filter by for C zero values values}
 
 \item{D}{Numeric value for D}
+
+\item{.compound}{Column name for compounds to prefix Sample_ID,
+\code{NULL} => "Analyte Peak Name"}
 }
 \value{
 Dataframe with all variables, used & calculated

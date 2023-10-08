@@ -200,6 +200,8 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
 #' @param stab RegEx to filter by for stability values
 #' @param czero RegEx to filter by for C zero values values
 #' @param D Numeric value for D
+#' @param .compound Column name for compounds to prefix Sample_ID,
+#' `NULL` => "Analyte Peak Name"
 #'
 #' @return Dataframe with all variables, used & calculated
 #' @export
@@ -218,7 +220,8 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                                   Dilution_factor = 4.8,
                                   stab = "Stab",
                                   czero = "Czero",
-                                  D = 4.8
+                                  D = 4.8,
+                                  .compound = NULL
                          ) {
   # Set output directory
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
@@ -235,7 +238,7 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                                       multi = FALSE)
     df <- readr::read_delim(path.df,
                             delim = "\t")
-    .compound <- NULL
+    if (is.null(.compound)) { .compound <- "Analyte Peak Name" }
   }
 
   # Clean data ----

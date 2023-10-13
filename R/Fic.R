@@ -40,6 +40,9 @@ ras.Fic_cleanup <- function(df,
               !stringr::str_detect({{.sample.text}}, "[:digit:]nM"),
               !stringr::str_ends({{.sample.text}}, "_STD"))
   }
+
+  # add if(){} for cleaning Conc. column to make sure there are no "<"
+
   if (!is.null(.split)) { # Split Sample.Text into multiple columns
     df <- df %>%
       tidyr::separate_wider_delim(
@@ -86,6 +89,7 @@ ras.Fic_extract_simple <- function(df,
   df_extract <- df_extract %>%
     dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
     stats::na.omit({{values}})
+
   # Group by Sample_ID and average
   new_col <- paste0({{type}},"_",{{values}},"_avg")
   df_extract <- df_extract %>%
@@ -148,24 +152,26 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
                                    ID.col = "Sample_ID",
                                    Buffer_Conc.col = "Buffer_Conc._avg",
                                    Homogenate_Conc.col = "Homogenate_Conc._avg") {
-  unique.Sample_ID <- unique(df_DiluteHom[[ID.col]])
-  df_new <- tibble::tibble()
+  df_combined <- dplyr::inner_join(df_DiluteHom,
+                                   df_buffer,
+                                   by = {{ID.col}})
 
-  for ( i in seq_along(unique.Sample_ID) ) {
-    df_temp <- df_DiluteHom %>%
-      dplyr::filter(.data[[ID.col]] == unique.Sample_ID[[i]]) %>%
-      dplyr::mutate({{Buffer_Conc.col}} := df_buffer[df_buffer[ID.col] == unique.Sample_ID[[i]], Buffer_Conc.col][[1]])
-    df_new <- dplyr::bind_rows(df_new, df_temp)
+  hom_len <- length(df_DiluteHom[[ID.col]])
+  buf_len <- length(df_buffer[[ID.col]])
+  comb_len <- length(df_combined[[ID.col]])
+  if (hom_len|buf_len > comb_len) {
+    warning("Fewer samples after combining Homogenate & Buffer dataframes")
   }
 
-  df_new <- df_new %>%
-    dplyr::mutate(diff.sample_buffer.sq = df_new[[Buffer_Conc.col]] - df_new[[Homogenate_Conc.col]] ) %>%
-    dplyr::mutate(diff.sample_buffer.sq = diff.sample_buffer.sq^2)
+  df_new <- df_combined %>%
+    dplyr::mutate(diff.sample_buffer = .data[[Buffer_Conc.col]] - .data[[Homogenate_Conc.col]] ) %>%
+    dplyr::mutate(diff.sample_buffer.sq = diff.sample_buffer^2)
   df_new <- df_new %>%
     dplyr::group_by(Sample_ID) %>%
     dplyr::slice(which.min(diff.sample_buffer.sq))
   df_new <- df_new %>%
-    dplyr::select(-diff.sample_buffer.sq)
+    dplyr::select(-diff.sample_buffer,
+                  -diff.sample_buffer.sq)
   return(df_new)
 }
 #' Extract values for `LiquidType`s with a `Timepoint`

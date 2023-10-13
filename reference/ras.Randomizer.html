@@ -22,7 +22,7 @@ If write = TRUE will write the series to a comma delimited .csv file (excel?).">
     
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.14</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.15</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,21 +126,21 @@ If <code>write = TRUE</code> will write the series to a comma delimited .csv fil
 <span class="r-in"><span><span class="va">series_A</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Series_01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_19   Comp_2   Comp_1   Comp_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Comp_17  Comp_16  Comp_13  Comp_14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Comp_5   Comp_7  Comp_15  Comp_10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_23  Comp_12  Comp_21   Comp_8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_18   Comp_6  Comp_20  Comp_22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_24   Comp_9   Comp_4  Comp_11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_13  Comp_21   Comp_3  Comp_12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_6   Comp_4  Comp_20   Comp_9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_18  Comp_16  Comp_24   Comp_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_14   Comp_7   Comp_1  Comp_17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_15   Comp_5  Comp_23  Comp_11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_19  Comp_22  Comp_10   Comp_8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Series_02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_20   Comp_4  Comp_14   Comp_6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Comp_18  Comp_16  Comp_11  Comp_13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Comp_8  Comp_17   Comp_5  Comp_15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_22   Comp_1  Comp_19   Comp_9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Comp_2   Comp_3   Comp_7  Comp_21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_23  Comp_24  Comp_10  Comp_12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_14  Comp_16  Comp_23  Comp_22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_4  Comp_19   Comp_2  Comp_18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_17  Comp_15   Comp_3   Comp_6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_24   Comp_8  Comp_10   Comp_1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_20  Comp_13  Comp_21  Comp_11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Comp_9   Comp_5   Comp_7  Comp_12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example with 5 uneven groups</span></span></span>
@@ -162,19 +162,19 @@ If <code>write = TRUE</code> will write the series to a comma delimited .csv fil
 <span class="r-in"><span><span class="va">series_B</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Series_01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04 Group_05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Comp_9   Comp_7  Comp_13  Comp_21  Comp_14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Comp_11   Comp_1   Comp_6   Comp_8   Comp_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_15  Comp_20  Comp_10  Comp_19   Comp_5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_24  Comp_18  Comp_12  Comp_22  Comp_23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_17  Comp_16   Comp_2   Comp_4      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_22   Comp_5   Comp_2   Comp_8  Comp_24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_6  Comp_11  Comp_18  Comp_12   Comp_7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Comp_3  Comp_16  Comp_21   Comp_4  Comp_23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_10   Comp_1  Comp_20  Comp_13   Comp_9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_15  Comp_19  Comp_14  Comp_17      N/A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Series_02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04 Group_05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_22   Comp_4  Comp_10   Comp_6  Comp_18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Comp_20   Comp_7  Comp_12   Comp_5  Comp_13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_17   Comp_2  Comp_16  Comp_23  Comp_14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_11  Comp_15  Comp_21  Comp_19   Comp_8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Comp_9  Comp_24   Comp_3   Comp_1      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Comp_2  Comp_23  Comp_17  Comp_21  Comp_14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Comp_22  Comp_12  Comp_16  Comp_24  Comp_15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_10   Comp_1   Comp_8   Comp_4   Comp_9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Comp_3  Comp_18  Comp_13  Comp_11   Comp_5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Comp_7   Comp_6  Comp_20  Comp_19      N/A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>

@@ -59,9 +59,13 @@ standard deviation of TPA columns.
 
 ## Fic workflow
 
-Look at ras.Fic_workflow() (barely functional)
+Look at ras.Fic_workflow()
 
-`df_calculations <- ras.Fic_workflow()`
+`df_Fic <- ras.Fic_workflow()`
+
+…and ras.Fu_feces_workflow()
+
+`df_FuFeces <- ras.Fic_workflow()`
 
 See the help page for the arguments. You probably want to adapt some to
 your data.

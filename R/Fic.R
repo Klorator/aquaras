@@ -8,7 +8,9 @@
 #' @param df A dataframe from the MassLynx complete summary output or similar
 #' @param .type Column name, filters away Blank
 #' @param .sample.text Column name, filters away NA, Blank,
-#' and digits ending in nM
+#' and digits ending in nM.
+#' @param .checkValues Removes "<" from the values column to make sure it can
+#' be coerced to numeric.
 #' @param .split Column name, separates by `_` into `Sample_ID`, `LiquidType`,
 #' `Timepoint`, and `Replicate.` Left aligned.
 #'
@@ -27,12 +29,14 @@ ras.Fic_cleanup <- function(df,
     df <- df %>%
       dplyr::filter(!is.na(.data[[.values]]))
   }
+
   if (!is.null(.type)) { # Filter Type
     df <- df %>%
       dplyr::filter(!stringr::str_detect(df[[.type]], "[Bb]lank"))
     df <- df %>%
       dplyr::filter(!stringr::str_detect(df[[.type]], "Standard"))
   }
+
   if (!is.null(.sample.text)) { # Filter Sample.Text
     df <- df %>%
       dplyr::filter(
@@ -42,8 +46,8 @@ ras.Fic_cleanup <- function(df,
               !stringr::str_ends({{.sample.text}}, "_STD"))
   }
 
-  # add if(){} for cleaning Conc. column to make sure there are no "<"
-  if (.checkValues) {
+
+  if (.checkValues) { # Remove "<" from values to ensure conversion to numeric
     df <- df %>%
       dplyr::mutate({{.values}} := stringr::str_remove(.data[[{{.values}}]], "<"))
   }
@@ -59,11 +63,13 @@ ras.Fic_cleanup <- function(df,
         too_few = "align_start",
         cols_remove = F)
   }
+
   if (!is.null(.compound)) { # Combine compound with Sample_ID
     df <- df %>%
       dplyr::mutate(Sample_ID = stringr::str_c(df[[.compound]], Sample_ID,
                                                sep = "_"))
   }
+
   # Re-evaluate column types
   print("Re-evaluate column types")
     df <- df %>%
@@ -100,25 +106,38 @@ ras.Fic_extract_simple <- function(df,
     stats::na.omit({{values}})
 
   # Get SD
+  sd_col <- paste0({{type}},"_",{{values}},"_SD")
   if (.SD) {
-    sd_col <- paste0({{type}},"_",{{values}},"_SD")
     df_extract <- df_extract %>%
-      dplyr::mutate({{sd_col}} := sd(.data[[values]]))
+      dplyr::group_by(Sample_ID) %>%
+      dplyr::mutate({{sd_col}} := sd(.data[[values]])) %>%
+      dplyr::ungroup()
   } else {
-
+    df_extract <- df_extract %>%
+      dplyr::mutate({{sd_col}} := 0)
   }
 
   # Group by Sample_ID and average
   if (.summarize) {
-    avg_col <- paste0({{type}},"_",{{values}},"_avg")
+    value_col <- paste0(type,"_",values,"_avg")
+    sd_col2 <- sd_col
+    sd_col <- paste0(sd_col,"_avg")
     df_extract <- df_extract %>%
       dplyr::group_by(Sample_ID) %>%
-      dplyr::summarise({{avg_col}} := mean(.data[[values]]))
+      dplyr::summarise({{value_col}} := mean(.data[[values]]),
+                       {{sd_col}} := mean(.data[[sd_col2]]))
   } else {
-    avg_col <- paste0({{type}},"_",{{values}})
+    value_col <- paste0({{type}},"_",{{values}})
     df_extract <- df_extract %>%
-      dplyr::mutate({{avg_col}} := .data[[values]])
+      dplyr::mutate({{value_col}} := .data[[values]])
   }
+
+  df_extract <- df_extract %>%
+    dplyr::select(
+      Sample_ID,
+      {{value_col}},
+      tidyselect::any_of({{sd_col}})
+    )
 
   return(df_extract)
 }
@@ -152,24 +171,32 @@ ras.Fic_DiluteHom <- function(df,
     stats::na.omit({{values}})
 
   # Get SD
+  sd_col <- paste0("Homogenate","_",{{values}},"_SD")
   if (.SD) {
-    sd_col <- paste0({{type}},"_",{{values}},"_SD")
     df_DiluteHom <- df_DiluteHom %>%
-      dplyr::mutate({{sd_col}} := sd(.data[[values]]))
+      dplyr::group_by(Sample_ID) %>%
+      dplyr::mutate({{sd_col}} := sd(.data[[values]])) %>%
+      dplyr::ungroup()
   } else {
-
+    df_DiluteHom <- df_DiluteHom %>%
+      dplyr::mutate({{sd_col}} := 0)
   }
 
+  # Group by Sample_ID & LiquidType and average
   if (.summarize) {
-    # Group by Sample_ID & LiquidType and average
+    hom_col <- paste0("Homogenate_Conc._avg")
+    sd_col2 <- sd_col
+    sd_col <- paste0(sd_col, "_avg")
     df_DiluteHom <- df_DiluteHom %>%
       dplyr::group_by(Sample_ID, LiquidType) %>%
-      dplyr::summarise(Homogenate_Conc._avg = mean(.data[[values]]))
+      dplyr::summarise({{hom_col}} := mean(.data[[values]]),
+                       {{sd_col}} := mean(.data[[sd_col2]])) %>%
+      dplyr::ungroup()
   } else {
+    hom_col <- paste0("Homogenate_Conc.")
     df_DiluteHom <- df_DiluteHom %>%
-      dplyr::mutate(Homogenate_Conc. = .data[[values]])
+      dplyr::mutate({{hom_col}} := .data[[values]])
   }
-
 
   # Make dilution factor numeric
   df_DiluteHom <- df_DiluteHom %>%
@@ -178,7 +205,12 @@ ras.Fic_DiluteHom <- function(df,
     dplyr::mutate(dilution = as.numeric(dilution) )
 
   df_DiluteHom <- df_DiluteHom %>%
-    dplyr::relocate()
+    dplyr::select(
+      Sample_ID,
+      tidyselect::all_of({{hom_col}}),
+      dilution,
+      tidyselect::any_of({{sd_col}})
+    )
 
   return(df_DiluteHom)
 }
@@ -466,8 +498,8 @@ ras.Fic_expand <- function(samples,
 #' @return A dataframe with `Sample_ID` & all the values
 #' @noRd
 ras.Fic_collect_variables <- function(df_list) {
-  fun1 <- function(x) x <- x[grep("Sample_ID|_avg$|dilution",names(x))]
-  df_list <- df_list %>% lapply(fun1)
+  # fun1 <- function(x) x <- x[grep("Sample_ID|_avg$|dilution",names(x))]
+  # df_list <- df_list %>% lapply(fun1)
   df_calc <- purrr::reduce(df_list, dplyr::full_join)
   return(df_calc)
 }

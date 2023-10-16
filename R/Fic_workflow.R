@@ -202,6 +202,10 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
 #' @param D Numeric value for D
 #' @param .compound Column name for compounds to prefix Sample_ID,
 #' `NULL` => "Analyte Peak Name"
+#' @param .checkValues Removes "<" from the values column to make sure it can
+#' be coerced to numeric.
+#' @param .summarize Summarize values into averages
+#' @param .SD Create column with Standard Deviation
 #'
 #' @return Dataframe with all variables, used & calculated
 #' @export
@@ -213,15 +217,18 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
 ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                                   ID = "Sample Name",
                                   Sample_type = "Sample Type",
-                                  values = "Conc.",
+                                  values = "Calculated Concetration (nM)",
                                   Buffer = "HBSS",
                                   Dilution_type = "[:digit:]x",
                                   Dilution_extract = "[:digit:]+(?=x)",
-                                  Dilution_factor = 4.8,
+                                  Dilution_factor = 1,
                                   stab = "Stab",
                                   czero = "Czero",
                                   D = 4.8,
-                                  .compound = NULL
+                                  .compound = "Analyte Peak Name",
+                                  .checkValues = TRUE,
+                                  .summarize = TRUE,
+                                  .SD = TRUE
                          ) {
   # Set output directory
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
@@ -238,30 +245,35 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
                                       multi = FALSE)
     df <- readr::read_delim(path.df,
                             delim = "\t")
-    if (is.null(.compound)) { .compound <- "Analyte Peak Name" }
   }
 
   # Clean data ----
   df_clean <- df %>%
-    ras.Fic_cleanup(.values = values,
-                    .type = Sample_type,
-                    .sample.text = ID,
-                    .split = ID,
-                    .compound = .compound
-                    )
+    ras.Fic_cleanup(
+      .values = values,
+      .type = Sample_type,
+      .sample.text = ID,
+      .split = ID,
+      .compound = .compound,
+      .checkValues = .checkValues
+    )
 
   # Extract values ----
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = Buffer)
+                           type = Buffer,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_buffer <- names(df_buffer[2])
 
   df_DiluteHom <- df_clean %>%
     ras.Fic_DiluteHom(values = values,
                       type = Dilution_type,
-                      type_extract = Dilution_extract)
-  name_DiluteHom <- names(df_DiluteHom[3])
-  name_dilution <- names(df_DiluteHom[4])
+                      type_extract = Dilution_extract,
+                      .summarize = .summarize,
+                      .SD = .SD)
+  name_DiluteHom <- names(df_DiluteHom[2])
+  name_dilution <- names(df_DiluteHom[3])
 
   df_DiluteHom_buffer <- ras.Fic_diff_sample_buffer(
     df_DiluteHom,
@@ -271,12 +283,16 @@ ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
 
   df_stab <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = stab)
+                           type = stab,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_stab <- names(df_stab[2])
 
   df_czero <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = czero)
+                           type = czero,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_czero <- names(df_czero[2])
 
   df_calc <- list(

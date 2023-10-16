@@ -114,7 +114,7 @@ ras.Fic_extract_simple <- function(df,
       dplyr::ungroup()
   } else {
     df_extract <- df_extract %>%
-      dplyr::mutate({{sd_col}} := 0)
+      dplyr::mutate({{sd_col}} := NA)
   }
 
   # Group by Sample_ID and average
@@ -179,7 +179,7 @@ ras.Fic_DiluteHom <- function(df,
       dplyr::ungroup()
   } else {
     df_DiluteHom <- df_DiluteHom %>%
-      dplyr::mutate({{sd_col}} := 0)
+      dplyr::mutate({{sd_col}} := NA)
   }
 
   # Group by Sample_ID & LiquidType and average

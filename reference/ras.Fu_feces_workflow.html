@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,15 +55,18 @@
 <span>  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sciex"</span>, <span class="st">"Waters"</span><span class="op">)</span>,</span>
 <span>  ID <span class="op">=</span> <span class="st">"Sample Name"</span>,</span>
 <span>  Sample_type <span class="op">=</span> <span class="st">"Sample Type"</span>,</span>
-<span>  values <span class="op">=</span> <span class="st">"Conc."</span>,</span>
+<span>  values <span class="op">=</span> <span class="st">"Calculated Concetration (nM)"</span>,</span>
 <span>  Buffer <span class="op">=</span> <span class="st">"HBSS"</span>,</span>
 <span>  Dilution_type <span class="op">=</span> <span class="st">"[:digit:]x"</span>,</span>
 <span>  Dilution_extract <span class="op">=</span> <span class="st">"[:digit:]+(?=x)"</span>,</span>
-<span>  Dilution_factor <span class="op">=</span> <span class="fl">4.8</span>,</span>
+<span>  Dilution_factor <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  stab <span class="op">=</span> <span class="st">"Stab"</span>,</span>
 <span>  czero <span class="op">=</span> <span class="st">"Czero"</span>,</span>
 <span>  D <span class="op">=</span> <span class="fl">4.8</span>,</span>
-<span>  .compound <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  .compound <span class="op">=</span> <span class="st">"Analyte Peak Name"</span>,</span>
+<span>  .checkValues <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .summarize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .SD <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -116,6 +119,19 @@
 <dt>.compound</dt>
 <dd><p>Column name for compounds to prefix Sample_ID,
 <code>NULL</code> =&gt; "Analyte Peak Name"</p></dd>
+
+
+<dt>.checkValues</dt>
+<dd><p>Removes "&lt;" from the values column to make sure it can
+be coerced to numeric.</p></dd>
+
+
+<dt>.summarize</dt>
+<dd><p>Summarize values into averages</p></dd>
+
+
+<dt>.SD</dt>
+<dd><p>Create column with Standard Deviation</p></dd>
 
 </dl></div>
     <div class="section level2">

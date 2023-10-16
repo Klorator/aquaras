@@ -8,15 +8,18 @@ ras.Fu_feces_workflow(
   source = c("Sciex", "Waters"),
   ID = "Sample Name",
   Sample_type = "Sample Type",
-  values = "Conc.",
+  values = "Calculated Concetration (nM)",
   Buffer = "HBSS",
   Dilution_type = "[:digit:]x",
   Dilution_extract = "[:digit:]+(?=x)",
-  Dilution_factor = 4.8,
+  Dilution_factor = 1,
   stab = "Stab",
   czero = "Czero",
   D = 4.8,
-  .compound = NULL
+  .compound = "Analyte Peak Name",
+  .checkValues = TRUE,
+  .summarize = TRUE,
+  .SD = TRUE
 )
 }
 \arguments{
@@ -44,6 +47,13 @@ ras.Fu_feces_workflow(
 
 \item{.compound}{Column name for compounds to prefix Sample_ID,
 \code{NULL} => "Analyte Peak Name"}
+
+\item{.checkValues}{Removes "<" from the values column to make sure it can
+be coerced to numeric.}
+
+\item{.summarize}{Summarize values into averages}
+
+\item{.SD}{Create column with Standard Deviation}
 }
 \value{
 Dataframe with all variables, used & calculated

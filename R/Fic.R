@@ -76,13 +76,17 @@ ras.Fic_cleanup <- function(df,
 #' @param type String to filter the column `LiquidType` by. Used to name
 #' the `*_Conc.avg` column.
 #' @param new_name String to use as first part of new column
+#' @param .summarize Summarize values into averages
+#' @param .SD Create column with Standard Deviation
 #'
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`, &
 #' `{{type}}_{{values}}_avg`
 #' @noRd
 ras.Fic_extract_simple <- function(df,
                                    values = "Conc.",
-                                   type = "HBSS") {
+                                   type = "HBSS",
+                                   .summarize = TRUE,
+                                   .SD = TRUE) {
   # Drop other columns and filter for {{type}}
   df_extract <- df %>%
     dplyr::select(Sample_ID, LiquidType, {{values}})
@@ -90,11 +94,26 @@ ras.Fic_extract_simple <- function(df,
     dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
     stats::na.omit({{values}})
 
+  # Get SD
+  if (.SD) {
+    sd_col <- paste0({{type}},"_",{{values}},"_SD")
+    df_extract <- df_extract %>%
+      dplyr::mutate({{sd_col}} := sd(.data[[values]]))
+  } else {
+
+  }
+
   # Group by Sample_ID and average
-  new_col <- paste0({{type}},"_",{{values}},"_avg")
-  df_extract <- df_extract %>%
-    dplyr::group_by(Sample_ID) %>%
-    dplyr::summarise({{new_col}} := mean(.data[[values]]))
+  if (.summarize) {
+    avg_col <- paste0({{type}},"_",{{values}},"_avg")
+    df_extract <- df_extract %>%
+      dplyr::group_by(Sample_ID) %>%
+      dplyr::summarise({{avg_col}} := mean(.data[[values]]))
+  } else {
+    avg_col <- paste0({{type}},"_",{{values}})
+    df_extract <- df_extract %>%
+      dplyr::mutate({{avg_col}} := .data[[values]])
+  }
 
   return(df_extract)
 }
@@ -106,6 +125,8 @@ ras.Fic_extract_simple <- function(df,
 #' @param values Name of the column to use for values
 #' @param type Pattern to filter the column `LiquidType` by
 #' @param type_extract Pattern to extract the dilution factor
+#' @param .summarize Summarize values into averages
+#' @param .SD Create column with Standard Deviation
 #'
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`,
 #'  `Dilution_Conc.avg`, & `dilution`
@@ -113,7 +134,9 @@ ras.Fic_extract_simple <- function(df,
 ras.Fic_DiluteHom <- function(df,
                              values = "Conc.",
                              type = "[:digit:]x",
-                             type_extract = "[:digit:]+(?=x)") {
+                             type_extract = "[:digit:]+(?=x)",
+                             .summarize = TRUE,
+                             .SD = TRUE) {
   # Drop other columns and filter for dilution factor
   df_DiluteHom <- df %>%
     dplyr::select(Sample_ID,
@@ -122,15 +145,35 @@ ras.Fic_DiluteHom <- function(df,
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
     stats::na.omit({{values}})
-  # Group by Sample_ID & LiquidType and average
-  df_DiluteHom <- df_DiluteHom %>%
-    dplyr::group_by(Sample_ID, LiquidType) %>%
-    dplyr::summarise(Homogenate_Conc._avg = mean(.data[[values]]))
+
+  # Get SD
+  if (.SD) {
+    sd_col <- paste0({{type}},"_",{{values}},"_SD")
+    df_DiluteHom <- df_DiluteHom %>%
+      dplyr::mutate({{sd_col}} := sd(.data[[values]]))
+  } else {
+
+  }
+
+  if (.summarize) {
+    # Group by Sample_ID & LiquidType and average
+    df_DiluteHom <- df_DiluteHom %>%
+      dplyr::group_by(Sample_ID, LiquidType) %>%
+      dplyr::summarise(Homogenate_Conc._avg = mean(.data[[values]]))
+  } else {
+    df_DiluteHom <- df_DiluteHom %>%
+      dplyr::mutate(Homogenate_Conc. = .data[[values]])
+  }
+
+
   # Make dilution factor numeric
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::mutate(dilution = stringr::str_extract(LiquidType, {{type_extract}}) )
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::mutate(dilution = as.numeric(dilution) )
+
+  df_DiluteHom <- df_DiluteHom %>%
+    dplyr::relocate()
 
   return(df_DiluteHom)
 }

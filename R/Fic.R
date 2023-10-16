@@ -110,7 +110,7 @@ ras.Fic_extract_simple <- function(df,
   if (.SD) {
     df_extract <- df_extract %>%
       dplyr::group_by(Sample_ID) %>%
-      dplyr::mutate({{sd_col}} := sd(.data[[values]])) %>%
+      dplyr::mutate({{sd_col}} := stats::sd(.data[[values]])) %>%
       dplyr::ungroup()
   } else {
     df_extract <- df_extract %>%
@@ -175,7 +175,7 @@ ras.Fic_DiluteHom <- function(df,
   if (.SD) {
     df_DiluteHom <- df_DiluteHom %>%
       dplyr::group_by(Sample_ID) %>%
-      dplyr::mutate({{sd_col}} := sd(.data[[values]])) %>%
+      dplyr::mutate({{sd_col}} := stats::sd(.data[[values]])) %>%
       dplyr::ungroup()
   } else {
     df_DiluteHom <- df_DiluteHom %>%

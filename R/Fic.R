@@ -20,6 +20,7 @@ ras.Fic_cleanup <- function(df,
                             .values = "Conc.",
                             .type = "Type",
                             .sample.text = "Sample.Text",
+                            .checkValues = TRUE,
                             .split = "Sample.Text",
                             .compound = "Compound") {
   if (!is.null(.values)) { # Omit NAs from value column
@@ -42,6 +43,10 @@ ras.Fic_cleanup <- function(df,
   }
 
   # add if(){} for cleaning Conc. column to make sure there are no "<"
+  if (.checkValues) {
+    df <- df %>%
+      dplyr::mutate({{.values}} := stringr::str_remove(.data[[{{.values}}]], "<"))
+  }
 
   if (!is.null(.split)) { # Split Sample.Text into multiple columns
     df <- df %>%

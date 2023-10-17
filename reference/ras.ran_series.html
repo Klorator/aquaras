@@ -98,15 +98,14 @@ message is printed to the console and <code>N/A</code> inserted instead.</p>
 <span class="r-in"><span><span class="st">"Comp_21"</span>, <span class="st">"Comp_22"</span>, <span class="st">"Comp_23"</span>, <span class="st">"Comp_24"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">series_A</span> <span class="op">=</span> <span class="fu">ras.ran_series</span><span class="op">(</span>master_list <span class="op">=</span> <span class="va">Compound_list</span>, group_size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span>
 <span class="r-in"><span><span class="va">series_A</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_18   Comp_7  Comp_19   Comp_8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_2  Comp_23   Comp_9  Comp_15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_24  Comp_12  Comp_21  Comp_22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Comp_4  Comp_14   Comp_1   Comp_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_17  Comp_20   Comp_6   Comp_5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_13  Comp_10  Comp_11      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Comp_8   Comp_4   Comp_6  Comp_18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Comp_16   Comp_3  Comp_14  Comp_24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_22  Comp_19   Comp_1  Comp_20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Comp_7  Comp_15   Comp_5  Comp_23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Comp_21  Comp_13  Comp_12   Comp_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Comp_9  Comp_11  Comp_17  Comp_10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example with 5 uneven groups</span></span></span>
 <span class="r-in"><span><span class="co"># Compound list</span></span></span>
@@ -125,12 +124,12 @@ message is printed to the console and <code>N/A</code> inserted instead.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error: Tried 100 times but couldn't select a random observation that met the criteria. Are the groups unevenly sized?"</span>
 <span class="r-in"><span><span class="va">series_B</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group_01 Group_02 Group_03 Group_04 Group_05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Comp_14  Comp_15   Comp_9  Comp_24  Comp_16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_8   Comp_4  Comp_19  Comp_12      N/A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Comp_17  Comp_11   Comp_1  Comp_22      N/A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_23   Comp_2  Comp_10  Comp_25      N/A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Comp_6   Comp_7   Comp_3  Comp_20      N/A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_21  Comp_18  Comp_13   Comp_5      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Comp_2   Comp_4  Comp_10  Comp_22  Comp_24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Comp_7   Comp_6  Comp_21  Comp_20      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Comp_8  Comp_11  Comp_16  Comp_25      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Comp_19  Comp_15   Comp_9   Comp_5      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Comp_1   Comp_3  Comp_23  Comp_12      N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Comp_14  Comp_13  Comp_17  Comp_18      N/A</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

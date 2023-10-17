@@ -603,11 +603,12 @@ ras.Fic_mass_balance_10.2.5 <- function(df_calc,
                                         Homogenate = "Hom_Conc._avg",
                                         Dilution_factor = "dilution",
                                         Buffer = "Buffer_Con._avg",
-                                        Stab = "Stab_Conc._avg") {
+                                        Stab = "Stab_Conc._avg",
+                                        mass_factor = 1.75) {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.2.5 =
-                    (.data[[Homogenate]]*.data[[Dilution_factor]] +.data[[Buffer]]*1.75)
-                    / .data[[Stab]] )
+      (.data[[Homogenate]]*.data[[Dilution_factor]] +.data[[Buffer]]*mass_factor)
+                                / .data[[Stab]] )
   return(df_calc)
 }
 #' Calculate A cell

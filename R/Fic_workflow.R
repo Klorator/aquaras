@@ -17,6 +17,7 @@
 #' @param prot_hom_value RegEx to filter by
 #' @param prot_hom_type RegEx to filter by
 #' @param V.medium RegEx to filter by
+#' @param MassBalance_2.5 Factor for calulating Mass Balance 10.2.5
 #' @param .compound Column name for compounds to prefix Sample_ID,
 #' `NULL` => "Analyte Peak Name"
 #' @param .checkValues Removes "<" from the values column to make sure it can
@@ -48,6 +49,7 @@ ras.Fic_workflow <- function(
     prot_hom_value = "Protein_conc._mg/mL",
     prot_hom_type = "hom",
     V.medium = 200,
+    MassBalance_2.5 = 1.75,
     .compound = "Analyte Peak Name",
     .checkValues = TRUE,
     .summarize = TRUE,
@@ -183,7 +185,8 @@ ras.Fic_workflow <- function(
     ras.Fic_mass_balance_10.2.5(Homogenate = {{name_DiluteHom}},
                                 Dilution_factor = {{name_dilution}},
                                 Buffer = {{name_buffer}},
-                                Stab = {{name_stab}})
+                                Stab = {{name_stab}},
+                                mass_factor = MassBalance_2.5,)
   df_calc <- df_calc %>%
     ras.Fic_A.cell(Cell = {{name_cell}})
   df_calc <- df_calc %>%
@@ -225,6 +228,7 @@ ras.Fic_workflow <- function(
 #' @param stab RegEx to filter by for stability values
 #' @param czero RegEx to filter by for C zero values values
 #' @param D Numeric value for D
+#' @param MassBalance_2.5 Factor for calulating Mass Balance 10.2.5
 #' @param .compound Column name for compounds to prefix Sample_ID,
 #' `NULL` => "Analyte Peak Name"
 #' @param .checkValues Removes "<" from the values column to make sure it can
@@ -251,6 +255,7 @@ ras.Fu_feces_workflow <- function(
     stab = "Stab",
     czero = "Czero",
     D = 4.8,
+    MassBalance_2.5 = 1.75
     .compound = "Analyte Peak Name",
     .checkValues = TRUE,
     .summarize = TRUE,
@@ -344,7 +349,8 @@ ras.Fu_feces_workflow <- function(
     ras.Fu_feces_mass_balance_10.2.5(Homogenate = {{name_DiluteHom}},
                                      Dilution_factor = Dilution_factor,
                                      Buffer = {{name_buffer}},
-                                     Stab = {{name_stab}})
+                                     Stab = {{name_stab}},
+                                     mass_factor = MassBalance_2.5)
 
   # Write df_calc to file ----
   fn <- basename(path.df)

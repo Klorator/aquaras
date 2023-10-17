@@ -266,7 +266,8 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
 #' @noRd
 ras.Fic_extract_timepoints <- function(df,
                                        values = "Conc.",
-                                       type = "Cell") {
+                                       type = "Cell",
+                                       .summarize = TRUE) {
   new_col <- paste0({{type}},"_",{{values}},"_avg")
 
   df_time <- df %>%
@@ -274,10 +275,16 @@ ras.Fic_extract_timepoints <- function(df,
     dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
     stats::na.omit({{values}})
 
-  df_time <- df_time %>%
-    dplyr::group_by(Sample_ID, Timepoint) %>%
-    dplyr::summarise({{new_col}} := mean(.data[[values]])) %>%
-    dplyr::ungroup()
+  if (.summarize) {
+    df_time <- df_time %>%
+      dplyr::group_by(Sample_ID, Timepoint) %>%
+      dplyr::summarise({{new_col}} := mean(.data[[values]])) %>%
+      dplyr::ungroup()
+  } else {
+    new_col <- paste0({{type}},"_",{{values}})
+    df_time <- df_time %>%
+      dplyr::mutate({{new_col}} := .data[[values]])
+  }
 
   return(df_time)
 }
@@ -419,9 +426,12 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
 #'  }
 ras.Fic_timepoint <- function(df,
                               values = "Conc.",
-                              types = c("Cell", "Medium")) {
-  df_cell <- ras.Fic_extract_timepoints(df, values, types[[1]])
-  df_medium <- ras.Fic_extract_timepoints(df, values, types[[2]])
+                              types = c("Cell", "Medium"),
+                              .summarize = TRUE) {
+  df_cell <- ras.Fic_extract_timepoints(df, values, types[[1]],
+                                        .summarize = .summarize)
+  df_medium <- ras.Fic_extract_timepoints(df, values, types[[2]],
+                                          .summarize = .summarize)
 
   p.cell <- ras.Fic_plot_timepoints(df_cell,
                                     values.avg = names(df_cell[3]),

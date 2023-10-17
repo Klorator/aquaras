@@ -17,6 +17,12 @@
 #' @param prot_hom_value RegEx to filter by
 #' @param prot_hom_type RegEx to filter by
 #' @param V.medium RegEx to filter by
+#' @param .compound Column name for compounds to prefix Sample_ID,
+#' `NULL` => "Analyte Peak Name"
+#' @param .checkValues Removes "<" from the values column to make sure it can
+#' be coerced to numeric.
+#' @param .summarize Summarize values into averages
+#' @param .SD Create column with Standard Deviation
 #'
 #' @return Dataframe with all variables, used & calculated
 #' @export
@@ -25,22 +31,27 @@
 #'   \dontrun{
 #'   # No example yet
 #'   }
-ras.Fic_workflow <- function(source = c("Waters","Sciex"),
-                             ID = "Sample_ID",
-                             values = "Conc.",
-                             Buffer = "HBSS",
-                             Dilution_type = "[:digit:]x",
-                             Dilution_extract = "[:digit:]+(?=x)",
-                             stab = "Stab",
-                             # czero = "Czero",
-                             # Kp = "CzeroKp",
-                             prot_czero_value = "mg_Protein",
-                             prot_czero_type = "Czero",
-                             prot_cell_value = "mg_Protein",
-                             prot_cell_type = "Cells",
-                             prot_hom_value = "Protein_conc._mg/mL",
-                             prot_hom_type = "hom",
-                             V.medium = 200) {
+ras.Fic_workflow <- function(
+    source = c("Waters","Sciex"),
+    ID = "Sample_ID",
+    values = "Conc.",
+    Buffer = "HBSS",
+    Dilution_type = "[:digit:]x",
+    Dilution_extract = "[:digit:]+(?=x)",
+    stab = "Stab",
+    # czero = "Czero",
+    # Kp = "CzeroKp",
+    prot_czero_value = "mg_Protein",
+    prot_czero_type = "Czero",
+    prot_cell_value = "mg_Protein",
+    prot_cell_type = "Cells",
+    prot_hom_value = "Protein_conc._mg/mL",
+    prot_hom_type = "hom",
+    V.medium = 200,
+    .compound = "Analyte Peak Name",
+    .checkValues = TRUE,
+    .summarize = TRUE,
+    .SD = TRUE) {
   # Set output directory
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
   # Load data ----
@@ -55,29 +66,34 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
                                       multi = FALSE)
     df <- readr::read_delim(path.df, delim = "\t")
-    .compound <- NULL
   }
   path.prot <- tcltk::tk_choose.files(caption = "Select Protein data",
                                       multi = FALSE)
   df_protein <- readxl::read_excel(path = path.prot)
 
   # Clean data ----
-  df_clean <- df %>% ras.Fic_cleanup(.compound = .compound)
+  df_clean <- df %>% ras.Fic_cleanup(.compound = .compound,
+                                     .checkValues = .checkValues)
   df_protein <- df_protein %>% ras.Fic_cleanup(.values = NULL,
-                                               .type = NULL)
+                                               .type = NULL,
+                                               .checkValues = FALSE)
 
   # Extract values ----
   df_buffer <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = Buffer)
+                           type = Buffer,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_buffer <- names(df_buffer[2])
 
   df_DiluteHom <- df_clean %>%
     ras.Fic_DiluteHom(values = values,
                       type = Dilution_type,
-                      type_extract = Dilution_extract)
-  name_DiluteHom <- names(df_DiluteHom[3])
-  name_dilution <- names(df_DiluteHom[4])
+                      type_extract = Dilution_extract,
+                      .summarize = .summarize,
+                      .SD = .SD)
+  name_DiluteHom <- names(df_DiluteHom[2])
+  name_dilution <- names(df_DiluteHom[3])
 
   df_DiluteHom_buffer <- ras.Fic_diff_sample_buffer(
     df_DiluteHom,
@@ -87,7 +103,8 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
     Homogenate_Conc.col = {{name_DiluteHom}})
 
   time_list <- df_clean %>%
-    ras.Fic_timepoint(values = values)
+    ras.Fic_timepoint(values = values,
+                      .summarize = .summarize)
   df_cell <- time_list[[1]]
   df_medium <- time_list[[2]]
 
@@ -96,7 +113,9 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
 
   df_stab <- df_clean %>%
     ras.Fic_extract_simple(values = values,
-                           type = stab)
+                           type = stab,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_stab <- names(df_stab[2])
 
   # df_czero <- df_clean %>%
@@ -109,17 +128,23 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
   # name_kp <- names(df_kp[2])
   df_czero <- df_protein %>%
     ras.Fic_extract_simple(values = prot_czero_value,
-                           type = prot_czero_type)
+                           type = prot_czero_type,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_czero <- names(df_czero[2])
 
   df_protCell <- df_protein %>%
     ras.Fic_extract_simple(values = prot_cell_value,
-                           type = prot_cell_type)
+                           type = prot_cell_type,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_protCell <- names(df_protCell[2])
 
   df_protHom <- df_protein %>%
     ras.Fic_extract_simple(values = prot_hom_value,
-                           type = prot_hom_type)
+                           type = prot_hom_type,
+                           .summarize = .summarize,
+                           .SD = .SD)
   name_protHom <- names(df_protHom[2])
 
   # Collect all variables in one dataframe ----
@@ -214,22 +239,23 @@ ras.Fic_workflow <- function(source = c("Waters","Sciex"),
 #'    \dontrun{
 #'   # No example yet
 #'   }
-ras.Fu_feces_workflow <- function(source = c("Sciex", "Waters"),
-                                  ID = "Sample Name",
-                                  Sample_type = "Sample Type",
-                                  values = "Calculated Concetration (nM)",
-                                  Buffer = "HBSS",
-                                  Dilution_type = "[:digit:]x",
-                                  Dilution_extract = "[:digit:]+(?=x)",
-                                  Dilution_factor = 1,
-                                  stab = "Stab",
-                                  czero = "Czero",
-                                  D = 4.8,
-                                  .compound = "Analyte Peak Name",
-                                  .checkValues = TRUE,
-                                  .summarize = TRUE,
-                                  .SD = TRUE
-                         ) {
+ras.Fu_feces_workflow <- function(
+    source = c("Sciex", "Waters"),
+    ID = "Sample Name",
+    Sample_type = "Sample Type",
+    values = "Calculated Concetration (nM)",
+    Buffer = "HBSS",
+    Dilution_type = "[:digit:]x",
+    Dilution_extract = "[:digit:]+(?=x)",
+    Dilution_factor = 1,
+    stab = "Stab",
+    czero = "Czero",
+    D = 4.8,
+    .compound = "Analyte Peak Name",
+    .checkValues = TRUE,
+    .summarize = TRUE,
+    .SD = TRUE
+  ) {
   # Set output directory
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
   # Load data ----

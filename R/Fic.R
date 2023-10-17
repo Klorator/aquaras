@@ -737,10 +737,11 @@ ras.Fu_feces_mass_balance_10.2.5 <- function(df_calc,
                                         Homogenate = "Hom_Conc._avg",
                                         Dilution_factor = 4.8,
                                         Buffer = "Buffer_Con._avg",
-                                        Stab = "Stab_Conc._avg") {
+                                        Stab = "Stab_Conc._avg",
+                                        mass_factor = 1.75) {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.2.5 =
-                    (.data[[Homogenate]]*Dilution_factor +.data[[Buffer]]*1.75)
-                  / .data[[Stab]] )
+      (.data[[Homogenate]]*Dilution_factor +.data[[Buffer]]*mass_factor)
+                            / .data[[Stab]] )
   return(df_calc)
 }

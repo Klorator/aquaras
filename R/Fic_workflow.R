@@ -186,7 +186,7 @@ ras.Fic_workflow <- function(
                                 Dilution_factor = {{name_dilution}},
                                 Buffer = {{name_buffer}},
                                 Stab = {{name_stab}},
-                                mass_factor = MassBalance_2.5,)
+                                mass_factor = MassBalance_2.5)
   df_calc <- df_calc %>%
     ras.Fic_A.cell(Cell = {{name_cell}})
   df_calc <- df_calc %>%
@@ -255,7 +255,7 @@ ras.Fu_feces_workflow <- function(
     stab = "Stab",
     czero = "Czero",
     D = 4.8,
-    MassBalance_2.5 = 1.75
+    MassBalance_2.5 = 1.75,
     .compound = "Analyte Peak Name",
     .checkValues = TRUE,
     .summarize = TRUE,

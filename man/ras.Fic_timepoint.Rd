@@ -4,7 +4,12 @@
 \alias{ras.Fic_timepoint}
 \title{Extract values for Cell & Medium (values w/ timepoints)}
 \usage{
-ras.Fic_timepoint(df, values = "Conc.", types = c("Cell", "Medium"))
+ras.Fic_timepoint(
+  df,
+  values = "Conc.",
+  types = c("Cell", "Medium"),
+  .summarize = TRUE
+)
 }
 \arguments{
 \item{df}{Dataframe from ras.Fic_cleanup().}

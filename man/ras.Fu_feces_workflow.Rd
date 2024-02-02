@@ -16,6 +16,7 @@ ras.Fu_feces_workflow(
   stab = "Stab",
   czero = "Czero",
   D = 4.8,
+  MassBalance_2.5 = 1.75,
   .compound = "Analyte Peak Name",
   .checkValues = TRUE,
   .summarize = TRUE,
@@ -44,6 +45,8 @@ ras.Fu_feces_workflow(
 \item{czero}{RegEx to filter by for C zero values values}
 
 \item{D}{Numeric value for D}
+
+\item{MassBalance_2.5}{Factor for calulating Mass Balance 10.2.5}
 
 \item{.compound}{Column name for compounds to prefix Sample_ID,
 \code{NULL} => "Analyte Peak Name"}

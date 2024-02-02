@@ -25,19 +25,19 @@ ras.Fic_cleanup <- function(df,
                             .checkValues = TRUE,
                             .split = "Sample.Text",
                             .compound = "Compound") {
-  if (!is.null(.values)) { # Omit NAs from value column
+  if (!is.na(.values)) { # Omit NAs from value column
     df <- df %>%
       dplyr::filter(!is.na(.data[[.values]]))
   }
 
-  if (!is.null(.type)) { # Filter Type
+  if (!is.na(.type)) { # Filter Type
     df <- df %>%
       dplyr::filter(!stringr::str_detect(df[[.type]], "[Bb]lank"))
     df <- df %>%
       dplyr::filter(!stringr::str_detect(df[[.type]], "Standard"))
   }
 
-  if (!is.null(.sample.text)) { # Filter Sample.Text
+  if (!is.na(.sample.text)) { # Filter Sample.Text
     df <- df %>%
       dplyr::filter(
               !is.na({{.sample.text}}),
@@ -52,7 +52,7 @@ ras.Fic_cleanup <- function(df,
       dplyr::mutate({{.values}} := stringr::str_remove(.data[[{{.values}}]], "<"))
   }
 
-  if (!is.null(.split)) { # Split Sample.Text into multiple columns
+  if (!is.na(.split)) { # Split Sample.Text into multiple columns
     df <- df %>%
       tidyr::separate_wider_delim(
         {{.split}}, delim = "_",
@@ -61,10 +61,11 @@ ras.Fic_cleanup <- function(df,
                   "Timepoint",
                   "Replicate"),
         too_few = "align_start",
+        too_many = "merge",
         cols_remove = F)
   }
 
-  if (!is.null(.compound)) { # Combine compound with Sample_ID
+  if (!is.na(.compound)) { # Combine compound with Sample_ID
     df <- df %>%
       dplyr::mutate(Sample_ID = stringr::str_c(df[[.compound]], Sample_ID,
                                                sep = "_"))
@@ -110,7 +111,7 @@ ras.Fic_extract_simple <- function(df,
   if (.SD) {
     df_extract <- df_extract %>%
       dplyr::group_by(Sample_ID) %>%
-      dplyr::mutate({{sd_col}} := stats::sd(.data[[values]])) %>%
+      dplyr::mutate({{sd_col}} := stats::sd(.data[[values]], na.rm = T)) %>%
       dplyr::ungroup()
   } else {
     df_extract <- df_extract %>%
@@ -124,8 +125,8 @@ ras.Fic_extract_simple <- function(df,
     sd_col <- paste0(sd_col,"_avg")
     df_extract <- df_extract %>%
       dplyr::group_by(Sample_ID) %>%
-      dplyr::summarise({{value_col}} := mean(.data[[values]]),
-                       {{sd_col}} := mean(.data[[sd_col2]]))
+      dplyr::summarise({{value_col}} := mean(.data[[values]], na.rm = T),
+                       {{sd_col}} := mean(.data[[sd_col2]]), na.rm = T)
   } else {
     value_col <- paste0({{type}},"_",{{values}})
     df_extract <- df_extract %>%
@@ -175,7 +176,7 @@ ras.Fic_DiluteHom <- function(df,
   if (.SD) {
     df_DiluteHom <- df_DiluteHom %>%
       dplyr::group_by(Sample_ID) %>%
-      dplyr::mutate({{sd_col}} := stats::sd(.data[[values]])) %>%
+      dplyr::mutate({{sd_col}} := stats::sd(.data[[values]], na.rm = T)) %>%
       dplyr::ungroup()
   } else {
     df_DiluteHom <- df_DiluteHom %>%
@@ -189,8 +190,8 @@ ras.Fic_DiluteHom <- function(df,
     sd_col <- paste0(sd_col, "_avg")
     df_DiluteHom <- df_DiluteHom %>%
       dplyr::group_by(Sample_ID, LiquidType) %>%
-      dplyr::summarise({{hom_col}} := mean(.data[[values]]),
-                       {{sd_col}} := mean(.data[[sd_col2]])) %>%
+      dplyr::summarise({{hom_col}} := mean(.data[[values]], na.rm = T),
+                       {{sd_col}} := mean(.data[[sd_col2]], na.rm = T)) %>%
       dplyr::ungroup()
   } else {
     hom_col <- paste0("Homogenate_Conc.")
@@ -232,9 +233,11 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
                                    ID.col = "Sample_ID",
                                    Buffer_Conc.col = "Buffer_Conc._avg",
                                    Homogenate_Conc.col = "Homogenate_Conc._avg") {
-  df_combined <- dplyr::inner_join(df_DiluteHom,
-                                   df_buffer,
-                                   by = {{ID.col}})
+  df_combined <- dplyr::inner_join(
+    df_DiluteHom,
+    df_buffer,
+    by = {{ID.col}}
+  )
 
   hom_len <- length(df_DiluteHom[[ID.col]])
   buf_len <- length(df_buffer[[ID.col]])
@@ -260,6 +263,7 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
 #' @param values Name of the column to use for values
 #' @param type String to filter the column `LiquidType` by. Used to name
 #' the `*_Conc.avg` column.
+#' @param .summarize Summarize values into averages
 #'
 #' @return Dataframe with columns `Sample_ID`, `LiquidType`, `Timepoint`,
 #' `{{values}}`, & `{{type}}_{{values}}_avg`.
@@ -278,7 +282,7 @@ ras.Fic_extract_timepoints <- function(df,
   if (.summarize) {
     df_time <- df_time %>%
       dplyr::group_by(Sample_ID, Timepoint) %>%
-      dplyr::summarise({{new_col}} := mean(.data[[values]])) %>%
+      dplyr::summarise({{new_col}} := mean(.data[[values]], na.rm = T)) %>%
       dplyr::ungroup()
   } else {
     new_col <- paste0({{type}},"_",{{values}})
@@ -416,6 +420,7 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
 #' @param df Dataframe from ras.Fic_cleanup().
 #' @param values Name of the column to use for values.
 #' @param types Vector with the types to select timepoints for. (Cell & Medium)
+#' @param .summarize Summarize values into averages
 #'
 #' @return List of dataframes with the selected timepoints
 #' @export
@@ -471,33 +476,61 @@ ras.Fic_timepoint <- function(df,
 #'
 #' @param samples Dataframe with one column, sample names to expand to
 #' @param df Dataframe with samples and values to expand
-#' @param ID_col Column name for Sample_ID
+#' @param values Column name for values in `df`
 #'
 #' @return Dataframe with Sample_ID & values column, like from ras.Fic_extract_simple()
 #' @noRd
 ras.Fic_expand <- function(samples,
                            df,
-                           ID_col = "Sample_ID") {
-  short_ID <- df[[1]]
-  values_prot <- names(df[2])
+                           values = "Cells_mg_Protein") {
+
+
+
   samples <- samples %>%
     dplyr::mutate(ID = stringr::str_extract(samples[[1]], "(?<=_)[:alnum:]+$"))
 
-  df_new <- tibble::tibble()
-  for (i in seq_along(short_ID)) {
-    df_temp <- samples %>%
-      dplyr::filter(ID == short_ID[[i]]) %>%
-      dplyr::mutate({{values_prot}} := df[ df[ID_col] == short_ID[[i]], {{values_prot}}])
-    df_new <- dplyr::bind_rows(df_new, df_temp)
-  }
-  df_new <- as.list(df_new)
-  df_new <- do.call(cbind, df_new)
-  df_new <- as.data.frame(df_new)
-
-  df_new <- df_new %>%
+  df_expand <- dplyr::full_join(
+    samples,
+    df,
+    by = dplyr::join_by(ID == Sample_ID)
+  ) %>%
     dplyr::select(-ID)
+  df_expand <- df_expand %>%
+    dplyr::group_by(Sample_ID, .data[[values]]) %>%
+    dplyr::filter(duplicated(values) == TRUE)
 
-  return(df_new)
+  return(df_expand)
+
+
+# print(df)
+#
+#     short_ID <- df[[1]]
+#     values_prot <- names(df[2])
+#     samples <- samples %>%
+#       dplyr::mutate(ID = stringr::str_extract(samples[[1]], "(?<=_)[:alnum:]+$"))
+#
+# print(short_ID)
+# print(values_prot)
+# print(samples)
+#
+#     df_new <- tibble::tibble()
+#     for (i in seq_along(short_ID)) {
+#       df_temp <- samples %>%
+#         dplyr::filter(ID == short_ID[[i]]) %>%
+#         dplyr::mutate({{values_prot}} := df[ df[values] == short_ID[[i]], {{values_prot}}])
+#       df_new <- dplyr::bind_rows(df_new, df_temp)
+#     }
+#     df_new <- as.list(df_new)
+#     df_new <- do.call(cbind, df_new)
+#     df_new <- as.data.frame(df_new)
+#
+#     df_new <- df_new %>%
+#       dplyr::select(-ID)
+#
+#     return(df_new)
+
+
+
 }
 #' Collect a list of variables in the same dataframe
 #'

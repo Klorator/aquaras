@@ -12,13 +12,18 @@ ras.Fic_workflow(
   Dilution_type = "[:digit:]x",
   Dilution_extract = "[:digit:]+(?=x)",
   stab = "Stab",
-  prot_czero_value = "mg_Protein",
-  prot_czero_type = "Czero",
+  czero = "Czero",
   prot_cell_value = "mg_Protein",
   prot_cell_type = "Cells",
   prot_hom_value = "Protein_conc._mg/mL",
   prot_hom_type = "hom",
-  V.medium = 200
+  V.medium = 200,
+  MassBalance_2.5 = 1.75,
+  .compound = "Analyte Peak Name",
+  .checkValues = TRUE,
+  prot_.split = "Sample Text",
+  .summarize = TRUE,
+  .SD = TRUE
 )
 }
 \arguments{
@@ -38,10 +43,6 @@ ras.Fic_workflow(
 czero RegEx to filter by for C zero values
 Kp RegEx to filter by for kp values}
 
-\item{prot_czero_value}{Column name, czero from protein dataframe}
-
-\item{prot_czero_type}{RegEx to filter by for C zero values}
-
 \item{prot_cell_value}{Column name for values}
 
 \item{prot_cell_type}{RegEx to filter by}
@@ -51,6 +52,24 @@ Kp RegEx to filter by for kp values}
 \item{prot_hom_type}{RegEx to filter by}
 
 \item{V.medium}{RegEx to filter by}
+
+\item{MassBalance_2.5}{Factor for calulating Mass Balance 10.2.5}
+
+\item{.compound}{Column name for compounds to prefix Sample_ID,
+\code{NULL} => "Analyte Peak Name"}
+
+\item{.checkValues}{Removes "<" from the values column to make sure it can
+be coerced to numeric.}
+
+\item{prot_.split}{Column name to split for samples in protein dataframe}
+
+\item{.summarize}{Summarize values into averages}
+
+\item{.SD}{Create column with Standard Deviation}
+
+\item{prot_czero_value}{Column name, czero from protein dataframe}
+
+\item{prot_czero_type}{RegEx to filter by for C zero values}
 }
 \value{
 Dataframe with all variables, used & calculated

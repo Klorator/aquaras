@@ -2,13 +2,14 @@ Type: Package
 Package: aquaras
 Title: Data processing related to MassLynx
 Version: 0.1.3
-Author: Rasmus Hammar
-Maintainer: Rasmus Hammar <Rasmus.Hammar@gmx.com>
+Authors@r: person("Rasmus", "Hammar", 
+  email = "Rasmus.Hammar@gmx.com",
+  role = c("aut", "cre"))
 Description: Pre-LC/MS run: Provides tools for working with runlists to
     use with MassLynx (Waters LC/MS software).  Calling
     ras.RunlistGenerator() launches a Shiny app that lets you create the
     full data frame and a runlist. Alternatively, ras.create.Runlist() may
-    be used directly.  Post-LC/MS run: Use ras.SplitOutput() to split the
+    be used directly.  Post-LC/MS run, Use ras.SplitOutput() to split the
     MassLynx complete summary output file into individual data frames and
     write them to files. Unless clean = FALSE, this removes blanks and
     splits the "Name" and "Sample Name" columns according to the pre-LC/MS
@@ -40,3 +41,5 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+URL: https://github.com/Klorator/aquaras
+BugReports: https://github.com/Klorator/aquaras/issues

@@ -20,7 +20,6 @@
 #'                                                   mustWork = TRUE))
 #' head(dataLines)
 #' }
-#'
 ras.loadFile = function(sourceFile) {
   dataLines =
     readr::read_lines(sourceFile, skip_empty_rows = T) %>% # Load file
@@ -51,7 +50,6 @@ ras.loadFile = function(sourceFile) {
 #' listDF = ras.splitDataLines(dataLines)
 #' listDF
 #' }
-#'
 ras.splitDataLines = function(dataLines) {
   # Create variables -----------------------------------------------------------
   fileSep = "\t"        # Delimiter in file
@@ -122,7 +120,6 @@ ras.splitDataLines = function(dataLines) {
 #' listDF.clean = ras.cleanDF(listDF)
 #' listDF.clean
 #' }
-#'
 ras.cleanDF = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%

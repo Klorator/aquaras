@@ -17,6 +17,8 @@ ras.Fic_timepoint(
 \item{values}{Name of the column to use for values.}
 
 \item{types}{Vector with the types to select timepoints for. (Cell & Medium)}
+
+\item{.summarize}{Summarize values into averages}
 }
 \value{
 List of dataframes with the selected timepoints

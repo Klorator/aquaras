@@ -16,6 +16,7 @@ List of data frames
 Split the file loaded with \code{\link[=ras.loadFile]{ras.loadFile()}} into dataframes by compound.
 }
 \examples{
+  \dontrun{
 # Setup
 dataLines = ras.loadFile(sourceFile = system.file("extdata",
                                                   "Example_MLOutput.txt",
@@ -24,6 +25,7 @@ dataLines = ras.loadFile(sourceFile = system.file("extdata",
 ### Ignore the "New names:" output.
 listDF = ras.splitDataLines(dataLines)
 listDF
+}
 }
 \seealso{
 Other SplitOutput: 

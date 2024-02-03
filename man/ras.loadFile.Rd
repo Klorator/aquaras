@@ -16,11 +16,13 @@ A list of all lines in source file with "END" appended as the last line
 Asks the user for a source file and loads it with \code{\link[readr:read_lines]{readr::read_lines()}}.
 }
 \examples{
+  \dontrun{
 dataLines = ras.loadFile(sourceFile = system.file("extdata",
                                                   "Example_MLOutput.txt",
                                                   package = "aquaras",
                                                   mustWork = TRUE))
 head(dataLines)
+}
 }
 \seealso{
 Other SplitOutput: 

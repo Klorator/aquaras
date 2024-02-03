@@ -17,6 +17,7 @@ Cleans each data frame by removing blanks and NAs. Also separates Name and
 Sample Text into its composite columns.
 }
 \examples{
+  \dontrun{
 # Setup
 dataLines = ras.loadFile(sourceFile = system.file("extdata",
                                                   "Example_MLOutput.txt",
@@ -27,6 +28,7 @@ listDF = ras.splitDataLines(dataLines)
 
 listDF.clean = ras.cleanDF(listDF)
 listDF.clean
+}
 }
 \seealso{
 Other SplitOutput: 

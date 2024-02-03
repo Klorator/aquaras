@@ -25,7 +25,7 @@ specified compound and well type.
 }
 \examples{
 # Setup
-full.list = Example_Runlist
+full.list = ras.Example_Runlist
 blank.max = 5
 df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte") # All sample rows
 Runlist = tibble::tibble(
@@ -52,7 +52,6 @@ Runlist1
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{aquaras.server}()},
 \code{\link{ras.RunlistGenerator}()},
 \code{\link{ras.add.blank}()},
 \code{\link{ras.add.compound}()},
@@ -60,6 +59,7 @@ Other RunlistGenerator:
 \code{\link{ras.darkModeDF_Options}()},
 \code{\link{ras.dateSignAll.update}()},
 \code{\link{ras.sanitizeInput}()},
+\code{\link{ras.server}()},
 \code{\link{ras.well.update}()}
 }
 \concept{RunlistGenerator}

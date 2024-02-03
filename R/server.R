@@ -40,9 +40,9 @@ options(reactable.theme = reactable::reactableTheme(
 #'
 #' @examples
 #'  \dontrun{
-#' shiny::shinyApp(ui = aquaras.ui, server = aquaras.server)
+#' shiny::shinyApp(ui = ras.ui, server = ras.server)
 #' }
-aquaras.server = function(input, output, session) {
+ras.server = function(input, output, session) {
   # Load data --------------------------------------------------------------------
   sample.type.choices = c("Bead" = "bead", # Well Type options
                           "Medium" = "medium",

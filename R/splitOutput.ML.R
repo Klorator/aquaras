@@ -10,7 +10,7 @@
 #'
 #' @returns A list of all lines in source file with "END" appended as the last line
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -37,7 +37,7 @@ ras.loadFile = function(sourceFile) {
 #' @param dataLines List of vectors from [readr::read_lines()] in [ras.loadFile()]
 #'
 #' @return List of data frames
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -60,17 +60,15 @@ ras.splitDataLines = function(dataLines) {
   listDF = list()       # List to store compiled df:s in
   checkNewDF = FALSE    # Create Boolean check for 1st df
   # Split file by data frame ---------------------------------------------------
+    ## ---- Replace loops with apply functions (https://www.youtube.com/watch?v=lsgA6AH5dnM) -------
   for(i in 1:length(dataLines)) {                            # Iterate over data lines
     if( stringr::str_detect(dataLines[[i]], "^Compound") == TRUE ) {  # Check if line is Compound name
       if( checkNewDF == TRUE ) {                             # Check if df needs to be compiled
-        tempDF = tempDF_rows %>%                             # Compile df
-          purrr::map_dfr(function(x) {
-            x = unlist(x)
-            x = purrr::set_names(x, tempDF_header[[1]])
-            x
-          } ) %>%
-          tibble::as_tibble()
-        listDF[[tempDF_name]] = tempDF           # Save df in list
+        tempDF <- data.frame(Reduce(rbind, tempDF_rows))  # Turn into data frame
+        tempDF <- setNames(tempDF, tempDF_header[[1]])    # Set column names
+        tempDF <- data.frame(tempDF, row.names = 1)       # Set numbering index column as row names
+        tempDF <- tibble::as_tibble(tempDF)               # Convert to tibble
+        listDF[[tempDF_name]] = tempDF                    # Save df in list
       }
       checkNewDF = TRUE                            # New df started
       tempDF_name = gsub(": ", "", dataLines[[i]]) # Save compound name & remove ": "
@@ -83,24 +81,21 @@ ras.splitDataLines = function(dataLines) {
       next                                              # Skip to next iteration/line
     }
     if( stringr::str_detect(dataLines[[i]], "^END") == TRUE ) {  # Check if line is end of file
-      tempDF = tempDF_rows %>%                          # Compile df
-        purrr::map_dfr(function(x) {
-          x = unlist(x)
-          x = purrr::set_names(x, tempDF_header[[1]])
-          x
-        } ) %>%
-        tibble::as_tibble()
+      tempDF <- data.frame(Reduce(rbind, tempDF_rows))  # Turn into data frame
+      tempDF <- setNames(tempDF, tempDF_header[[1]])    # Set column names
+      tempDF <- data.frame(tempDF, row.names = 1)       # Set numbering index column as row names
+      tempDF <- tibble::as_tibble(tempDF)               # Convert to tibble
       listDF[[tempDF_name]] = tempDF                    # Save df in list
       tempDF_rows = list()                              # Empty tempDF_rows
       break                                             # End for loop
     }
     new_row = stringr::str_split(dataLines[[i]], fileSep)        # Split line by delimiter
-    tempDF_rows[[length(tempDF_rows)+1]] = new_row      # Add new row to list
+    tempDF_rows[[length(tempDF_rows)+1]] = unlist(new_row)      # Add new row to list
   }                                                     # Repeat for loop
   return(listDF) # Return list of data frames
 }
 
-#' Clean list of data frames
+#' Clean list of data frames (depreciated?)
 #'
 #' Cleans each data frame by removing blanks and NAs. Also separates Name and
 #' Sample Text into its composite columns.
@@ -110,7 +105,7 @@ ras.splitDataLines = function(dataLines) {
 #' @param listDF List of data frames to clean
 #'
 #' @return List of data frames
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
@@ -128,14 +123,15 @@ ras.splitDataLines = function(dataLines) {
 ras.cleanDF = function(listDF) {
   for(i in 1:length(listDF)) {
     listDF[[i]] = listDF[[i]] %>%
-      dplyr::filter(`Sample Text` != "blank") %>% # Drop "blank"
-      tidyr::separate(col = Name,
+      janitor::clean_names() %>%
+      dplyr::filter(sample_text != "Blank") %>% # Drop "blank"
+      tidyr::separate(col = name,
                       into = c("Date",
                                "Signature",
                                "Index",
                                "Internal row"),
                       sep = "_") %>%
-      tidyr::separate(col = `Sample Text`,
+      tidyr::separate(col = sample_text,
                       into = c("Compound",
                                "Timepoint",       # Split "Sample text" into columns
                                "Well_Type",
@@ -154,21 +150,22 @@ ras.cleanDF = function(listDF) {
 #' @param listDF List of data frames to write to files
 #' @param sourceFile Source file for locating what directory to write to
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #'   \dontrun{
 #' ras.writeFiles(listDF, sourceFile)
 #' }
 ras.writeFiles = function(listDF, sourceFile) {
-  old_directory = getwd()          # Save current working directory
-  sourceFile %>%
-    dirname() %>%                  # Get directory of source file
-    setwd()                        # Set file directory as working directory
-  sourceFile_name = sourceFile %>% basename() # Name of source file
-  sourceFile_name = gsub("\\..{1, }$", " - ", sourceFile_name) # Replace file extension
-  for(i in 1:length(listDF)) {
-    newFileName = paste0(sourceFile_name, names(listDF[i]), ".txt") # Concatenate new file name
+  old_directory = getwd()                 # Save current working directory
+  sourceDirectory <- dirname(sourceFile)  # Get directory of source file
+  sourceFile_name = basename(sourceFile)  # Name of source file
+  fileName_base = gsub("\\..{1, }$", "", sourceFile_name) # Remove file extension
+  newDirectory <- paste0(sourceDirectory, "/", fileName_base) # New directory path
+  dir.create(newDirectory)                # Create a new directory
+  setwd(newDirectory)                     # Set new directory as working directory
+  for(i in seq_along(listDF)) {
+    newFileName = paste0(fileName_base, " - ", names(listDF[i]), ".txt") # Concatenate new file name
     listDF[[i]] %>% readr::write_tsv(file = newFileName)    # Write to file
   }
   setwd(old_directory)                                      # Go back to old working directory
@@ -183,19 +180,19 @@ ras.writeFiles = function(listDF, sourceFile) {
 #'  output in the console that is not particularly interesting but lets you know
 #'   it's doing something.
 #' ## clean = TRUE
-#' These data frames are cleaned by [ras.cleanDF()] (unless clean = FALSE).
+#' These data frames are cleaned by ras.cleanDF() (unless clean = FALSE).
 #' ## write = TRUE
 #' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Data frames written to tsv files
 #'  in the same directory as the source file. Use write = FALSE to disable this.
 #'
 #' @family SplitOutput
 #'
-#' @param sourceFile A file path
-#' @param clean Defaults to TRUE for data cleaning
+#' @param sourceFiles A character vector with one or more file paths
+#' @param clean Defaults to FALSE for data cleaning
 #' @param write Defaults to TRUE for writing to file system
 #'
 #' @return Writes a tsv file per compound to the same directory as the source file.
-#' @return Also returns the list of data frames
+#' @return Also returns the nested list of data frames for each file
 #' @export
 #'
 #' @examples
@@ -213,14 +210,84 @@ ras.writeFiles = function(listDF, sourceFile) {
 #' listDF
 #' }
 #'
-ras.SplitOutput = function(sourceFile = file.choose(), clean = TRUE, write = TRUE) {
+ras.SplitOutput = function(sourceFiles = tcltk::tk_choose.files(),
+                           clean = FALSE,
+                           write = TRUE) {
+  listFile <- list()
+  for (SF in sourceFiles) {
   # Load file
-  dataLines = ras.loadFile(sourceFile = sourceFile)
+  dataLines = ras.loadFile(sourceFile = SF)
   # Split dataLines into data frames
   listDF = ras.splitDataLines(dataLines)
   # Clean data frames
   if ( clean == TRUE ) {listDF = ras.cleanDF(listDF)}
   # Write each data frame to a separate .txt file
-  if ( write == TRUE ) {ras.writeFiles(listDF, sourceFile)}
+  if ( write == TRUE ) {ras.writeFiles(listDF, SF)}
+  # Store listDF in listFile using original file name
+  listDF_fileName <- SF %>% basename()
+  listFile[[listDF_fileName]] <- listDF
+  }
+  return(listFile)
+}
+#' Stack dataframes
+#'
+#' Mutate the individual dataframes with a "Compound" column and
+#' rowbind them with reduce.
+#'
+#' @param listDF List of dataframes to stack
+#'
+#' @return List of stacked dataframes
+#' @noRd
+ras.stack_dataframes <- function(listDF) {
+  compound_names <- names(listDF)
+  compound_names <- stringr::str_extract(compound_names, "(?<=^Compound[:blank:][:digit:]{1,5}[:blank:]).+$")
+  compound_names <- stringr::str_replace_all(compound_names, "[:blank:]", "_")
+  for (i in seq_along(listDF)) {
+    listDF[[i]] <- dplyr::mutate(listDF[[i]],
+                                 Compound = compound_names[[i]])
+  }
+  DF <- purrr::reduce(listDF, dplyr::bind_rows)
+  listDF <- list(DF)
   return(listDF)
+}
+#' Stack MassLynx output file
+#'
+#' Stacks the MassLynx complete summary output file into a single dataframe.
+#' Adds a column with what compound was used.
+#' Behaves like [ras.SplitOutput()].
+#' ## write = TRUE
+#' **!!! DEFAULT IS TO WRITE TO FILE SYSTEM !!!** Data frames written to tsv files
+#'  in the same directory as the source file. Use write = FALSE to disable this.
+#'
+#' @family SplitOutput
+#'
+#' @param sourceFiles A character vector with one or more file paths
+#' @param write Defaults to TRUE for writing to file system
+#'
+#' @return Writes a tsv file per compound to the same directory as the source file.
+#' @return Also returns the nested list of data frames for each file
+#' @export
+#'
+#' @examples
+#'   \dontrun{
+#'   # See ras.SplitOutput() for now
+#'   }
+ras.StackOutput <- function(sourceFiles = tcltk::tk_choose.files(
+  caption = "Select MassLynx output file"),
+                            write = TRUE) {
+  listFile <- list()
+  for (SF in sourceFiles) {
+    # Load file
+    dataLines <- ras.loadFile(sourceFile = SF)
+    # Split dataLines into data frames
+    listDF <- ras.splitDataLines(dataLines)
+    # Stack dataframes with bindrows
+    listDF <- ras.stack_dataframes(listDF)
+    # Write each data frame to a separate .txt file
+    if ( write == TRUE ) {ras.writeFiles(listDF, SF)}
+    # Store listDF in listFile using original file name
+    DF_fileName <- SF %>% basename()
+    listFile[[DF_fileName]] <- listDF[[1]]
+  }
+  return(listFile)
 } # DONE! :)

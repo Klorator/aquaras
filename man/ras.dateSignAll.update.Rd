@@ -21,15 +21,14 @@ Update Date, Signature, & Sample_name for the entire data frame.
 Sample_name is a composite in the format "date_signature_index".
 }
 \examples{
-head(Example_Runlist)
-Example_Runlist1 = ras.dateSignAll.update(df = Example_Runlist,
+head(ras.Example_Runlist)
+Example_Runlist1 = ras.dateSignAll.update(df = ras.Example_Runlist,
                                           date      = "20220730",
                                           signature = "RH")
 head(Example_Runlist1)
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{aquaras.server}()},
 \code{\link{ras.RunlistGenerator}()},
 \code{\link{ras.add.blank}()},
 \code{\link{ras.add.compound}()},
@@ -37,6 +36,7 @@ Other RunlistGenerator:
 \code{\link{ras.create.Runlist}()},
 \code{\link{ras.darkModeDF_Options}()},
 \code{\link{ras.sanitizeInput}()},
+\code{\link{ras.server}()},
 \code{\link{ras.well.update}()}
 }
 \concept{RunlistGenerator}

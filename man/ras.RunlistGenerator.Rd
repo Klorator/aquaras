@@ -19,7 +19,6 @@ ras.RunlistGenerator() # Launches the Shiny GUI.
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{aquaras.server}()},
 \code{\link{ras.add.blank}()},
 \code{\link{ras.add.compound}()},
 \code{\link{ras.add.type}()},
@@ -27,6 +26,7 @@ Other RunlistGenerator:
 \code{\link{ras.darkModeDF_Options}()},
 \code{\link{ras.dateSignAll.update}()},
 \code{\link{ras.sanitizeInput}()},
+\code{\link{ras.server}()},
 \code{\link{ras.well.update}()}
 }
 \concept{RunlistGenerator}

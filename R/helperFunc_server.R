@@ -15,8 +15,8 @@
 #' @export
 #'
 #' @examples
-#' Example_Runlist[1,]
-#' Example_Runlist1 = ras.well.update(df = Example_Runlist,
+#' ras.Example_Runlist[1,]
+#' Example_Runlist1 = ras.well.update(df = ras.Example_Runlist,
 #'                                    well.current = "3:A,1",
 #'                                    date         = "20220730",
 #'                                    signature    = "RH",
@@ -69,8 +69,8 @@ ras.well.update = function(df, well.current, date, signature,
 #' @export
 #'
 #' @examples
-#' head(Example_Runlist)
-#' Example_Runlist1 = ras.dateSignAll.update(df = Example_Runlist,
+#' head(ras.Example_Runlist)
+#' Example_Runlist1 = ras.dateSignAll.update(df = ras.Example_Runlist,
 #'                                           date      = "20220730",
 #'                                           signature = "RH")
 #' head(Example_Runlist1)

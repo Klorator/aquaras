@@ -2,9 +2,11 @@ Type: Package
 Package: aquaras
 Title: Data processing related to MassLynx
 Version: 0.1.3
-Authors@r: person("Rasmus", "Hammar", 
-  email = "Rasmus.Hammar@gmx.com",
-  role = c("aut", "cre"))
+Authors@r: c(
+  person("Rasmus", "Hammar", 
+    email = "Rasmus.Hammar@gmx.com",
+    role = c("aut", "cre"))
+  )
 Description: Pre-LC/MS run: Provides tools for working with runlists to
     use with MassLynx (Waters LC/MS software).  Calling
     ras.RunlistGenerator() launches a Shiny app that lets you create the
@@ -21,15 +23,22 @@ Imports:
     dplyr,
     DT,
     ggplot2,
+    janitor,
     magrittr,
+    openxlsx,
     purrr,
     reactable,
     readr,
+    readxl,
     shiny,
+    shinyjs,
     shinythemes,
+    stats,
     stringr,
+    tcltk,
     tibble,
-    tidyr
+    tidyr,
+    tidyselect
 Suggests: 
     knitr,
     rmarkdown,

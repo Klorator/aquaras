@@ -31,7 +31,7 @@
 #'
 #' @examples
 #' # Setup
-#' full.list = Example_Runlist
+#' full.list = ras.Example_Runlist
 #' blank.max = 5
 #' df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>% # All blank rows
 #'   dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -104,7 +104,7 @@ ras.add.blank = function(Runlist, df.blank, blank.insert) {
 #'
 #' @examples
 #' # Setup
-#' full.list = Example_Runlist
+#' full.list = ras.Example_Runlist
 #' blank.max = 5
 #' df.analyte = dplyr::filter(full.list, full.list$LC_Well_Type == "Analyte") # All sample rows
 #' Runlist = tibble::tibble(
@@ -173,7 +173,7 @@ ras.add.type = function(Runlist, df.analyte, compound, wellType) {
 #'
 #' @examples
 #' # Setup
-#' full.list = Example_Runlist
+#' full.list = ras.Example_Runlist
 #' blank.max = 5
 #' df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") %>% # All blank rows
 #'   dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -237,7 +237,7 @@ ras.add.compound = function(Runlist, df.analyte, df.blank,
 #'
 #' @examples
 #' # Setup
-#' full.list = Example_Runlist
+#' full.list = ras.Example_Runlist
 #' head(full.list)
 #'
 #' # Run function

@@ -31,5 +31,5 @@
 #' }
 ras.RunlistGenerator = function() {
   ras.darkModeDF_Options()
-  shiny::shinyApp(aquaras.ui, aquaras.server)
+  shiny::shinyApp(ras.ui, ras.server)
 }

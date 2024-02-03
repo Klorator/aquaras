@@ -39,8 +39,8 @@ Same data frame, but with updated row
 Update well info
 }
 \examples{
-Example_Runlist[1,]
-Example_Runlist1 = ras.well.update(df = Example_Runlist,
+ras.Example_Runlist[1,]
+Example_Runlist1 = ras.well.update(df = ras.Example_Runlist,
                                    well.current = "3:A,1",
                                    date         = "20220730",
                                    signature    = "RH",
@@ -52,7 +52,6 @@ Example_Runlist1[1,]
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{aquaras.server}()},
 \code{\link{ras.RunlistGenerator}()},
 \code{\link{ras.add.blank}()},
 \code{\link{ras.add.compound}()},
@@ -60,6 +59,7 @@ Other RunlistGenerator:
 \code{\link{ras.create.Runlist}()},
 \code{\link{ras.darkModeDF_Options}()},
 \code{\link{ras.dateSignAll.update}()},
-\code{\link{ras.sanitizeInput}()}
+\code{\link{ras.sanitizeInput}()},
+\code{\link{ras.server}()}
 }
 \concept{RunlistGenerator}

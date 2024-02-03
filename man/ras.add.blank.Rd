@@ -25,7 +25,7 @@ Function used within \code{\link[=ras.create.Runlist]{ras.create.Runlist()}} to 
 }
 \examples{
 # Setup
-full.list = Example_Runlist
+full.list = ras.Example_Runlist
 blank.max = 5
 df.blank = dplyr::filter(full.list, full.list$LC_Well_Type == "blank") \%>\% # All blank rows
   dplyr::mutate(Draw_Max = blank.max, Draw_Count = 0)
@@ -53,7 +53,6 @@ Runlist1
 }
 \seealso{
 Other RunlistGenerator: 
-\code{\link{aquaras.server}()},
 \code{\link{ras.RunlistGenerator}()},
 \code{\link{ras.add.compound}()},
 \code{\link{ras.add.type}()},
@@ -61,6 +60,7 @@ Other RunlistGenerator:
 \code{\link{ras.darkModeDF_Options}()},
 \code{\link{ras.dateSignAll.update}()},
 \code{\link{ras.sanitizeInput}()},
+\code{\link{ras.server}()},
 \code{\link{ras.well.update}()}
 }
 \concept{RunlistGenerator}

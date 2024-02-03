@@ -4,19 +4,23 @@
 \alias{ras.SplitOutput}
 \title{Split MassLynx output file}
 \usage{
-ras.SplitOutput(sourceFile = file.choose(), clean = TRUE, write = TRUE)
+ras.SplitOutput(
+  sourceFiles = tcltk::tk_choose.files(),
+  clean = FALSE,
+  write = TRUE
+)
 }
 \arguments{
-\item{sourceFile}{A file path}
+\item{sourceFiles}{A character vector with one or more file paths}
 
-\item{clean}{Defaults to TRUE for data cleaning}
+\item{clean}{Defaults to FALSE for data cleaning}
 
 \item{write}{Defaults to TRUE for writing to file system}
 }
 \value{
 Writes a tsv file per compound to the same directory as the source file.
 
-Also returns the list of data frames
+Also returns the nested list of data frames for each file
 }
 \description{
 Splits the MassLynx complete summary output file into individual data frames
@@ -30,7 +34,7 @@ it's doing something.
 
 \subsection{clean = TRUE}{
 
-These data frames are cleaned by \code{\link[=ras.cleanDF]{ras.cleanDF()}} (unless clean = FALSE).
+These data frames are cleaned by ras.cleanDF() (unless clean = FALSE).
 }
 
 \subsection{write = TRUE}{
@@ -57,9 +61,6 @@ listDF
 }
 \seealso{
 Other SplitOutput: 
-\code{\link{ras.cleanDF}()},
-\code{\link{ras.loadFile}()},
-\code{\link{ras.splitDataLines}()},
-\code{\link{ras.writeFiles}()}
+\code{\link{ras.StackOutput}()}
 }
 \concept{SplitOutput}

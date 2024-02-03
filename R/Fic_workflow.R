@@ -411,7 +411,7 @@ ras.Fu_feces_workflow <- function(
     df_DiluteHom_buffer,
     df_stab,
     df_czero
-  ) %>% ras.Fic_collect_variables()
+  ) %>% purrr::reduce(df_list, dplyr::full_join)
 
 
   # Calculations ----

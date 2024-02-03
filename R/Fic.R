@@ -11,11 +11,10 @@
 #' and digits ending in nM.
 #' @param .checkValues Removes "<" from the values column to make sure it can
 #' be coerced to numeric.
-#' @param .split Column name, separates by `_` into `Sample_ID`, `LiquidType`,
-#' `Timepoint`, and `Replicate.` Left aligned.
+#' @param .split Column name, separates by `_` into `Date`, `Initials`,
+#' `Sample_origin`, `Dosing`, `Sample_type`, `Timepoint`, and `Replicate`. Left aligned.
 #'
-#' @return Same dataframe but filtered and with Sample.Text
-#' separated into columns
+#' @return Same dataframe but filtered and with `.sample.text` separated into columns
 #' @noRd
 #'
 ras.Fic_cleanup <- function(df,
@@ -43,7 +42,7 @@ ras.Fic_cleanup <- function(df,
               !is.na({{.sample.text}}),
               !stringr::str_detect({{.sample.text}}, "[Bb]lank"),
               !stringr::str_detect({{.sample.text}}, "[:digit:]nM"),
-              !stringr::str_ends({{.sample.text}}, "_STD"))
+              !stringr::str_detect({{.sample.text}}, "_STD_"))
   }
 
 
@@ -56,8 +55,11 @@ ras.Fic_cleanup <- function(df,
     df <- df %>%
       tidyr::separate_wider_delim(
         {{.split}}, delim = "_",
-        names = c("Sample_ID",
-                  "LiquidType",
+        names = c("Date",
+                  "Initials",
+                  "Sample_origin",
+                  "Dosing",
+                  "Sample_type",
                   "Timepoint",
                   "Replicate"),
         too_few = "align_start",
@@ -65,9 +67,9 @@ ras.Fic_cleanup <- function(df,
         cols_remove = F)
   }
 
-  if (!is.na(.compound)) { # Combine compound with Sample_ID
+  if (!is.na(.compound)) { # Combine compound with Date & Initials into Sample_ID
     df <- df %>%
-      dplyr::mutate(Sample_ID = stringr::str_c(df[[.compound]], Sample_ID,
+      dplyr::mutate(Sample_ID = stringr::str_c(df[[.compound]], Date, Initials,
                                                sep = "_"))
   }
 
@@ -85,13 +87,13 @@ ras.Fic_cleanup <- function(df,
 #'
 #' @param df A dataframe from [ras.Fic_cleanup()].
 #' @param values Name of the column to use for values.
-#' @param type String to filter the column `LiquidType` by. Used to name
+#' @param type String to filter the column `Sample_type` by. Used to name
 #' the `*_Conc.avg` column.
 #' @param new_name String to use as first part of new column
 #' @param .summarize Summarize values into averages
 #' @param .SD Create column with Standard Deviation
 #'
-#' @return Dataframe with columns `Sample_ID`, `LiquidType`, &
+#' @return Dataframe with columns `Sample_ID`, `Sample_type`, &
 #' `{{type}}_{{values}}_avg`
 #' @noRd
 ras.Fic_extract_simple <- function(df,
@@ -101,12 +103,12 @@ ras.Fic_extract_simple <- function(df,
                                    .SD = TRUE) {
   # Drop other columns and filter for {{type}}
   df_extract <- df %>%
-    dplyr::select(Sample_ID, LiquidType, {{values}})
+    dplyr::select(Sample_ID, Sample_type, {{values}})
   df_extract <- df_extract %>%
-    dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
+    dplyr::filter(stringr::str_detect(Sample_type, {{type}})) %>%
     stats::na.omit({{values}})
 
-  # Get SD
+  # Group by Sample_ID and get SD
   sd_col <- paste0({{type}},"_",{{values}},"_SD")
   if (.SD) {
     df_extract <- df_extract %>%
@@ -148,12 +150,12 @@ ras.Fic_extract_simple <- function(df,
 #'
 #' @param df A dataframe from [ras.Fic_cleanup()].
 #' @param values Name of the column to use for values
-#' @param type Pattern to filter the column `LiquidType` by
+#' @param type Pattern to filter the column `Sample_type` by
 #' @param type_extract Pattern to extract the dilution factor
 #' @param .summarize Summarize values into averages
 #' @param .SD Create column with Standard Deviation
 #'
-#' @return Dataframe with columns `Sample_ID`, `LiquidType`,
+#' @return Dataframe with columns `Sample_ID`, `Sample_type`,
 #'  `Dilution_Conc.avg`, & `dilution`
 #' @noRd
 ras.Fic_DiluteHom <- function(df,
@@ -165,10 +167,10 @@ ras.Fic_DiluteHom <- function(df,
   # Drop other columns and filter for dilution factor
   df_DiluteHom <- df %>%
     dplyr::select(Sample_ID,
-                  LiquidType,
+                  Sample_type,
                   {{values}})
   df_DiluteHom <- df_DiluteHom %>%
-    dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
+    dplyr::filter(stringr::str_detect(Sample_type, {{type}})) %>%
     stats::na.omit({{values}})
 
   # Get SD
@@ -183,13 +185,13 @@ ras.Fic_DiluteHom <- function(df,
       dplyr::mutate({{sd_col}} := NA)
   }
 
-  # Group by Sample_ID & LiquidType and average
+  # Group by Sample_ID & Sample_type and average
   if (.summarize) {
     hom_col <- paste0("Homogenate_Conc._avg")
     sd_col2 <- sd_col
     sd_col <- paste0(sd_col, "_avg")
     df_DiluteHom <- df_DiluteHom %>%
-      dplyr::group_by(Sample_ID, LiquidType) %>%
+      dplyr::group_by(Sample_ID, Sample_type) %>%
       dplyr::summarise({{hom_col}} := mean(.data[[values]], na.rm = T),
                        {{sd_col}} := mean(.data[[sd_col2]], na.rm = T)) %>%
       dplyr::ungroup()
@@ -201,7 +203,7 @@ ras.Fic_DiluteHom <- function(df,
 
   # Make dilution factor numeric
   df_DiluteHom <- df_DiluteHom %>%
-    dplyr::mutate(dilution = stringr::str_extract(LiquidType, {{type_extract}}) )
+    dplyr::mutate(dilution = stringr::str_extract(Sample_type, {{type_extract}}) )
   df_DiluteHom <- df_DiluteHom %>%
     dplyr::mutate(dilution = as.numeric(dilution) )
 
@@ -225,7 +227,7 @@ ras.Fic_DiluteHom <- function(df,
 #' @param ID.col String with name of ID column
 #' @param Buffer_Conc.col String with name of buffer column
 #'
-#' @return Dataframe with columns `Sample_ID`, `LiquidType`,
+#' @return Dataframe with columns `Sample_ID`, `Sample_type`,
 #'  `Dilution_Conc.avg`, `dilution`, & `Buffer_Conc._avg`
 #' @noRd
 ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
@@ -257,15 +259,15 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
                   -diff.sample_buffer.sq)
   return(df_new)
 }
-#' Extract values for `LiquidType`s with a `Timepoint`
+#' Extract values for `Sample_type`s with a `Timepoint`
 #'
 #' @param df A dataframe from [ras.Fic_cleanup()].
 #' @param values Name of the column to use for values
-#' @param type String to filter the column `LiquidType` by. Used to name
+#' @param type String to filter the column `Sample_type` by. Used to name
 #' the `*_Conc.avg` column.
 #' @param .summarize Summarize values into averages
 #'
-#' @return Dataframe with columns `Sample_ID`, `LiquidType`, `Timepoint`,
+#' @return Dataframe with columns `Sample_ID`, `Sample_type`, `Timepoint`,
 #' `{{values}}`, & `{{type}}_{{values}}_avg`.
 #' @noRd
 ras.Fic_extract_timepoints <- function(df,
@@ -275,8 +277,8 @@ ras.Fic_extract_timepoints <- function(df,
   new_col <- paste0({{type}},"_",{{values}},"_avg")
 
   df_time <- df %>%
-    dplyr::select(Sample_ID, LiquidType, Timepoint, {{values}}) %>%
-    dplyr::filter(stringr::str_detect(LiquidType, {{type}})) %>%
+    dplyr::select(Sample_ID, Sample_type, Timepoint, {{values}}) %>%
+    dplyr::filter(stringr::str_detect(Sample_type, {{type}})) %>%
     stats::na.omit({{values}})
 
   if (.summarize) {
@@ -483,9 +485,6 @@ ras.Fic_timepoint <- function(df,
 ras.Fic_expand <- function(samples,
                            df,
                            values = "Cells_mg_Protein") {
-
-
-
   samples <- samples %>%
     dplyr::mutate(ID = stringr::str_extract(samples[[1]], "(?<=_)[:alnum:]+$"))
 
@@ -533,6 +532,8 @@ ras.Fic_expand <- function(samples,
 
 }
 #' Collect a list of variables in the same dataframe
+#'
+#' Obsolete?
 #'
 #' Selects columns `Sample_ID` & `*_avg`, then does a full join.
 #'
@@ -746,7 +747,7 @@ ras.Fic_Fic <- function(df_calc,
 #' @return Same dataframe with added column from equation
 #' @noRd
 ras.Fic_fu.feces <- function(df_calc,
-                             D = 4.8,
+                             D = 1 / ( (1/4.8) * 0.95),
                              Fu.hom = "fuhom") {
   df_calc <- df_calc %>%
     dplyr::mutate(fufeces = 1 / (D * (1/.data[[Fu.hom]]-1)+1) )
@@ -774,7 +775,7 @@ ras.Fu_feces_mass_balance_10.2.5 <- function(df_calc,
                                         mass_factor = 1.75) {
   df_calc <- df_calc %>%
     dplyr::mutate(Mass_balance_10.2.5 =
-      (.data[[Homogenate]]*Dilution_factor +.data[[Buffer]]*mass_factor)
+      (.data[[Homogenate]] * Dilution_factor + .data[[Buffer]] * mass_factor)
                             / .data[[Stab]] )
   return(df_calc)
 }

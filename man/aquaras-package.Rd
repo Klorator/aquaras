@@ -17,4 +17,8 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Rasmus Hammar \email{Rasmus.Hammar@gmx.com}
+
+}
 \keyword{internal}

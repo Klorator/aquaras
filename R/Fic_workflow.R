@@ -1,4 +1,5 @@
 # Workflow wrapper -------------------------------------------------------------
+
 #' Fic end-to-end workflow
 #'
 #' @param source What source the data file comes from
@@ -313,21 +314,20 @@ ras.Fu_feces_workflow <- function(
     source = c("Sciex", "Waters"),
     ID = "Sample Name",
     Sample_type = "Sample Type",
-    values = "Calculated Concetration (nM)",
+    values = "Calculated Concentration (nM)",
     Buffer = "HBSS",
     Dilution_type = "[:digit:]x",
     Dilution_extract = "[:digit:]+(?=x)",
     Dilution_factor = 1,
     stab = "Stab",
     czero = "Czero",
-    D = 4.8,
+    D = ( 1 / ( (1/4.8) * 0.95) ),
     MassBalance_2.5 = 1.75,
     .compound = "Analyte Peak Name",
     .checkValues = TRUE,
     .summarize = TRUE,
     .SD = TRUE
   ) {
-
   # Set output directory
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
 
@@ -407,11 +407,12 @@ ras.Fu_feces_workflow <- function(
     )
   name_czero <- names(df_czero[2])
 
+
   df_calc <- list(
     df_DiluteHom_buffer,
     df_stab,
     df_czero
-  ) %>% purrr::reduce(df_list, dplyr::full_join)
+  ) %>% purrr::reduce(dplyr::full_join)
 
 
   # Calculations ----

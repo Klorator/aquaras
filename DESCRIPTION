@@ -1,7 +1,7 @@
 Type: Package
 Package: aquaras
 Title: Data processing related to MassLynx
-Version: 0.1.3
+Version: 0.1.4
 Authors@r: c(
   person("Rasmus", "Hammar", 
     email = "Rasmus.Hammar@gmx.com",

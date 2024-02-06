@@ -5,6 +5,9 @@
 
 <!-- badges: start -->
 
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R-CMD-check](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Klorator/aquaras/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -65,7 +68,7 @@ Look at ras.Fic_workflow()
 
 …and ras.Fu_feces_workflow()
 
-`df_FuFeces <- ras.Fic_workflow()`
+`df_FuFeces <- ras.Fu_feces_workflow()`
 
 See the help page for the arguments. You probably want to adapt some to
 your data.

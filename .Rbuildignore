@@ -9,4 +9,3 @@
 ^\.covrignore$
 ^_pkgdown\.yml$
 ^pkgdown$
-^tests (OLD)$

@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,14 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/Klorator/aquaras/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -67,14 +74,14 @@
       <img src="" class="logo" alt=""><h1>Create random groups</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/Klorator/aquaras/blob/HEAD/vignettes/Random_groups.Rmd" class="external-link"><code>vignettes/Random_groups.Rmd</code></a></small>
       <div class="d-none name"><code>Random_groups.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://klorator.github.io/aquaras/">aquaras</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Klorator/aquaras" class="external-link">aquaras</a></span><span class="op">)</span></span></code></pre></div>
 <p><code>ras.Randomizer</code> creates multiple series of groups each
 with randomly sampled observations. Observations are distributed such as
 that there are no repeated entries between groups/within a series.</p>
@@ -101,21 +108,21 @@ printed to the console and <code>N/A</code> inserted instead.</p>
 <span><span class="va">series_A</span></span>
 <span><span class="co">#&gt; $Series_01</span></span>
 <span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04</span></span>
-<span><span class="co">#&gt; 1   Comp_8  Comp_13  Comp_12  Comp_19</span></span>
-<span><span class="co">#&gt; 2   Comp_6   Comp_5   Comp_7   Comp_4</span></span>
-<span><span class="co">#&gt; 3  Comp_14  Comp_23  Comp_24  Comp_17</span></span>
-<span><span class="co">#&gt; 4   Comp_2  Comp_16  Comp_15   Comp_9</span></span>
-<span><span class="co">#&gt; 5  Comp_20  Comp_22  Comp_10  Comp_21</span></span>
-<span><span class="co">#&gt; 6   Comp_3  Comp_18  Comp_11   Comp_1</span></span>
+<span><span class="co">#&gt; 1  Comp_17  Comp_13  Comp_21  Comp_15</span></span>
+<span><span class="co">#&gt; 2   Comp_5  Comp_11   Comp_2  Comp_12</span></span>
+<span><span class="co">#&gt; 3   Comp_9   Comp_8  Comp_10  Comp_18</span></span>
+<span><span class="co">#&gt; 4   Comp_4   Comp_7  Comp_20  Comp_23</span></span>
+<span><span class="co">#&gt; 5  Comp_22  Comp_24   Comp_6  Comp_19</span></span>
+<span><span class="co">#&gt; 6   Comp_3   Comp_1  Comp_16  Comp_14</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $Series_02</span></span>
 <span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04</span></span>
-<span><span class="co">#&gt; 1  Comp_14  Comp_11  Comp_17   Comp_6</span></span>
-<span><span class="co">#&gt; 2  Comp_19   Comp_1   Comp_4  Comp_22</span></span>
-<span><span class="co">#&gt; 3   Comp_5  Comp_10   Comp_8  Comp_12</span></span>
-<span><span class="co">#&gt; 4  Comp_15  Comp_18  Comp_23  Comp_13</span></span>
-<span><span class="co">#&gt; 5  Comp_21   Comp_2  Comp_16   Comp_3</span></span>
-<span><span class="co">#&gt; 6   Comp_7   Comp_9  Comp_24  Comp_20</span></span>
+<span><span class="co">#&gt; 1   Comp_6  Comp_23   Comp_9  Comp_11</span></span>
+<span><span class="co">#&gt; 2  Comp_16  Comp_22  Comp_10   Comp_8</span></span>
+<span><span class="co">#&gt; 3   Comp_7   Comp_5  Comp_24  Comp_13</span></span>
+<span><span class="co">#&gt; 4  Comp_18  Comp_14  Comp_15   Comp_1</span></span>
+<span><span class="co">#&gt; 5  Comp_12  Comp_17   Comp_3   Comp_2</span></span>
+<span><span class="co">#&gt; 6  Comp_19  Comp_21   Comp_4  Comp_20</span></span>
 <span></span>
 <span><span class="co"># Example with 5 uneven groups</span></span>
 <span><span class="co"># Compound list</span></span>
@@ -136,19 +143,19 @@ printed to the console and <code>N/A</code> inserted instead.</p>
 <span><span class="va">series_B</span></span>
 <span><span class="co">#&gt; $Series_01</span></span>
 <span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04 Group_05</span></span>
-<span><span class="co">#&gt; 1   Comp_1  Comp_23  Comp_10  Comp_17  Comp_20</span></span>
-<span><span class="co">#&gt; 2  Comp_18   Comp_2  Comp_16   Comp_3  Comp_14</span></span>
-<span><span class="co">#&gt; 3  Comp_11  Comp_15  Comp_22   Comp_6   Comp_5</span></span>
-<span><span class="co">#&gt; 4  Comp_24   Comp_9   Comp_4  Comp_12  Comp_19</span></span>
-<span><span class="co">#&gt; 5   Comp_7   Comp_8  Comp_13  Comp_21      N/A</span></span>
+<span><span class="co">#&gt; 1  Comp_12  Comp_19   Comp_2  Comp_10  Comp_21</span></span>
+<span><span class="co">#&gt; 2   Comp_7   Comp_3  Comp_13  Comp_22  Comp_17</span></span>
+<span><span class="co">#&gt; 3  Comp_16   Comp_9  Comp_14  Comp_20   Comp_8</span></span>
+<span><span class="co">#&gt; 4   Comp_4   Comp_1  Comp_11   Comp_6  Comp_23</span></span>
+<span><span class="co">#&gt; 5  Comp_18  Comp_15  Comp_24   Comp_5      N/A</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $Series_02</span></span>
 <span><span class="co">#&gt;   Group_01 Group_02 Group_03 Group_04 Group_05</span></span>
-<span><span class="co">#&gt; 1  Comp_23  Comp_11  Comp_14  Comp_21  Comp_22</span></span>
-<span><span class="co">#&gt; 2  Comp_18  Comp_12   Comp_4  Comp_13   Comp_1</span></span>
-<span><span class="co">#&gt; 3  Comp_20   Comp_6   Comp_3  Comp_24   Comp_7</span></span>
-<span><span class="co">#&gt; 4   Comp_9  Comp_16   Comp_5  Comp_17   Comp_8</span></span>
-<span><span class="co">#&gt; 5  Comp_15   Comp_2  Comp_10  Comp_19      N/A</span></span>
+<span><span class="co">#&gt; 1   Comp_3   Comp_4  Comp_14  Comp_16   Comp_9</span></span>
+<span><span class="co">#&gt; 2   Comp_5  Comp_10  Comp_17  Comp_21  Comp_18</span></span>
+<span><span class="co">#&gt; 3  Comp_23   Comp_2   Comp_6   Comp_7  Comp_22</span></span>
+<span><span class="co">#&gt; 4   Comp_1  Comp_12  Comp_20  Comp_15  Comp_19</span></span>
+<span><span class="co">#&gt; 5  Comp_24  Comp_13  Comp_11   Comp_8      N/A</span></span>
 <span></span>
 <span><span class="co"># Example of writing to .xlsx file</span></span>
 <span>  <span class="co"># Don't run</span></span>

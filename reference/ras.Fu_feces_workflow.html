@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/Klorator/aquaras/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -41,7 +47,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fu feces workflow wrapper</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/Klorator/aquaras/blob/HEAD/R/Fic_workflow.R" class="external-link"><code>R/Fic_workflow.R</code></a></small>
       <div class="d-none name"><code>ras.Fu_feces_workflow.Rd</code></div>
     </div>
 
@@ -55,14 +61,14 @@
 <span>  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sciex"</span>, <span class="st">"Waters"</span><span class="op">)</span>,</span>
 <span>  ID <span class="op">=</span> <span class="st">"Sample Name"</span>,</span>
 <span>  Sample_type <span class="op">=</span> <span class="st">"Sample Type"</span>,</span>
-<span>  values <span class="op">=</span> <span class="st">"Calculated Concetration (nM)"</span>,</span>
+<span>  values <span class="op">=</span> <span class="st">"Calculated Concentration (nM)"</span>,</span>
 <span>  Buffer <span class="op">=</span> <span class="st">"HBSS"</span>,</span>
 <span>  Dilution_type <span class="op">=</span> <span class="st">"[:digit:]x"</span>,</span>
 <span>  Dilution_extract <span class="op">=</span> <span class="st">"[:digit:]+(?=x)"</span>,</span>
 <span>  Dilution_factor <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  stab <span class="op">=</span> <span class="st">"Stab"</span>,</span>
 <span>  czero <span class="op">=</span> <span class="st">"Czero"</span>,</span>
-<span>  D <span class="op">=</span> <span class="fl">4.8</span>,</span>
+<span>  D <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="op">(</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">4.8</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  MassBalance_2.5 <span class="op">=</span> <span class="fl">1.75</span>,</span>
 <span>  .compound <span class="op">=</span> <span class="st">"Analyte Peak Name"</span>,</span>
 <span>  .checkValues <span class="op">=</span> <span class="cn">TRUE</span>,</span>

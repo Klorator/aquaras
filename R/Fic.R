@@ -69,8 +69,11 @@ ras.Fic_cleanup <- function(df,
 
   if (!is.na(.compound)) { # Combine compound with Date & Initials into Sample_ID
     df <- df %>%
-      dplyr::mutate(Sample_ID = stringr::str_c(df[[.compound]], Date, Initials,
-                                               sep = "_"))
+      dplyr::mutate(
+        Sample_ID = stringr::str_c(
+          df[[.compound]], Date, Initials, Sample_origin, Dosing, Timepoint,
+          sep = "_")
+      )
   }
 
   # Re-evaluate column types

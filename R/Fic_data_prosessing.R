@@ -59,6 +59,14 @@ ras.Fic_cleanup <- function(df,
                             .checkValues = TRUE,
                             .split = "Sample.Text",
                             .compound = "Compound") {
+  df <- df %>%
+    dplyr::select(
+      {{.sample.text}},
+      {{.type}},
+      {{.compound}},
+      {{.values}}
+    )
+
   if (!is.na(.values)) { # Omit NAs from value column
     df <- df %>%
       dplyr::filter(!is.na(.data[[.values]]))
@@ -115,6 +123,20 @@ ras.Fic_cleanup <- function(df,
   print("Re-evaluate column types")
     df <- df %>%
       readr::type_convert()
+
+
+    df <- df %>%
+      dplyr::filter(
+        !is.na(df$Sample_type)
+      )
+
+    df <- df %>%
+      tidyr::pivot_wider(
+        id_cols = -`Sample Name`,
+        names_from = Sample_type,
+        values_from = {{.values}}
+      )
+
   return(df)
 }
 # Extraction of values ---------------------------------------------------------
@@ -187,73 +209,38 @@ ras.Fic_extract_simple <- function(df,
 #' Very specific
 #'
 #' @param df A dataframe from [ras.Fic_cleanup()].
-#' @param values Name of the column to use for values
-#' @param type Pattern to filter the column `Sample_type` by
+#' @param type Pattern to filter the column names by
 #' @param type_extract Pattern to extract the dilution factor
-#' @param .summarize Summarize values into averages
-#' @param .SD Create column with Standard Deviation
 #'
-#' @return Dataframe with columns `Sample_ID`, `Sample_type`,
-#'  `Dilution_Conc.avg`, & `dilution`
+#' @return Data frame with added dilution column
 #' @noRd
-ras.Fic_DiluteHom <- function(df,
-                             values = "Conc.",
-                             type = "[:digit:]x",
-                             type_extract = "[:digit:]+(?=x)",
-                             .summarize = TRUE,
-                             .SD = TRUE) {
-  # Drop other columns and filter for dilution factor
-  df_DiluteHom <- df %>%
-    dplyr::select(Sample_ID,
-                  Sample_type,
-                  {{values}})
-  df_DiluteHom <- df_DiluteHom %>%
-    dplyr::filter(stringr::str_detect(Sample_type, {{type}})) %>%
-    stats::na.omit({{values}})
+ras.Fic_Dilution <- function(df,
+                             type = "[:digit:]+x",
+                             type_extract = "[:digit:]+(?=x)"
+                            ) {
+  col_names <- colnames(df)
+  matches <- as.vector( stringr::str_match(col_names, type) )
+  matches_not_na <- !is.na(matches)
+  dil_factors <- sum(matches_not_na)
 
-  # Get SD
-  sd_col <- paste0("Homogenate","_",{{values}},"_SD")
-  if (.SD) {
-    df_DiluteHom <- df_DiluteHom %>%
-      dplyr::group_by(Sample_ID) %>%
-      dplyr::mutate({{sd_col}} := stats::sd(.data[[values]], na.rm = T)) %>%
-      dplyr::ungroup()
-  } else {
-    df_DiluteHom <- df_DiluteHom %>%
-      dplyr::mutate({{sd_col}} := NA)
+  if (dil_factors == 1) {
+    column <- colnames(df[matches_not_na])
+    dil <- stringr::str_extract(column, type_extract)
+    df <- df %>%
+      dplyr::mutate(
+        dilution = as.numeric(dil)
+      )
+    df <- df %>%
+      dplyr::rename(
+        homogenate = {{column}}
+      )
   }
 
-  # Group by Sample_ID & Sample_type and average
-  if (.summarize) {
-    hom_col <- paste0("Homogenate_Conc._avg")
-    sd_col2 <- sd_col
-    sd_col <- paste0(sd_col, "_avg")
-    df_DiluteHom <- df_DiluteHom %>%
-      dplyr::group_by(Sample_ID, Sample_type) %>%
-      dplyr::summarise({{hom_col}} := mean(.data[[values]], na.rm = T),
-                       {{sd_col}} := mean(.data[[sd_col2]], na.rm = T)) %>%
-      dplyr::ungroup()
-  } else {
-    hom_col <- paste0("Homogenate_Conc.")
-    df_DiluteHom <- df_DiluteHom %>%
-      dplyr::mutate({{hom_col}} := .data[[values]])
+  if (dil_factors > 1) { # To fix
+
   }
 
-  # Make dilution factor numeric
-  df_DiluteHom <- df_DiluteHom %>%
-    dplyr::mutate(dilution = stringr::str_extract(Sample_type, {{type_extract}}) )
-  df_DiluteHom <- df_DiluteHom %>%
-    dplyr::mutate(dilution = as.numeric(dilution) )
-
-  df_DiluteHom <- df_DiluteHom %>%
-    dplyr::select(
-      Sample_ID,
-      tidyselect::all_of({{hom_col}}),
-      dilution,
-      tidyselect::any_of({{sd_col}})
-    )
-
-  return(df_DiluteHom)
+  return(df)
 }
 #' Calculate smallest difference between dilution & buffer
 #'

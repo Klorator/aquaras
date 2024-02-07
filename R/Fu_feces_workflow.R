@@ -33,8 +33,8 @@ ras.Fu_feces_workflow <- function(
     Sample_type = "Sample Type",
     values = "Calculated Concentration (nM)",
     Buffer = "HBSS",
-    Dilution_type = "[:digit:]x",
-    Dilution_extract = "[:digit:]+(?=x)",
+    Dilution_type = "[:digit:]+x",
+    Dilution_extract = "[:digit:]+(?=x$)",
     Dilution_factor = 1,
     stab = "Stab",
     czero = "Czero",
@@ -69,72 +69,20 @@ ras.Fu_feces_workflow <- function(
       .checkValues = .checkValues
     )
 
-  df_wide <- df_clean %>%
-    tidyr::pivot_wider(
-      names_from = Sample_type
-    )
 
-
-  # Extract values ----
-  df_buffer <- df_clean %>%
-    ras.Fic_extract_simple(
-      values = values,
-      type = Buffer,
-      .summarize = FALSE,
-      .SD = FALSE
-    )
-  name_buffer <- names(df_buffer[2])
-
-  df_DiluteHom <- df_clean %>%
-    ras.Fic_DiluteHom(
-      values = values,
+  df_clean <- df_clean %>%
+    ras.Fic_Dilution(
       type = Dilution_type,
-      type_extract = Dilution_extract,
-      .summarize = FALSE,
-      .SD = FALSE
+      type_extract = Dilution_extract
     )
-  name_DiluteHom <- names(df_DiluteHom[2])
-  name_dilution <- names(df_DiluteHom[3])
-
-  df_DiluteHom_buffer <- ras.Fic_diff_sample_buffer(
-    df_DiluteHom,
-    df_buffer,
-    Buffer_Conc.col = {{name_buffer}},
-    Homogenate_Conc.col = {{name_DiluteHom}}
-  )
-
-  df_stab <- df_clean %>%
-    ras.Fic_extract_simple(
-      values = values,
-      type = stab,
-      .summarize = FALSE,
-      .SD = FALSE
-    )
-  name_stab <- names(df_stab[2])
-
-  df_czero <- df_clean %>%
-    ras.Fic_extract_simple(
-      values = values,
-      type = czero,
-      .summarize = FALSE,
-      .SD = FALSE
-    )
-  name_czero <- names(df_czero[2])
-
-
-  df_calc <- list(
-    df_DiluteHom_buffer,
-    df_stab,
-    df_czero
-  ) %>% purrr::reduce(dplyr::full_join)
 
 
   # Calculations ----
-  df_calc <- df_calc %>%
+  df_calc <- df_clean %>%
     ras.Fic_Fu.hom(
-      Buffer = {{name_buffer}},
-      Homogenate = {{name_DiluteHom}},
-      Dilution_factor = {{name_dilution}}
+      Buffer = {{Buffer}},
+      Homogenate = "homogenate",
+      Dilution_factor = "dilution"
     )
 
   df_calc <- df_calc %>%
@@ -145,17 +93,24 @@ ras.Fu_feces_workflow <- function(
 
   df_calc <- df_calc %>%
     ras.Fic_stability(
-      Stab = {{name_stab}},
-      C.zero = {{name_czero}}
+      Stab = {{stab}},
+      C.zero = {{czero}}
     )
 
   df_calc <- df_calc %>%
     ras.Fu_feces_mass_balance_10.2.5(
-      Homogenate = {{name_DiluteHom}},
-      Dilution_factor = Dilution_factor,
-      Buffer = {{name_buffer}},
-      Stab = {{name_stab}},
+      Homogenate = "homogenate",
+      Dilution_factor = Dilution_factor, # not the dilution factor pulled from data?
+      Buffer = {{Buffer}},
+      Stab = {{stab}},
       mass_factor = MassBalance_2.5
+    )
+
+  df_calc <- df_calc %>%
+    ras.Fu_feces_summary(
+      grouping_col = "Sample_ID",
+      .summarize = .summarize,
+      .SD = .SD
     )
 
 

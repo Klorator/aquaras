@@ -26,6 +26,7 @@ Imports:
     janitor,
     magrittr,
     openxlsx,
+    openxlsx2,
     purrr,
     reactable,
     readr,

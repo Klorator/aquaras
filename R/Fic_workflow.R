@@ -27,7 +27,7 @@
 #' @param .summarize Summarize values into averages
 #' @param .SD Create column with Standard Deviation
 #'
-#' @return Dataframe with all variables, used & calculated
+#' @return Dataframe with all variables, used & calculated.
 #' @export
 #'
 #' @examples
@@ -303,7 +303,9 @@ test.calc <<- df_calc
 #' @param .summarize Summarize values into averages
 #' @param .SD Create column with Standard Deviation
 #'
-#' @return Dataframe with all variables, used & calculated
+#' @return Dataframe with all variables, used & calculated.
+#' Also writes data frame to .csv (EU) & .xlsx files.
+#'
 #' @export
 #'
 #' @examples
@@ -339,6 +341,7 @@ ras.Fu_feces_workflow <- function(
   )
   df <- bundle$df
   .compound <- bundle$.compound
+  path.df <- bundle$path.df
 
   # Clean data ----
   df_clean <- df %>%
@@ -438,12 +441,21 @@ ras.Fu_feces_workflow <- function(
 
   # Write df_calc to file ----
   fn <- basename(path.df)
-  fn <- stringr::str_remove(fn, "\\.[:alnum:]{1,3}$")
+  fn <- stringr::str_remove(fn, "\\.[:alnum:]{1,5}$")
   f <- paste0(Sys.Date()," Fu feces calculations - ", fn, ".csv")
   fp <- file.path(output_dir, f)
   readr::write_excel_csv2(
     df_calc,
     fp
+  )
+
+  fx <- paste0(Sys.Date()," Fu feces calculations - ", fn, ".xlsx")
+  fxp <- file.path(output_dir, fx)
+  openxlsx2::write_xlsx(
+    df_calc,
+    file = fxp,
+    as_table = TRUE,
+    overwrite = TRUE
   )
 
   return(df_calc)

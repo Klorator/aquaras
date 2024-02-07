@@ -28,7 +28,8 @@ ras.Fic_dataImport <- function(source,
   }
   results <- list(
     df = df,
-    .compound = .compound
+    .compound = .compound,
+    path.df = path.df
   )
   return(results)
 }

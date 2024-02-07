@@ -333,20 +333,12 @@ ras.Fu_feces_workflow <- function(
 
 
   # Load data ----
-  if (source[[1]] == "Waters") {
-    path.df <- tcltk::tk_choose.files(caption = "Select MassLynx output file",
-                                      multi = FALSE)
-    list.df <- ras.StackOutput(sourceFiles = path.df)
-    df <- list.df[[1]]
-    .compound <- names(df[length(df)])
-  }
-
-  if (source[[1]] == "Sciex") {
-    path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
-                                      multi = FALSE)
-    df <- readxl::read_excel(path = path.df)
-  }
-
+  bundle <- ras.Fic_dataImport(
+    source = source[[1]],
+    .compound = .compound
+  )
+  df <- bundle$df
+  .compound <- bundle$.compound
 
   # Clean data ----
   df_clean <- df %>%

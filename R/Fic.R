@@ -1,4 +1,38 @@
 # Data cleanup -----------------------------------------------------------------
+
+#' Load data for Fic & Fu feces
+#'
+#' @param source A string, either `"Sciex"` or `"Waters"`
+#' @param .compound .compound as supplied to the workflow function
+#'
+#' @return A list with the loaded data frame & appropriate
+#' value for .compound
+#' @export
+#'
+#' @examples
+#'   # No example
+ras.Fic_dataImport <- function(source,
+                               .compound) {
+  if (source == "Waters") {
+    path.df <- tcltk::tk_choose.files(caption = "Select MassLynx output file",
+                                      multi = FALSE)
+    list.df <- ras.StackOutput(sourceFiles = path.df)
+    df <- list.df[[1]]
+    .compound <- names(df[length(df)])
+  }
+
+  if (source == "Sciex") {
+    path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
+                                      multi = FALSE)
+    df <- readxl::read_excel(path = path.df)
+  }
+  results <- list(
+    df = df,
+    .compound = .compound
+  )
+  return(results)
+}
+
 #' Cleaning for Fic calculation
 #'
 #' The Sample.Text needs to follow the pattern of Sample ID, Type of liquid,

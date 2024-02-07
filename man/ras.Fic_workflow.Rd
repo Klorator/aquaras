@@ -2,7 +2,7 @@
 % Please edit documentation in R/Fic_workflow.R
 \name{ras.Fic_workflow}
 \alias{ras.Fic_workflow}
-\title{Fic end-to-end workflow}
+\title{Fic end-to-end workflow (!!!)}
 \usage{
 ras.Fic_workflow(
   source = c("Waters", "Sciex"),
@@ -72,10 +72,10 @@ be coerced to numeric.}
 \item{prot_czero_type}{RegEx to filter by for C zero values}
 }
 \value{
-Dataframe with all variables, used & calculated
+Dataframe with all variables, used & calculated.
 }
 \description{
-Fic end-to-end workflow
+Currently not functional!
 }
 \examples{
   \dontrun{

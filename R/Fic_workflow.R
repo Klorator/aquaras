@@ -344,8 +344,7 @@ ras.Fu_feces_workflow <- function(
   if (source[[1]] == "Sciex") {
     path.df <- tcltk::tk_choose.files(caption = "Select Sciex data",
                                       multi = FALSE)
-    df <- readr::read_delim(path.df,
-                            delim = "\t")
+    df <- readxl::read_excel(path = path.df)
   }
 
 

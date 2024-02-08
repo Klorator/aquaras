@@ -16,8 +16,8 @@
 #' `NULL` => "Analyte Peak Name"
 #' @param .checkValues Removes "<" from the values column to make sure it can
 #' be coerced to numeric.
-#' @param .summarize Summarize values into averages
-#' @param .SD Create column with Standard Deviation
+#' @param .summarize Summarize the data into unique rows in
+#' grouping column. Drops the original value columns.
 #'
 #' @return Dataframe with all variables, used & calculated.
 #' Also writes data frame to .csv (EU) & .xlsx files.
@@ -42,8 +42,7 @@ ras.Fu_feces_workflow <- function(
     MassBalance_2.5 = 1.75,
     .compound = "Analyte Peak Name",
     .checkValues = TRUE,
-    .summarize = TRUE,
-    .SD = TRUE
+    .summarize = FALSE
 ) {
   # Set output directory
   output_dir <- tcltk::tk_choose.dir(caption = "Select output directory")
@@ -106,12 +105,21 @@ ras.Fu_feces_workflow <- function(
       mass_factor = MassBalance_2.5
     )
 
-  df_calc <- df_calc %>%
-    ras.Fu_feces_summary(
-      grouping_col = "Sample_ID",
-      .summarize = .summarize,
-      .SD = .SD
-    )
+  if (.summarize) {
+    df_calc <- df_calc %>%
+      ras.Fu_feces_summarize(
+        grouping_col = "Sample_ID",
+        sample_type = Sample_type,
+        compound = .compound
+      )
+  } else {
+    df_calc <- df_calc %>%
+      ras.Fu_feces_meanSD(
+        grouping_col = "Sample_ID",
+        sample_type = Sample_type,
+        compound = .compound
+      )
+  }
 
 
   # Write df_calc to file ----

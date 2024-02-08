@@ -231,17 +231,102 @@ ras.Fu_feces_mass_balance_10.2.5 <- function(df_calc,
   return(df_calc)
 }
 
-ras.Fu_feces_summary <- function(df,
+#' Fu feces mean & SD
+#'
+#' Add mean & SD columns, grouped by `grouping_col`, for all
+#' the calculated numeric columns.
+#'
+#' @param df Data frame
+#' @param grouping_col Column name to group by
+#' @param sample_type Column name for sample type
+#' @param compound Column name for compound
+#'
+#' @return Data frame with mean & SD columns
+#' @export
+#'
+#' @examples
+#'   # No example
+ras.Fu_feces_meanSD <- function(df,
                                  grouping_col = "Sample_ID",
-                                 .summarize = TRUE,
-                                 .SD = TRUE) {
-  if (.SD) {
+                                 sample_type = "Sample Type",
+                                 compound = "Analyte Peak Name") {
+  df_sum <- df %>%
+    dplyr::select(
+      -tidyselect::any_of(c(
+        "Date",
+        "Initials",
+        "Sample_origin",
+        "Dosing",
+        "Timepoint",
+        "Replicate",
+        {{sample_type}},
+        {{compound}}
+        )
+      )
+    )
 
+  num_columns <- df_sum %>%
+    dplyr::select(tidyselect::where(is.numeric)) %>%
+    colnames()
+
+  for (col in num_columns) {
+    col_mean <- paste0(col,"_mean")
+    col_sd <- paste0(col,"_sd")
+
+    df <- df %>%
+      dplyr::mutate(
+        {{col_mean}} := mean(.data[[col]], na.rm = T),
+        {{col_sd}} := sd(.data[[col]], na.rm = T),
+        .after = {{col}},
+        .by = {{grouping_col}}
+      )
   }
-
-  if (.summarize) {
-
-  }
-
   return(df)
+}
+
+ras.Fu_feces_summarize <- function(df,
+                                   grouping_col = "Sample_ID",
+                                   sample_type = "Sample Type",
+                                   compound = "Analyte Peak Name") {
+  df_sub <- df %>%
+    dplyr::select(
+      -tidyselect::any_of(c(
+        "Date",
+        "Initials",
+        "Sample_origin",
+        "Dosing",
+        "Timepoint",
+        "Replicate",
+        {{sample_type}},
+        {{compound}}
+      )
+      )
+    )
+
+  num_columns <- df_sub %>%
+    dplyr::select(tidyselect::where(is.numeric)) %>%
+    colnames()
+
+  df_sum <- df %>%
+    dplyr::select({{grouping_col}}) %>%
+    unique()
+
+  for (col in num_columns) {
+    col_mean <- paste0(col,"_mean")
+    col_sd <- paste0(col,"_sd")
+
+    df_temp <- df %>%
+      dplyr::summarise(
+        {{col_mean}} := mean(.data[[col]], na.rm = T),
+        {{col_sd}} := sd(.data[[col]], na.rm = T),
+        .by = {{grouping_col}}
+      )
+
+    df_sum <- dplyr::right_join(
+      x = df_sum,
+      y = df_temp,
+      by = {{grouping_col}}
+    )
+  }
+  return(df_sum)
 }

@@ -25,3 +25,14 @@
 #'  }
 #' @source Created in house
 "ras.Example_Runlist"
+
+#' Fu feces runlist template
+#'
+#' Workbook object from openxlsx2. Builds an .xlsx file acting
+#' as a template for building a runlist that will be compatible
+#' with [ras.Fu_feces_workflow()].
+#'
+#' @format A workbook object from openxlsx2
+#'
+#' @source In house
+"Fufeces_runlist_template"

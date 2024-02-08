@@ -525,6 +525,7 @@ ras.Fic_expand <- function(samples,
 
   return(df_expand)
 }
+
 #' Collect a list of variables in the same dataframe
 #'
 #' Obsolete?
@@ -538,4 +539,26 @@ ras.Fic_expand <- function(samples,
 ras.Fic_collect_variables <- function(df_list) {
   df_calc <- purrr::reduce(df_list, dplyr::full_join)
   return(df_calc)
+}
+
+#' Write Fu feces template
+#'
+#' Writes a runlist template .xlsx file to specified directory.
+#'
+#' @param dir Directory path, defaults to interactively choosing a folder
+#'
+#' @return Invisibly returns an openxlsx2 workbook object
+#' @export
+#'
+#' @examples
+#'   \dontrun{
+#'   generate_Fufeces_template()
+#'   }
+generate_Fufeces_template <- function(dir = tcltk::tk_choose.dir()) {
+  openxlsx2::wb_save(
+    Fufeces_runlist_template,
+    file = file.path(dir,"Fu feces runlist template.xlsx"),
+    overwrite = TRUE
+  )
+  return(invisible(Fufeces_runlist_template))
 }

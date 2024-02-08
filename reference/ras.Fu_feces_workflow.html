@@ -63,8 +63,8 @@
 <span>  Sample_type <span class="op">=</span> <span class="st">"Sample Type"</span>,</span>
 <span>  values <span class="op">=</span> <span class="st">"Calculated Concentration (nM)"</span>,</span>
 <span>  Buffer <span class="op">=</span> <span class="st">"HBSS"</span>,</span>
-<span>  Dilution_type <span class="op">=</span> <span class="st">"[:digit:]+x"</span>,</span>
-<span>  Dilution_extract <span class="op">=</span> <span class="st">"[:digit:]+(?=x$)"</span>,</span>
+<span>  Dilution_type <span class="op">=</span> <span class="st">"[:digit:]x"</span>,</span>
+<span>  Dilution_extract <span class="op">=</span> <span class="st">"[:digit:]+(?=x)"</span>,</span>
 <span>  Dilution_factor <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  stab <span class="op">=</span> <span class="st">"Stab"</span>,</span>
 <span>  czero <span class="op">=</span> <span class="st">"Czero"</span>,</span>
@@ -72,7 +72,8 @@
 <span>  MassBalance_2.5 <span class="op">=</span> <span class="fl">1.75</span>,</span>
 <span>  .compound <span class="op">=</span> <span class="st">"Analyte Peak Name"</span>,</span>
 <span>  .checkValues <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  .summarize <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  .summarize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .SD <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -137,8 +138,11 @@ be coerced to numeric.</p></dd>
 
 
 <dt>.summarize</dt>
-<dd><p>Summarize the data into unique rows in
-grouping column. Drops the original value columns.</p></dd>
+<dd><p>Summarize values into averages</p></dd>
+
+
+<dt>.SD</dt>
+<dd><p>Create column with Standard Deviation</p></dd>
 
 </dl></div>
     <div class="section level2">

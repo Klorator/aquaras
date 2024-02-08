@@ -10,8 +10,8 @@ ras.Fu_feces_workflow(
   Sample_type = "Sample Type",
   values = "Calculated Concentration (nM)",
   Buffer = "HBSS",
-  Dilution_type = "[:digit:]x",
-  Dilution_extract = "[:digit:]+(?=x)",
+  Dilution_type = "[:digit:]+x",
+  Dilution_extract = "[:digit:]+(?=x$)",
   Dilution_factor = 1,
   stab = "Stab",
   czero = "Czero",
@@ -19,8 +19,7 @@ ras.Fu_feces_workflow(
   MassBalance_2.5 = 1.75,
   .compound = "Analyte Peak Name",
   .checkValues = TRUE,
-  .summarize = TRUE,
-  .SD = TRUE
+  .summarize = FALSE
 )
 }
 \arguments{
@@ -54,9 +53,8 @@ ras.Fu_feces_workflow(
 \item{.checkValues}{Removes "<" from the values column to make sure it can
 be coerced to numeric.}
 
-\item{.summarize}{Summarize values into averages}
-
-\item{.SD}{Create column with Standard Deviation}
+\item{.summarize}{Summarize the data into unique rows in
+grouping column. Drops the original value columns.}
 }
 \value{
 Dataframe with all variables, used & calculated.

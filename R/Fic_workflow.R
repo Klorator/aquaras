@@ -11,10 +11,7 @@
 #' @param Dilution_type RegEx to filter by for dilution factor values
 #' @param Dilution_extract RegEx for extracting the dilution factor
 #' @param stab RegEx to filter by for stability values
-#'  czero RegEx to filter by for C zero values
-#'  Kp RegEx to filter by for kp values
-#' @param prot_czero_value Column name, czero from protein dataframe
-#' @param prot_czero_type RegEx to filter by for C zero values
+#' @param czero RegEx to filter by for C zero values
 #' @param prot_cell_value Column name for values
 #' @param prot_cell_type RegEx to filter by
 #' @param prot_hom_value RegEx to filter by
@@ -45,8 +42,6 @@ ras.Fic_workflow <- function(
     Dilution_extract = "[:digit:]+(?=x)",
     stab = "Stab",
     czero = "Czero",
-    # prot_czero_value = "mg_Protein",
-    # prot_czero_type = "Czero",
     prot_cell_value = "mg_Protein",
     prot_cell_type = "Cells",
     prot_hom_value = "Protein_conc._mg/mL",

@@ -39,9 +39,9 @@ ras.Fic_workflow(
 
 \item{Dilution_extract}{RegEx for extracting the dilution factor}
 
-\item{stab}{RegEx to filter by for stability values
-czero RegEx to filter by for C zero values
-Kp RegEx to filter by for kp values}
+\item{stab}{RegEx to filter by for stability values}
+
+\item{czero}{RegEx to filter by for C zero values}
 
 \item{prot_cell_value}{Column name for values}
 
@@ -66,10 +66,6 @@ be coerced to numeric.}
 \item{.summarize}{Summarize values into averages}
 
 \item{.SD}{Create column with Standard Deviation}
-
-\item{prot_czero_value}{Column name, czero from protein dataframe}
-
-\item{prot_czero_type}{RegEx to filter by for C zero values}
 }
 \value{
 Dataframe with all variables, used & calculated.

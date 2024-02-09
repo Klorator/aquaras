@@ -22,7 +22,13 @@
     <loc>https://klorator.github.io/aquaras/index.html</loc>
   </url>
   <url>
+    <loc>https://klorator.github.io/aquaras/reference/Fufeces_runlist_template.html</loc>
+  </url>
+  <url>
     <loc>https://klorator.github.io/aquaras/reference/aquaras-package.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/generate_Fufeces_template.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/index.html</loc>
@@ -41,6 +47,9 @@
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.Fic_workflow.html</loc>
+  </url>
+  <url>
+    <loc>https://klorator.github.io/aquaras/reference/ras.Fu_feces_meanSD.html</loc>
   </url>
   <url>
     <loc>https://klorator.github.io/aquaras/reference/ras.Fu_feces_workflow.html</loc>

@@ -2,7 +2,7 @@
 
 #' Fic end-to-end workflow (!!!)
 #'
-#' Currently not functional!
+#' Currently not functional! test
 #'
 #' @param source What source the data file comes from
 #' @param ID Column name for ID column after splitting

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">aquaras</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,31 +67,31 @@
 
 
 <dl><dt id="arg-source">source<a class="anchor" aria-label="anchor" href="#arg-source"></a></dt>
-<dd><p>What source the data file comes from</p></dd>
+<dd><p>Data source (<code>"Sciex"</code> or <code>"Waters"</code>).</p></dd>
 
 
 <dt id="arg-id">ID<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
-<dd><p>Column name for ID column after splitting</p></dd>
+<dd><p>Column name for ID column after splitting.</p></dd>
 
 
 <dt id="arg-sample-type">Sample_type<a class="anchor" aria-label="anchor" href="#arg-sample-type"></a></dt>
-<dd><p>Name for type column in raw data</p></dd>
+<dd><p>Name of the type column in raw data.</p></dd>
 
 
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>
-<dd><p>Column name for values in data</p></dd>
+<dd><p>Column name for numeric values.</p></dd>
 
 
 <dt id="arg-buffer">Buffer<a class="anchor" aria-label="anchor" href="#arg-buffer"></a></dt>
-<dd><p>RegEx to filter by for buffer values</p></dd>
+<dd><p>Regex used to select buffer values.</p></dd>
 
 
 <dt id="arg-dilution-type">Dilution_type<a class="anchor" aria-label="anchor" href="#arg-dilution-type"></a></dt>
-<dd><p>RegEx to filter by for dilution factor values</p></dd>
+<dd><p>Regex used to select dilution-factor values.</p></dd>
 
 
 <dt id="arg-dilution-extract">Dilution_extract<a class="anchor" aria-label="anchor" href="#arg-dilution-extract"></a></dt>
-<dd><p>RegEx for extracting the dilution factor</p></dd>
+<dd><p>Regex used to extract the dilution factor.</p></dd>
 
 
 <dt id="arg-dilution-factor">Dilution_factor<a class="anchor" aria-label="anchor" href="#arg-dilution-factor"></a></dt>
@@ -99,19 +99,19 @@
 
 
 <dt id="arg-stab">stab<a class="anchor" aria-label="anchor" href="#arg-stab"></a></dt>
-<dd><p>RegEx to filter by for stability values</p></dd>
+<dd><p>Regex used to select stability values.</p></dd>
 
 
 <dt id="arg-czero">czero<a class="anchor" aria-label="anchor" href="#arg-czero"></a></dt>
-<dd><p>RegEx to filter by for C zero values values</p></dd>
+<dd><p>Regex used to select C-zero values.</p></dd>
 
 
 <dt id="arg-d">D<a class="anchor" aria-label="anchor" href="#arg-d"></a></dt>
-<dd><p>Numeric value for D</p></dd>
+<dd><p>Numeric value for D.</p></dd>
 
 
 <dt id="arg-massbalance-">MassBalance_2.5<a class="anchor" aria-label="anchor" href="#arg-massbalance-"></a></dt>
-<dd><p>Factor for calulating Mass Balance 10.2.5</p></dd>
+<dd><p>Factor for calculating Mass Balance 10.2.5.</p></dd>
 
 
 <dt id="arg--compound">.compound<a class="anchor" aria-label="anchor" href="#arg--compound"></a></dt>
@@ -131,15 +131,15 @@ grouping column. Drops the original value columns.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Dataframe with all variables, used &amp; calculated.
-Also writes data frame to .csv (EU) &amp; .xlsx files.</p>
+    <p>Data frame with all variables used and calculated.
+Also writes the data frame to <code>.csv</code> (EU) and <code>.xlsx</code> files.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>   <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="co"># No example yet</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu">ras.Fu_feces_workflow</span><span class="op">(</span>source <span class="op">=</span> <span class="st">"Sciex"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -151,7 +151,7 @@ Also writes data frame to .csv (EU) &amp; .xlsx files.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

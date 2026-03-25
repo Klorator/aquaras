@@ -352,18 +352,9 @@ ras.Fic_plot_timepoints <- function(df_time,
 #' @param df.cell Data frame with cell timepoint values.
 #' @param df.medium Data frame with medium timepoint values.
 #'
-#' @return Side effects only (launches a Shiny app and assigns selected values).
+#' @return A list with `df_Cell.shiny` and `df_Medium.shiny` selected in the app.
 #' @noRd
 ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) {
-
-  # Make variables available for shiny & cleanup .GlobalEnv afterwards ----
-  .GlobalEnv$.p.cell <- p.cell
-  .GlobalEnv$.p.medium <- p.medium
-  .GlobalEnv$.df.cell <- df.cell
-  .GlobalEnv$.df.medium <- df.medium
-  on.exit(rm(.p.cell, .df.cell,
-             .p.medium, .df.medium,
-             envir = .GlobalEnv))
   # Shiny UI ----
   ui <- shiny::fluidPage(
     shinyjs::useShinyjs(),
@@ -392,13 +383,20 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
   )
   # Shiny server
   server <- function(input, output, session) {
+    id.c <- unique(df.cell$Sample_ID)
+    id.m <- unique(df.medium$Sample_ID)
+
+    rv <- shiny::reactiveValues(
+      df_cell = dplyr::tibble(Sample_ID = id.c, Time.Cell = 60),
+      df_medium = dplyr::tibble(Sample_ID = id.m, Time.Medium = 60)
+    )
+
     # Setup: Plots
     output$plot.Cell <- shiny::renderPlot(graphics::plot(p.cell), res = 96)
     output$plot.Medium <- shiny::renderPlot(graphics::plot(p.medium), res = 96)
     # Setup: disable close button
     shinyjs::disable("close")
     # Create sidebar UI elements
-    id.c <- unique(df.cell$Sample_ID)
     output$boxes_Cell <- shiny::renderUI({
       lapply(1:length(id.c), function(i) {
         shiny::numericInput(inputId = paste0("Cell_", id.c[[i]]),
@@ -406,7 +404,6 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
                      value = 60)
       })
     })
-    id.m <- unique(df.medium$Sample_ID)
     output$boxes_Medium <- shiny::renderUI({
       lapply(1:length(id.m), function(i) {
         shiny::numericInput(inputId = paste0("Medium_", id.m[[i]]),
@@ -423,25 +420,25 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
       values.Medium <- sapply(1:length(id.m), function(i){
         as.numeric(input[[paste0("Medium_", id.m[[i]])]])
       })
-      # Create dataframes
-      df_Cell.shiny <- dplyr::tibble(Sample_ID = id.c, Time.Cell = values.Cell)
-      df_Medium.shiny <- dplyr::tibble(Sample_ID = id.m, Time.Medium = values.Medium)
+      # Create data frames
+      rv$df_cell <- dplyr::tibble(Sample_ID = id.c, Time.Cell = values.Cell)
+      rv$df_medium <- dplyr::tibble(Sample_ID = id.m, Time.Medium = values.Medium)
       # Display values
-      output$check.table.c <- shiny::renderTable(df_Cell.shiny)
-      output$check.table.m <- shiny::renderTable(df_Medium.shiny)
-      # Send dataframes up to parent environment
-      df_Cell.shiny <<- df_Cell.shiny
-      df_Medium.shiny <<- df_Medium.shiny
+      output$check.table.c <- shiny::renderTable(rv$df_cell)
+      output$check.table.m <- shiny::renderTable(rv$df_medium)
       # Enable close button
       shinyjs::enable("close")
     })
-    shiny::observeEvent( input$close, shiny::stopApp() )
+    shiny::observeEvent(input$close, {
+      shiny::stopApp(list(
+        df_Cell.shiny = rv$df_cell,
+        df_Medium.shiny = rv$df_medium
+      ))
+    })
   }
   app <- shiny::shinyApp(ui, server)
-  shiny::runApp(app)
-  # Variables to send up ----
-  df_Cell.shiny <<- df_Cell.shiny
-  df_Medium.shiny <<- df_Medium.shiny
+  selected <- shiny::runApp(app)
+  return(selected)
 }
 #' Extract values for Cell & Medium (values w/ timepoints)
 #'
@@ -480,26 +477,28 @@ ras.Fic_timepoint <- function(df,
                                       values.avg = names(df_medium[3]),
                                       p_title = "Medium")
 
-  ras.Fic_select_timepoints.app(p.cell,
-                                p.medium,
-                                df_cell,
-                                df_medium)
-  # Variables received from timepoints app
-    ## df_Cell.shiny
-    ## df_Medium.shiny
+  selected_timepoints <- ras.Fic_select_timepoints.app(
+    p.cell,
+    p.medium,
+    df_cell,
+    df_medium
+  )
+
+  if (is.null(selected_timepoints) ||
+      is.null(selected_timepoints$df_Cell.shiny) ||
+      is.null(selected_timepoints$df_Medium.shiny)) {
+    stop("No timepoints were selected in the app.")
+  }
 
   df_cell <- dplyr::inner_join(df_cell,
-                               df_Cell.shiny,
+                               selected_timepoints$df_Cell.shiny,
                                c(Sample_ID = "Sample_ID",
                                  Timepoint = "Time.Cell"))
   df_medium <- dplyr::inner_join(df_medium,
-                                 df_Medium.shiny,
+                                 selected_timepoints$df_Medium.shiny,
                                  c(Sample_ID = "Sample_ID",
                                    Timepoint = "Time.Medium"))
   timepoints_list <- list(df_cell, df_medium)
-
-  on.exit(rm(df_Cell.shiny, df_Medium.shiny,
-             envir = .GlobalEnv))
 
   return(timepoints_list)
 }

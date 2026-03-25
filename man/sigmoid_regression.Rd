@@ -32,7 +32,7 @@ sigmoid_regression(
 \item{y_name}{A string naming the numeric response column in \code{data}.}
 
 \item{sem_name}{Optional string naming the SEM column in \code{data}. If provided,
-y ± SEM error bars are added.}
+y +/- SEM error bars are added.}
 
 \item{outlier_indices}{Optional integer vector of row indices in \code{data} to
 exclude from model fitting.}
@@ -79,7 +79,7 @@ on the plot. Included and excluded points can be styled independently, and optio
 SEM error bars and a 95\% confidence interval ribbon are added to the plot.
 }
 \examples{
-mat1 <- data.frame(
+my_data <- data.frame(
   logd = c(-1.56, -0.13, 0.14, 0.19, 1.93, 2.2, 3.3, 3.53, 4.3, 4.8, 5.46),
   mean = c(
     1,
@@ -110,15 +110,15 @@ mat1 <- data.frame(
 )
 
 outliers <- c(4, 6)
-PACM_result <- sigmoid_regression(
-  data = PACM,
-  x_name = "logd74",
-  y_name = "fu_mean",
-  sem_name = "fu_sem",
+my_data_result <- sigmoid_regression(
+  data = my_data,
+  x_name = "logd",
+  y_name = "mean",
+  sem_name = "sem",
   outlier_indices = outliers
 )
 
-PACM_result$coefficients
-PACM_result$plot
+my_data_result$coefficients
+my_data_result$plot
 
 }

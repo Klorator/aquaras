@@ -9,7 +9,7 @@
 #' @param x_name A string naming the numeric predictor column in `data`.
 #' @param y_name A string naming the numeric response column in `data`.
 #' @param sem_name Optional string naming the SEM column in `data`. If provided,
-#'   y ± SEM error bars are added.
+#'   y +/- SEM error bars are added.
 #' @param outlier_indices Optional integer vector of row indices in `data` to
 #'   exclude from model fitting.
 #' @param point_color Color for included data points and their error bars.
@@ -154,9 +154,9 @@ sigmoid_regression <- function(
   tss <- sum((y_data - mean(y_data, na.rm = TRUE))^2)
   r_squared <- if (tss > 0) 1 - (rss / tss) else NA_real_
   r2_label <- if (is.na(r_squared)) {
-    "R² = NA"
+    "R^2 = NA"
   } else {
-    paste0("R² = ", formatC(r_squared, format = "f", digits = 3))
+    paste0("R^2 = ", formatC(r_squared, format = "f", digits = 3))
   }
 
   # Generate x-grid and predictions for smooth fitted curve

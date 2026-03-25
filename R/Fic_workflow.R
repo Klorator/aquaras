@@ -83,8 +83,6 @@ ras.Fic_workflow <- function(
     .checkValues = FALSE,
     .split = prot_.split
   )
-test.clean <<- df_clean
-test.prot <<- df_protein
 
   # Extract values ----
   df_buffer <- df_clean %>%
@@ -97,12 +95,9 @@ test.prot <<- df_protein
   name_buffer <- names(df_buffer[2])
 
   df_DiluteHom <- df_clean %>%
-    ras.Fic_DiluteHom(
-      values = values,
+    ras.Fic_Dilution(
       type = Dilution_type,
-      type_extract = Dilution_extract,
-      .summarize = .summarize,
-      .SD = .SD
+      type_extract = Dilution_extract
     )
   name_DiluteHom <- names(df_DiluteHom[2])
   name_dilution <- names(df_DiluteHom[3])
@@ -157,7 +152,6 @@ test.prot <<- df_protein
       .SD = .SD
     )
   name_protCell <- names(df_protCell[2])
-test.prot <<- df_protCell
   df_protHom <- df_protein %>%
     ras.Fic_extract_simple(
       values = prot_hom_value,
@@ -175,7 +169,6 @@ test.prot <<- df_protCell
       df = df_protCell,
       values = {{name_protCell}}
     )
-    test.prot <<- df_protCell
     df_protHom <- ras.Fic_expand(
       samples = samples,
       df = df_protHom,
@@ -191,7 +184,6 @@ test.prot <<- df_protCell
     df_protCell,
     df_protHom
   ) %>% ras.Fic_collect_variables()
-test.calc <<- df_calc
   # Calculations ----
   df_calc <- df_calc %>%
     ras.Fic_Fu.hom(

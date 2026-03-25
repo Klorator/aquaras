@@ -16,7 +16,7 @@ A directory path
 Setup directory & subfolders
 }
 \examples{
- \dontrun{
- # No example
- }
+out_dir <- file.path(tempdir(), "aquaras_example_output")
+subdirs <- ras.setup_dir_and_subfolders(out_dir)
+names(subdirs)
 }

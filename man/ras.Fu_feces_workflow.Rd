@@ -23,29 +23,29 @@ ras.Fu_feces_workflow(
 )
 }
 \arguments{
-\item{source}{What source the data file comes from}
+\item{source}{Data source (\code{"Sciex"} or \code{"Waters"}).}
 
-\item{ID}{Column name for ID column after splitting}
+\item{ID}{Column name for ID column after splitting.}
 
-\item{Sample_type}{Name for type column in raw data}
+\item{Sample_type}{Name of the type column in raw data.}
 
-\item{values}{Column name for values in data}
+\item{values}{Column name for numeric values.}
 
-\item{Buffer}{RegEx to filter by for buffer values}
+\item{Buffer}{Regex used to select buffer values.}
 
-\item{Dilution_type}{RegEx to filter by for dilution factor values}
+\item{Dilution_type}{Regex used to select dilution-factor values.}
 
-\item{Dilution_extract}{RegEx for extracting the dilution factor}
+\item{Dilution_extract}{Regex used to extract the dilution factor.}
 
 \item{Dilution_factor}{Numeric value for dilution factor}
 
-\item{stab}{RegEx to filter by for stability values}
+\item{stab}{Regex used to select stability values.}
 
-\item{czero}{RegEx to filter by for C zero values values}
+\item{czero}{Regex used to select C-zero values.}
 
-\item{D}{Numeric value for D}
+\item{D}{Numeric value for D.}
 
-\item{MassBalance_2.5}{Factor for calulating Mass Balance 10.2.5}
+\item{MassBalance_2.5}{Factor for calculating Mass Balance 10.2.5.}
 
 \item{.compound}{Column name for compounds to prefix Sample_ID,
 \code{NULL} => "Analyte Peak Name"}
@@ -57,14 +57,14 @@ be coerced to numeric.}
 grouping column. Drops the original value columns.}
 }
 \value{
-Dataframe with all variables, used & calculated.
-Also writes data frame to .csv (EU) & .xlsx files.
+Data frame with all variables used and calculated.
+Also writes the data frame to \code{.csv} (EU) and \code{.xlsx} files.
 }
 \description{
 Fu feces workflow wrapper
 }
 \examples{
-   \dontrun{
-  # No example yet
-  }
+if (interactive()) {
+  ras.Fu_feces_workflow(source = "Sciex")
+}
 }

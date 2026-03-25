@@ -10,7 +10,10 @@
 #' @export
 #'
 #' @examples
-#'   # No example
+#' if (interactive()) {
+#'   res <- ras.Fic_dataImport(source = "Sciex", .compound = "Analyte Peak Name")
+#'   names(res)
+#' }
 ras.Fic_dataImport <- function(source,
                                .compound) {
   if (source == "Waters") {
@@ -36,11 +39,11 @@ ras.Fic_dataImport <- function(source,
 
 #' Cleaning for Fic calculation
 #'
-#' The Sample.Text needs to follow the pattern of Sample ID, Type of liquid,
-#' Timepoint, Replicate; separated by underscores. E.g. "Hec42_Medium_30_1",
+#' `Sample.Text` needs to follow the pattern Sample ID, type of liquid,
+#' timepoint, replicate; separated by underscores (e.g. "Hec42_Medium_30_1",
 #' "NA_HBSS_NA_1".
 #'
-#' @param df A dataframe from the MassLynx complete summary output or similar
+#' @param df A data frame from the MassLynx complete summary output or similar.
 #' @param .type Column name, filters away Blank
 #' @param .sample.text Column name, filters away NA, Blank,
 #' and digits ending in nM.
@@ -49,7 +52,7 @@ ras.Fic_dataImport <- function(source,
 #' @param .split Column name, separates by `_` into `Date`, `Initials`,
 #' `Sample_origin`, `Dosing`, `Sample_type`, `Timepoint`, and `Replicate`. Left aligned.
 #'
-#' @return Same dataframe but filtered and with `.sample.text` separated into columns
+#' @return A filtered data frame with `.sample.text` separated into columns.
 #' @noRd
 #'
 ras.Fic_cleanup <- function(df,
@@ -145,15 +148,14 @@ ras.Fic_cleanup <- function(df,
 #' Get values that don't need further manipulation.
 #' This feels too specific.
 #'
-#' @param df A dataframe from [ras.Fic_cleanup()].
+#' @param df A data frame containing cleaned Fic values.
 #' @param values Name of the column to use for values.
 #' @param type String to filter the column `Sample_type` by. Used to name
 #' the `*_Conc.avg` column.
-#' @param new_name String to use as first part of new column
 #' @param .summarize Summarize values into averages
 #' @param .SD Create column with Standard Deviation
 #'
-#' @return Dataframe with columns `Sample_ID`, `Sample_type`, &
+#' @return A data frame with columns `Sample_ID`, `Sample_type`, and
 #' `{{type}}_{{values}}_avg`
 #' @noRd
 ras.Fic_extract_simple <- function(df,
@@ -208,7 +210,7 @@ ras.Fic_extract_simple <- function(df,
 #'
 #' Very specific
 #'
-#' @param df A dataframe from [ras.Fic_cleanup()].
+#' @inheritParams ras.Fic_extract_simple
 #' @param type Pattern to filter the column names by
 #' @param type_extract Pattern to extract the dilution factor
 #'
@@ -247,12 +249,12 @@ ras.Fic_Dilution <- function(df,
 #' Calculate and filter for the dilution factor with smallest difference to buffer.
 #' Very specific
 #'
-#' @param df_DiluteHom Dataframe from [ras.Fic_DiluteHom()]
-#' @param df_bufferDataframe from [ras.Fic_buffer()]
+#' @param df_DiluteHom Data frame from `ras.Fic_Dilution()`.
+#' @param df_buffer Data frame with buffer values.
 #' @param ID.col String with name of ID column
 #' @param Buffer_Conc.col String with name of buffer column
 #'
-#' @return Dataframe with columns `Sample_ID`, `Sample_type`,
+#' @return A data frame with columns `Sample_ID`, `Sample_type`,
 #'  `Dilution_Conc.avg`, `dilution`, & `Buffer_Conc._avg`
 #' @noRd
 ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
@@ -286,13 +288,9 @@ ras.Fic_diff_sample_buffer <- function(df_DiluteHom,
 }
 #' Extract values for `Sample_type`s with a `Timepoint`
 #'
-#' @param df A dataframe from [ras.Fic_cleanup()].
-#' @param values Name of the column to use for values
-#' @param type String to filter the column `Sample_type` by. Used to name
-#' the `*_Conc.avg` column.
-#' @param .summarize Summarize values into averages
+#' @inheritParams ras.Fic_extract_simple
 #'
-#' @return Dataframe with columns `Sample_ID`, `Sample_type`, `Timepoint`,
+#' @return A data frame with columns `Sample_ID`, `Sample_type`, `Timepoint`,
 #' `{{values}}`, & `{{type}}_{{values}}_avg`.
 #' @noRd
 ras.Fic_extract_timepoints <- function(df,
@@ -321,7 +319,8 @@ ras.Fic_extract_timepoints <- function(df,
 }
 #' Plot the timepoints
 #'
-#' @param df_time Dataframe from ras.Fic_extract_timepoints()
+#' @param df_time Data frame from `ras.Fic_extract_timepoints()`.
+#' @param values.avg Name of the y-value column to plot.
 #' @param p_title String for plot title
 #'
 #' @return A ggplot2 object
@@ -348,10 +347,12 @@ ras.Fic_plot_timepoints <- function(df_time,
 }
 #' App to select timepoints
 #'
-#' @param plots List of plots from [ras.Fic_plot_timepoints()]
-#' to display (currently Cell & Medium)
+#' @param p.cell Plot from `ras.Fic_plot_timepoints()` for cell data.
+#' @param p.medium Plot from `ras.Fic_plot_timepoints()` for medium data.
+#' @param df.cell Data frame with cell timepoint values.
+#' @param df.medium Data frame with medium timepoint values.
 #'
-#' @return List of selected values same length as the list of plots
+#' @return Side effects only (launches a Shiny app and assigns selected values).
 #' @noRd
 ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) {
 
@@ -444,18 +445,25 @@ ras.Fic_select_timepoints.app <- function(p.cell, p.medium, df.cell, df.medium) 
 }
 #' Extract values for Cell & Medium (values w/ timepoints)
 #'
-#' @param df Dataframe from ras.Fic_cleanup().
+#' @param df Data frame from `ras.Fic_cleanup()`.
 #' @param values Name of the column to use for values.
 #' @param types Vector with the types to select timepoints for. (Cell & Medium)
-#' @param .summarize Summarize values into averages
+#' @param .summarize Summarize values into averages.
 #'
-#' @return List of dataframes with the selected timepoints
+#' @return A list of data frames with the selected timepoints.
 #' @export
 #'
 #' @examples
-#'  \dontrun{
-#'  # No example yet
-#'  }
+#' if (interactive()) {
+#'   df_ex <- data.frame(
+#'     Sample_ID = rep(c("A", "B"), each = 4),
+#'     Sample_type = rep(c("Cell", "Cell", "Medium", "Medium"), times = 2),
+#'     Timepoint = rep(c(30, 60, 30, 60), times = 2),
+#'     `Conc.` = c(10, 15, 9, 11, 20, 24, 17, 19)
+#'   )
+#'
+#'   ras.Fic_timepoint(df_ex)
+#' }
 ras.Fic_timepoint <- function(df,
                               values = "Conc.",
                               types = c("Cell", "Medium"),
@@ -495,17 +503,18 @@ ras.Fic_timepoint <- function(df,
 
   return(timepoints_list)
 }
-#' Expand a dataframe from "sample ID" to "compound_sample ID" format
+#' Expand a data frame from "sample ID" to "compound_sample ID" format
 #'
-#' Takes a dataframe with one column of compound_sample and a dataframe that needs
+#' Takes a data frame with one column of compound_sample and a data frame that needs
 #' to be expanded. Split out the sample ID and mutate new column with the
 #' corresponding values.
 #'
-#' @param samples Dataframe with one column, sample names to expand to
-#' @param df Dataframe with samples and values to expand
+#' @param samples Data frame with one column, sample names to expand to
+#' @param df Data frame with samples and values to expand
 #' @param values Column name for values in `df`
 #'
-#' @return Dataframe with Sample_ID & values column, like from ras.Fic_extract_simple()
+#' @return A data frame with `Sample_ID` and values, similar to
+#'   `ras.Fic_extract_simple()` output.
 #' @noRd
 ras.Fic_expand <- function(samples,
                            df,
@@ -526,15 +535,15 @@ ras.Fic_expand <- function(samples,
   return(df_expand)
 }
 
-#' Collect a list of variables in the same dataframe
+#' Collect a list of variables in the same data frame
 #'
 #' Obsolete?
 #'
 #' Selects columns `Sample_ID` & `*_avg`, then does a full join.
 #'
-#' @param df_list A list of dataframes to join
+#' @param df_list A list of data frames to join
 #'
-#' @return A dataframe with `Sample_ID` & all the values
+#' @return A data frame with `Sample_ID` and all values.
 #' @noRd
 ras.Fic_collect_variables <- function(df_list) {
   df_calc <- purrr::reduce(df_list, dplyr::full_join)

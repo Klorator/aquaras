@@ -27,21 +27,21 @@ ras.Fic_workflow(
 )
 }
 \arguments{
-\item{source}{What source the data file comes from}
+\item{source}{Data source (\code{"Sciex"} or \code{"Waters"}).}
 
-\item{ID}{Column name for ID column after splitting}
+\item{ID}{Column name for ID column after splitting.}
 
-\item{values}{Column name for values in data}
+\item{values}{Column name for numeric values.}
 
-\item{Buffer}{RegEx to filter by for buffer values}
+\item{Buffer}{Regex used to select buffer values.}
 
-\item{Dilution_type}{RegEx to filter by for dilution factor values}
+\item{Dilution_type}{Regex used to select dilution-factor values.}
 
-\item{Dilution_extract}{RegEx for extracting the dilution factor}
+\item{Dilution_extract}{Regex used to extract the dilution factor.}
 
-\item{stab}{RegEx to filter by for stability values}
+\item{stab}{Regex used to select stability values.}
 
-\item{czero}{RegEx to filter by for C zero values}
+\item{czero}{Regex used to select C-zero values.}
 
 \item{prot_cell_value}{Column name for values}
 
@@ -53,7 +53,7 @@ ras.Fic_workflow(
 
 \item{V.medium}{RegEx to filter by}
 
-\item{MassBalance_2.5}{Factor for calulating Mass Balance 10.2.5}
+\item{MassBalance_2.5}{Factor for calculating Mass Balance 10.2.5.}
 
 \item{.compound}{Column name for compounds to prefix Sample_ID,
 \code{NULL} => "Analyte Peak Name"}
@@ -63,18 +63,19 @@ be coerced to numeric.}
 
 \item{prot_.split}{Column name to split for samples in protein dataframe}
 
-\item{.summarize}{Summarize values into averages}
+\item{.summarize}{Summarize the data into unique rows in
+grouping column. Drops the original value columns.}
 
 \item{.SD}{Create column with Standard Deviation}
 }
 \value{
-Dataframe with all variables, used & calculated.
+Data frame with all variables used and calculated.
 }
 \description{
 Currently not functional!
 }
 \examples{
-  \dontrun{
-  # No example yet
-  }
+if (interactive()) {
+  ras.Fic_workflow(source = "Sciex")
+}
 }

@@ -63,9 +63,9 @@ ras.create_subfolders <- function(output_dir) {
 #' @export
 #'
 #' @examples
-#'  \dontrun{
-#'  # No example
-#'  }
+#' out_dir <- file.path(tempdir(), "aquaras_example_output")
+#' subdirs <- ras.setup_dir_and_subfolders(out_dir)
+#' names(subdirs)
 ras.setup_dir_and_subfolders <- function(output_dir = NULL) {
   output_dir <- ras.set_output_directory(output_dir)
   subfolders <- ras.create_subfolders(output_dir)

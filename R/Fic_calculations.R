@@ -245,7 +245,14 @@ ras.Fu_feces_mass_balance_10.2.5 <- function(df_calc,
 #' @export
 #'
 #' @examples
-#'   # No example
+#' df_ex <- data.frame(
+#'   Sample_ID = c("S1", "S1", "S2", "S2"),
+#'   `Sample Type` = c("hom", "hom", "hom", "hom"),
+#'   `Analyte Peak Name` = c("cmpd", "cmpd", "cmpd", "cmpd"),
+#'   value = c(10, 12, 20, 22)
+#' )
+#'
+#' ras.Fu_feces_meanSD(df_ex)
 ras.Fu_feces_meanSD <- function(df,
                                  grouping_col = "Sample_ID",
                                  sample_type = "Sample Type",
@@ -284,6 +291,18 @@ ras.Fu_feces_meanSD <- function(df,
   return(df)
 }
 
+#' Fu feces summary table
+#'
+#' Returns one row per `grouping_col` with mean and SD columns for all numeric
+#' variables in `df` (excluding metadata columns).
+#'
+#' @param df Data frame.
+#' @param grouping_col Column name to group by.
+#' @param sample_type Column name for sample type.
+#' @param compound Column name for compound.
+#'
+#' @return Data frame with one row per group and `*_mean`/`*_sd` columns.
+#' @noRd
 ras.Fu_feces_summarize <- function(df,
                                    grouping_col = "Sample_ID",
                                    sample_type = "Sample Type",

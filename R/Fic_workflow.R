@@ -4,35 +4,22 @@
 #'
 #' Currently not functional!
 #'
-#' @param source What source the data file comes from
-#' @param ID Column name for ID column after splitting
-#' @param values Column name for values in data
-#' @param Buffer RegEx to filter by for buffer values
-#' @param Dilution_type RegEx to filter by for dilution factor values
-#' @param Dilution_extract RegEx for extracting the dilution factor
-#' @param stab RegEx to filter by for stability values
-#' @param czero RegEx to filter by for C zero values
+#' @inheritParams ras.Fu_feces_workflow
 #' @param prot_cell_value Column name for values
 #' @param prot_cell_type RegEx to filter by
 #' @param prot_hom_value RegEx to filter by
 #' @param prot_hom_type RegEx to filter by
 #' @param V.medium RegEx to filter by
-#' @param MassBalance_2.5 Factor for calulating Mass Balance 10.2.5
-#' @param .compound Column name for compounds to prefix Sample_ID,
-#' `NULL` => "Analyte Peak Name"
-#' @param .checkValues Removes "<" from the values column to make sure it can
-#' be coerced to numeric.
 #' @param prot_.split Column name to split for samples in protein dataframe
-#' @param .summarize Summarize values into averages
 #' @param .SD Create column with Standard Deviation
 #'
-#' @return Dataframe with all variables, used & calculated.
+#' @return Data frame with all variables used and calculated.
 #' @export
 #'
 #' @examples
-#'   \dontrun{
-#'   # No example yet
-#'   }
+#' if (interactive()) {
+#'   ras.Fic_workflow(source = "Sciex")
+#' }
 ras.Fic_workflow <- function(
     source = c("Waters","Sciex"),
     ID = "Sample_ID",

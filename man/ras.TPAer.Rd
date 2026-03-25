@@ -13,9 +13,10 @@ ras.TPAer(
 )
 }
 \arguments{
-\item{df}{Data frame with values}
+\item{df}{Data frame with values.}
 
-\item{na.rm}{If \code{TRUE}, NA values are dropped before determining calculation}
+\item{na.rm}{If \code{TRUE}, \code{NA} values are dropped before determining
+calculations.}
 
 \item{save}{If \code{TRUE}, writes files to system}
 
@@ -30,5 +31,15 @@ List containing (1) Data frame and (2) List of generated plots
 Clean, restructure, calculate, plot, and export/save plots to file system.
 }
 \examples{
-### Very specific function; no example yet
+if (interactive()) {
+  df_ex <- data.frame(
+    gene_names = c("GeneA", "GeneB"),
+    `1A_1` = c(10, 20),
+    `1A_2` = c(12, 22),
+    `2B_1` = c(8, 16),
+    `2B_2` = c(9, 17)
+  )
+
+  ras.TPAer(df_ex, save = FALSE, folder_path = tempdir())
+}
 }

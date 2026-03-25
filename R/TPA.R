@@ -1,15 +1,15 @@
 #' TPA - Calculation
 #'
-#' Calculate TPA from intensity using the raw output file from MaxQuant.
+#' Calculate TPA from intensity using a raw MaxQuant output file.
 #' The function cleans the column names and keeps only columns identified by the
-#' `metaData_RegEx`pattern and containing "intensity". TPA is calculated for
+#' `metaData_RegEx` pattern and containing "intensity". TPA is calculated for
 #' each column while preserving the experiment identifier. If `dropIntensity`
-#' = FALSE intensity columns are preserved.
+#' is `FALSE`, intensity columns are preserved.
 #'
 #' @param df_raw Data frame (from MaxQuant)
 #' @param metaData_RegEx Character string for regular expression identifying
 #' columns to keep (passed to [base::grep()]). Must include "mol_weight"!
-#' @param dropIntensity If to drop intensity (default = TRUE)
+#' @param dropIntensity Whether to drop intensity columns (default: `TRUE`).
 #'
 #' @return Data frame with meta data and TPA values
 #' @noRd
@@ -117,8 +117,7 @@ ras.TPA_sample_names <- function(df) {
 #'
 #' If `na.rm = TRUE` it drops NA values from the row first (doesn't affect the final data frame).
 #'
-#' @param df Data frame passed from [ras.TPA_avg_StDev_calc()]
-#' @param na.rm If TRUE, drops NA values before determining calculation
+#' @inheritParams ras.TPA_avg_StDev_calc
 #'
 #' @return A vector to be inserted as a column in the original data frame
 #' @noRd
@@ -150,7 +149,7 @@ ras.TPA_StDev_range_DeterminationForRows <- function(df, na.rm = FALSE) {
 #' Adds columns for average and standard deviation (or range if there are only two sample cols).
 #'
 #' @param df Data frame to add columns to
-#' @param sample_names List of samples from [ras.TPA_sample_names()]
+#' @param sample_names List of samples from `ras.TPA_sample_names()`.
 #' @param na.rm If TRUE, NA values are dropped before determining calculation
 #'
 #' @return Same data frame with new columns
@@ -182,11 +181,8 @@ ras.TPA_avg_StDev_calc <- function(df, sample_names, na.rm = FALSE) {
 #' Helper function that does the actual plotting and saving.
 #'
 #' @param row_v Named character vector row from apply
-#' @param cur_sam Current sample
-#' @param gene_col_RegEx RegEx for selecting the gene name column/value
-#' @param save If `TRUE`, saves plot to directory
-#' @param extension What extension to use for both file ending and [ggsave()] `device` argument
-#' @param directory Directory path to write to
+#' @param helper_args Named list of plotting/saving arguments (e.g. current
+#'   sample, gene regex, save flag, extension, directory).
 #'
 #' @return One ggplot object
 #' @noRd
@@ -234,10 +230,14 @@ ras.TPA_barplot_helper <- function(row_v, helper_args) {
 #'
 #' Create barplots and (if save = TRUE) save them to file system.
 #'
-#' @param df Data frame reshaped by `ras.TPA_reshape_filter`
-#' @param save While `TRUE` writes files to system
-#' @param extension File extension/type for exported images and [ggsave()] `device` argument
-#' @param directory Path to destination folder
+#' @param df Data frame containing sample value columns.
+#' @param gene_col_RegEx Regular expression for selecting the gene name column.
+#' @param sample_names Optional data frame of sample names and replicate counts.
+#'   If `NULL`, names are inferred with `ras.TPA_sample_names()`.
+#' @param save If `TRUE`, writes plot files to disk.
+#' @param extension File extension/type for exported images and [ggsave()]
+#'   `device` argument.
+#' @param directory Path to destination folder.
 #'
 #' @return Nested list of all plots generated
 #' @noRd
@@ -289,8 +289,9 @@ ras.TPA_barplot_save <- function(df,
 #'
 #' Clean, restructure, calculate, plot, and export/save plots to file system.
 #'
-#' @param df Data frame with values
-#' @param na.rm If `TRUE`, NA values are dropped before determining calculation
+#' @param df Data frame with values.
+#' @param na.rm If `TRUE`, `NA` values are dropped before determining
+#'   calculations.
 #' @param save If `TRUE`, writes files to system
 #' @param file_type File extension/type for exported images
 #' @param folder_path Path to destination folder
@@ -300,7 +301,17 @@ ras.TPA_barplot_save <- function(df,
 #' @export
 #'
 #' @examples
-#' ### Very specific function; no example yet
+#' if (interactive()) {
+#'   df_ex <- data.frame(
+#'     gene_names = c("GeneA", "GeneB"),
+#'     `1A_1` = c(10, 20),
+#'     `1A_2` = c(12, 22),
+#'     `2B_1` = c(8, 16),
+#'     `2B_2` = c(9, 17)
+#'   )
+#'
+#'   ras.TPAer(df_ex, save = FALSE, folder_path = tempdir())
+#' }
 ras.TPAer <- function(df,
                       na.rm = FALSE,
                       save = FALSE,

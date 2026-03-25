@@ -12,22 +12,29 @@ ras.Fic_timepoint(
 )
 }
 \arguments{
-\item{df}{Dataframe from ras.Fic_cleanup().}
+\item{df}{Data frame from \code{ras.Fic_cleanup()}.}
 
 \item{values}{Name of the column to use for values.}
 
 \item{types}{Vector with the types to select timepoints for. (Cell & Medium)}
 
-\item{.summarize}{Summarize values into averages}
+\item{.summarize}{Summarize values into averages.}
 }
 \value{
-List of dataframes with the selected timepoints
+A list of data frames with the selected timepoints.
 }
 \description{
 Extract values for Cell & Medium (values w/ timepoints)
 }
 \examples{
- \dontrun{
- # No example yet
- }
+if (interactive()) {
+  df_ex <- data.frame(
+    Sample_ID = rep(c("A", "B"), each = 4),
+    Sample_type = rep(c("Cell", "Cell", "Medium", "Medium"), times = 2),
+    Timepoint = rep(c(30, 60, 30, 60), times = 2),
+    `Conc.` = c(10, 15, 9, 11, 20, 24, 17, 19)
+  )
+
+  ras.Fic_timepoint(df_ex)
+}
 }

@@ -30,11 +30,11 @@ ras.loadFile = function(sourceFile) {
 
 #' Split loaded file into data frames
 #'
-#' Split the file loaded with [ras.loadFile()] into dataframes by compound.
+#' Split the file loaded with `ras.loadFile()` into data frames by compound.
 #'
 #' @family SplitOutput
 #'
-#' @param dataLines List of vectors from [readr::read_lines()] in [ras.loadFile()]
+#' @param dataLines List of vectors from [readr::read_lines()] in `ras.loadFile()`.
 #'
 #' @return List of data frames
 #' @noRd
@@ -95,7 +95,7 @@ ras.splitDataLines = function(dataLines) {
   return(listDF) # Return list of data frames
 }
 
-#' Clean list of data frames (depreciated?)
+#' Clean list of data frames (deprecated?)
 #'
 #' Cleans each data frame by removing blanks and NAs. Also separates Name and
 #' Sample Text into its composite columns.
@@ -176,7 +176,7 @@ ras.writeFiles = function(listDF, sourceFile) {
 #' Splits the MassLynx complete summary output file into individual data frames
 #'  based on compound.
 #' ## Uninteresting output
-#' Spliting the file generates a stream of ```"New names: • `` -> `...1`"```
+#' Splitting the file generates a stream of "New names: • `` -> `...1`"
 #'  output in the console that is not particularly interesting but lets you know
 #'   it's doing something.
 #' ## clean = TRUE
@@ -202,7 +202,7 @@ ras.writeFiles = function(listDF, sourceFile) {
 #'
 #'
 #' # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
-#' listDF = ras.SplitOutput(sourceFile = system.file("extdata",
+#' listDF = ras.SplitOutput(sourceFiles = system.file("extdata",
 #'                                                   "Example_MLOutput.txt",
 #'                                                   package = "aquaras",
 #'                                                   mustWork = TRUE),
@@ -229,14 +229,14 @@ ras.SplitOutput = function(sourceFiles = tcltk::tk_choose.files(),
   }
   return(listFile)
 }
-#' Stack dataframes
+#' Stack data frames
 #'
-#' Mutate the individual dataframes with a "Compound" column and
+#' Mutate the individual data frames with a "Compound" column and
 #' rowbind them with reduce.
 #'
-#' @param listDF List of dataframes to stack
+#' @param listDF List of data frames to stack
 #'
-#' @return List of stacked dataframes
+#' @return List of stacked data frames
 #' @noRd
 ras.stack_dataframes <- function(listDF) {
   compound_names <- names(listDF)
@@ -261,8 +261,7 @@ ras.stack_dataframes <- function(listDF) {
 #'
 #' @family SplitOutput
 #'
-#' @param sourceFiles A character vector with one or more file paths
-#' @param write Defaults to TRUE for writing to file system
+#' @inheritParams ras.SplitOutput
 #'
 #' @return Writes a tsv file per compound to the same directory as the source file.
 #' @return Also returns the nested list of data frames for each file

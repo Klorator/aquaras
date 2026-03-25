@@ -19,5 +19,8 @@ value for .compound
 Load data for Fic & Fu feces
 }
 \examples{
-  # No example
+if (interactive()) {
+  res <- ras.Fic_dataImport(source = "Sciex", .compound = "Analyte Peak Name")
+  names(res)
+}
 }

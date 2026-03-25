@@ -1,17 +1,17 @@
 #' Fu feces workflow wrapper
 #'
-#' @param source What source the data file comes from
-#' @param ID Column name for ID column after splitting
-#' @param Sample_type Name for type column in raw data
-#' @param values Column name for values in data
-#' @param Buffer RegEx to filter by for buffer values
-#' @param Dilution_type RegEx to filter by for dilution factor values
-#' @param Dilution_extract RegEx for extracting the dilution factor
+#' @param source Data source (`"Sciex"` or `"Waters"`).
+#' @param ID Column name for ID column after splitting.
+#' @param Sample_type Name of the type column in raw data.
+#' @param values Column name for numeric values.
+#' @param Buffer Regex used to select buffer values.
+#' @param Dilution_type Regex used to select dilution-factor values.
+#' @param Dilution_extract Regex used to extract the dilution factor.
 #' @param Dilution_factor Numeric value for dilution factor
-#' @param stab RegEx to filter by for stability values
-#' @param czero RegEx to filter by for C zero values values
-#' @param D Numeric value for D
-#' @param MassBalance_2.5 Factor for calulating Mass Balance 10.2.5
+#' @param stab Regex used to select stability values.
+#' @param czero Regex used to select C-zero values.
+#' @param D Numeric value for D.
+#' @param MassBalance_2.5 Factor for calculating Mass Balance 10.2.5.
 #' @param .compound Column name for compounds to prefix Sample_ID,
 #' `NULL` => "Analyte Peak Name"
 #' @param .checkValues Removes "<" from the values column to make sure it can
@@ -19,14 +19,14 @@
 #' @param .summarize Summarize the data into unique rows in
 #' grouping column. Drops the original value columns.
 #'
-#' @return Dataframe with all variables, used & calculated.
-#' Also writes data frame to .csv (EU) & .xlsx files.
+#' @return Data frame with all variables used and calculated.
+#'   Also writes the data frame to `.csv` (EU) and `.xlsx` files.
 #' @export
 #'
 #' @examples
-#'    \dontrun{
-#'   # No example yet
-#'   }
+#' if (interactive()) {
+#'   ras.Fu_feces_workflow(source = "Sciex")
+#' }
 ras.Fu_feces_workflow <- function(
     source = c("Sciex", "Waters"),
     ID = "Sample Name",

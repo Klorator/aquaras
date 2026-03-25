@@ -27,7 +27,7 @@ Splits the MassLynx complete summary output file into individual data frames
 based on compound.
 \subsection{Uninteresting output}{
 
-Spliting the file generates a stream of \code{"New names: • `` -> `...1`"}
+Splitting the file generates a stream of "New names: • `` -> \code{...1}"
 output in the console that is not particularly interesting but lets you know
 it's doing something.
 }
@@ -50,7 +50,7 @@ ras.SplitOutput(clean = FALSE) # If the summary output file was not based on the
 
 
 # !!! DOES **NOT** WRITE TO FILE SYSTEM !!!
-listDF = ras.SplitOutput(sourceFile = system.file("extdata",
+listDF = ras.SplitOutput(sourceFiles = system.file("extdata",
                                                   "Example_MLOutput.txt",
                                                   package = "aquaras",
                                                   mustWork = TRUE),

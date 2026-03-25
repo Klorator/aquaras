@@ -28,5 +28,12 @@ Add mean & SD columns, grouped by \code{grouping_col}, for all
 the calculated numeric columns.
 }
 \examples{
-  # No example
+df_ex <- data.frame(
+  Sample_ID = c("S1", "S1", "S2", "S2"),
+  `Sample Type` = c("hom", "hom", "hom", "hom"),
+  `Analyte Peak Name` = c("cmpd", "cmpd", "cmpd", "cmpd"),
+  value = c(10, 12, 20, 22)
+)
+
+ras.Fu_feces_meanSD(df_ex)
 }

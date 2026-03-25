@@ -137,34 +137,11 @@ A named list with:
 
 ``` r
 my_data <- data.frame(
-  logd = c(-1.56, -0.13, 0.14, 0.19, 1.93, 2.2, 3.3, 3.53, 4.3, 4.8, 5.46),
-  mean = c(
-    1,
-    0.994,
-    1,
-    0.0836,
-    1,
-    0.158,
-    0.723,
-    0.0664,
-    0.0286,
-    0.00879,
-    0.00834
-  ),
-  sem = c(
-    0.000000,
-    0.053012,
-    0.000000,
-    0.042940,
-    0.000000,
-    0.086477,
-    0.370647,
-    0.043030,
-    0.021356,
-    0.000411,
-    0.001492
-  )
+  logd = c(-2, -1, 0, 1, 2, 3),
+  mean = c(0.98, 0.90, 0.60, 0.25, 0.10, 0.05),
+  sem = rep(0.02, 6),
 )
+#> Error in data.frame(logd = c(-2, -1, 0, 1, 2, 3), mean = c(0.98, 0.9,     0.6, 0.25, 0.1, 0.05), sem = rep(0.02, 6), ): argument is missing, with no default
 
 outliers <- c(4, 6)
 my_data_result <- sigmoid_regression(
@@ -174,12 +151,10 @@ my_data_result <- sigmoid_regression(
   sem_name = "sem",
   outlier_indices = outliers
 )
-#> Warning: no non-missing arguments to min; returning Inf
-#> Warning: no non-missing arguments to max; returning -Inf
+#> Error: object 'my_data' not found
 
 my_data_result$coefficients
-#>        Asym        xmid        scal 
-#>  0.99850002  3.36152935 -0.06377285 
+#> Error: object 'my_data_result' not found
 my_data_result$plot
-
+#> Error: object 'my_data_result' not found
 ```
